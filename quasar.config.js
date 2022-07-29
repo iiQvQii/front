@@ -42,7 +42,7 @@ module.exports = configure(function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v6',
+      'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -68,14 +68,13 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: './',
       // analyze: true,
-      env: require('dotenv').config().parsed,
+      env: {},
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
       extendViteConf (viteConf) {
         viteConf.base = ''
       },

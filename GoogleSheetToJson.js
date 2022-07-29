@@ -13,11 +13,11 @@ extractSheets(
     spreadsheetKey: sheetKey,
     // credentials: require('./src/i18n/credentials.json'),
     credentials: JSON.parse(key),
-    sheetsToExtract: ['layout', 'home', 'about', 'jobs', 'qa', 'contact']
+    sheetsToExtract: ['layout', 'home', 'about', 'jobs', 'qa', 'contact', 'form']
   },
   (err, data) => {
     if (err) throw err
-    const read = [...data.layout, ...data.home, ...data.about, ...data.jobs, ...data.qa, ...data.contact]
+    const read = [...data.layout, ...data.home, ...data.about, ...data.jobs, ...data.qa, ...data.contact, ...data.form]
     const result = {}
     const files = []
 

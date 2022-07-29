@@ -5,5 +5,19 @@
   "role_admin11": "管理員",
   "title_1": "熱門換宿",
   "slogan": "你好",
-  "about": "關於我們"
+  "about": "關於我們",
+  "account": "會員帳號",
+  "password": "會員密碼",
+  "confirm_password": "確認會員密碼",
+  "submit": "送出",
+  "cancel": "取消",
+  "reset": "重設",
+  "address": "詳細地址",
+  "city": "縣市",
+  "district": "區",
+  "tel": "聯絡電話",
+  "gender": "性別",
+  "birthday": "出生年月日",
+  "email": "電子信箱",
+  "select_role": "請選擇會員身分"
 }

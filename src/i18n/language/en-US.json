@@ -5,5 +5,19 @@
   "role_admin11": "Administrator",
   "title_1": "Hot",
   "slogan": "hello",
-  "about": "about us"
+  "about": "about us",
+  "account": "Account",
+  "password": "Password",
+  "confirm_password": "Confirm Password",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "reset": "Reset",
+  "address": "Address",
+  "city": "City",
+  "district": "District",
+  "tel": "Phone Number",
+  "gender": "Gender",
+  "birthday": "Birthday",
+  "email": "Email",
+  "select_role": "Select role"
 }

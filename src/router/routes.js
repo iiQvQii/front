@@ -1,10 +1,35 @@
+import MainLayout from 'layouts/MainLayout.vue'
+import IndexPage from 'pages/IndexPage.vue'
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: MainLayout,
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      {
+        path: '',
+        name: 'home',
+        component: IndexPage,
+        meta: {
+          title: '打工換宿 | Home'
+        }
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('pages/RegisterPage.vue'),
+        meta: {
+          title: '打工換宿 | 註冊會員'
+        }
+      }
+
+    ]
+  },
+  {
+    path: '/admin',
+    component: () => import('layouts/AdminLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/AdminPage.vue') }
     ]
   },
 
