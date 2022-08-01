@@ -10,7 +10,7 @@
           {{ $t('title_1') }}
         </q-toolbar-title>
         <div class="btn q-gutter-sm q-px-md">
-          <q-btn flat color="white" icon="fa-solid fa-user-plus" size=".8rem" />
+          <q-btn to="/register" flat color="white" icon="fa-solid fa-user-plus" size=".8rem" />
         </div>
         <q-select v-model="locale" :options="localeOptions" dense borderless emit-value map-options options-dense
           style="min-width: 100px;" />

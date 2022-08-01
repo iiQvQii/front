@@ -9,9 +9,7 @@
   "account": "Account",
   "password": "Password",
   "confirm_password": "Confirm Password",
-  "submit": "Submit",
-  "cancel": "Cancel",
-  "reset": "Reset",
+  "name": "Name",
   "address": "Address",
   "city": "City",
   "district": "District",
@@ -19,5 +17,14 @@
   "gender": "Gender",
   "birthday": "Birthday",
   "email": "Email",
-  "select_role": "Select role"
+  "select_role": "Select member role",
+  "register_membership": "Register",
+  "back": "Back",
+  "next": "Continue",
+  "cancel": "Cancel",
+  "reset": "Reset",
+  "submit": "Submit",
+  "male": "male",
+  "female": "female",
+  "rahter_not_say": "Rather not say"
 }
