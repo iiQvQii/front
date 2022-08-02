@@ -21,6 +21,14 @@ const routes = [
         meta: {
           title: '打工換宿 | 註冊會員'
         }
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('pages/LoginPage.vue'),
+        meta: {
+          title: '打工換宿 | 登入會員'
+        }
       }
 
     ]

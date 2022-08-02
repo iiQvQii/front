@@ -14,6 +14,7 @@
         </div>
         <q-select v-model="locale" :options="localeOptions" dense borderless emit-value map-options options-dense
           style="min-width: 100px;" />
+        {{ locale }}
       </q-toolbar>
     </q-header>
 
