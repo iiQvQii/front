@@ -10,6 +10,9 @@ import axios from 'axios'
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API
 })
+export const apiAuth = axios.create({
+  baseURL: import.meta.env.VITE_API
+})
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

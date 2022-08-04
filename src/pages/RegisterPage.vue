@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center column">
-    <h4>{{ $t('register_membership') }}</h4>
+    <h4>{{ $t('register') }}</h4>
     <div class="q-pa-md">
       <q-form class="q-gutter-md" v-model="valid" @submit.prevent="register" @reset="onReset">
         <q-stepper v-model="step" ref="stepper" color="primary" animated alternative-labels style="min-width: 400px">
@@ -11,7 +11,7 @@
               :rules="rules.password" ref="password" />
             <q-input outlined type="password" v-model="form.confirmPassword" :label="$t('confirm_password') + '*'"
               lazy-rules :rules="rules.confirmPassword" ref="confirmPassword" />
-            <p>{{ $t('select_role') + '*' }}</p>
+            <p>{{ $t('register_as') + '*' }}</p>
             <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread ref="role"
               :rules="rules.role" />
           </q-step>
@@ -244,15 +244,7 @@ const register = async () => {
   // if (!valid.value) return
   loading.value = true
   try {
-    if (form.role === 'role_host') {
-      form.role = 1
-      console.log(form.role)
-      await api.post('/hosts/register', form)
-    } else if (form.role === 'role_helper') {
-      form.role = 2
-      console.log(form.role)
-      await api.post('/helpers/register', form)
-    }
+    await api.post('/users/register', form)
     await Swal.fire({
       icon: 'success',
       title: '成功',

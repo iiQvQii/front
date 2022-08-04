@@ -18,6 +18,7 @@
     "dotenv": "^16.0.1",
     "googleapis": "^39.2.0",
     "pinia": "^2.0.11",
+    "pinia-plugin-persistedstate": "^2.1.0",
     "quasar": "^2.7.6",
     "sweetalert2": "^11.4.24",
     "validator": "^13.7.0",
