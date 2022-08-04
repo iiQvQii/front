@@ -37,7 +37,18 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/AdminPage.vue') }
+      {
+        path: '',
+        component: () => import('pages/AdminPage.vue')
+      },
+      {
+        path: 'login',
+        name: 'adminLogin',
+        component: () => import('pages/AdminLogin.vue'),
+        meta: {
+          title: '打工換宿 | 登入會員'
+        }
+      }
     ]
   },
 
