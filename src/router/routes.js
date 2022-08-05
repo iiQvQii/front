@@ -11,7 +11,7 @@ const routes = [
         name: 'home',
         component: IndexPage,
         meta: {
-          title: '打工換宿 | Home'
+          title: 'Workweee我耶 | Home'
         }
       },
       {
@@ -19,7 +19,7 @@ const routes = [
         name: 'register',
         component: () => import('pages/RegisterPage.vue'),
         meta: {
-          title: '打工換宿 | 註冊會員'
+          title: 'Workweee我耶 | 註冊會員'
         }
       },
       {
@@ -27,7 +27,14 @@ const routes = [
         name: 'login',
         component: () => import('pages/LoginPage.vue'),
         meta: {
-          title: '打工換宿 | 登入會員'
+          title: 'Workweee我耶 | 登入會員'
+        }
+      },
+      {
+        path: 'login/admin',
+        component: () => import('pages/AdminLogin.vue'),
+        meta: {
+          title: 'Workweee我耶 | 登入管理員'
         }
       }
 
@@ -40,14 +47,6 @@ const routes = [
       {
         path: '',
         component: () => import('pages/AdminPage.vue')
-      },
-      {
-        path: 'login',
-        name: 'adminLogin',
-        component: () => import('pages/AdminLogin.vue'),
-        meta: {
-          title: '打工換宿 | 登入會員'
-        }
       }
     ]
   },
@@ -56,7 +55,10 @@ const routes = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
+    component: () => import('pages/ErrorNotFound.vue'),
+    meta: {
+      title: 'Workweee我耶 | 404找不到'
+    }
   }
 ]
 

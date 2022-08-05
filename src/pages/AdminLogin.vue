@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center column">
-    <h4>{{ $t('login') }}</h4>
+    <h4>{{ $t('role_admin') + $t('login') }}</h4>
     <div class="q-pa-md">
       <q-form class="q-gutter-md " v-model="valid" @submit.prevent="login">
         <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">

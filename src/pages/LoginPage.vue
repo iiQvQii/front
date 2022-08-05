@@ -2,13 +2,15 @@
   <q-page class="flex flex-center column">
     <h4>{{ $t('login') }}</h4>
     <div class="q-pa-md">
-      <q-form class="q-gutter-md " v-model="valid" @submit.prevent="login">
+      <q-form class="q-gutter-md " ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off"
+        spellcheck="false" @submit.prevent="login">
         <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">
         </q-input>
         <q-input outlined type="password" v-model="form.password" :label="$t('password') + '*'" lazy-rules
           :rules="rules.password" />
-        <p>{{ $t('select_role') + '*' }}</p>
-        <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread :rules="rules.role" />
+        <p :style="warningStyle">{{ $t('login_as') + '*' }}</p>
+        <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread :rules="rules.role"
+          ref="role" />
         <q-btn class="full-width" color="primary" :label="$t('login')" type="submit" :loading="loading" />
       </q-form>
 
@@ -27,8 +29,10 @@ import { useUserStore } from 'src/stores/user'
 const { t } = useI18n()
 const user = useUserStore()
 
-const valid = ref(false)
+const loginForm = ref(null)
+const role = ref(null)
 const loading = ref(false)
+const warning = ref(false)
 
 const form = reactive({
   account: '',
@@ -50,17 +54,34 @@ const rules = reactive({
     v => /^[a-zA-Z0-9]+$/.test(v) || '帳號只能由英數字組成'
   ],
   password: [
-    v => !!v || '密碼必填',
+    v => !!v || t('required'),
     v => (v.length >= 4 && v.length <= 20) || '密碼長度為 4 到 20 個字',
     v => /^[a-zA-Z0-9]+$/.test(v) || '密碼只能由英數字組成'
   ],
   role: [
-    v => !!v || '請選擇註冊會員身分'
+    v => !!v || t('required')
   ]
+})
+const warningStyle = computed(() => {
+  if (warning.value && !form.role) return { color: 'red' }
+  else return { color: 'black' }
 })
 
 const login = () => {
+  if (!form.role) {
+    warning.value = true
+    return
+  }
+  loading.value = true
+  if (form.role === 'role_host') {
+    form.role = 1
+  } else if (form.role === 'role_host') {
+    form.role = 2
+  } else {
+    form.role = null
+  }
   user.login(form)
+  loading.value = false
 }
 
 </script>

@@ -2,7 +2,8 @@
   <q-page class="flex flex-center column">
     <h4>{{ $t('register') }}</h4>
     <div class="q-pa-md">
-      <q-form class="q-gutter-md" v-model="valid" @submit.prevent="register" @reset="onReset">
+      <q-form class="q-gutter-md" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
+        ref="registerForm" @submit.prevent="register" @reset="onReset">
         <q-stepper v-model="step" ref="stepper" color="primary" animated alternative-labels style="min-width: 400px">
           <q-step :name="1" prefix="1" :title="$t('step1')" icon="settings" :done="step > 1">
             <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account" ref="account">
@@ -11,7 +12,7 @@
               :rules="rules.password" ref="password" />
             <q-input outlined type="password" v-model="form.confirmPassword" :label="$t('confirm_password') + '*'"
               lazy-rules :rules="rules.confirmPassword" ref="confirmPassword" />
-            <p>{{ $t('register_as') + '*' }}</p>
+            <p :style="warningStyle">{{ $t('register_as') + '*' }}</p>
             <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread ref="role"
               :rules="rules.role" />
           </q-step>
@@ -58,8 +59,8 @@
           <template v-slot:navigation>
             <q-stepper-navigation class="flex flex-center">
               <q-btn v-if="step === 1" class="q-mx-md" @click="next" color="primary" :label="$t('next')" />
-              <q-btn v-if="step === 2" class="q-mx-md" @click="register" color="primary" :label="$t('submit')"
-                type="submit" :loading="loading" />
+              <q-btn v-if="step === 2" class="q-mx-md" color="primary" :label="$t('submit')" type="submit"
+                :loading="loading" />
               <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" :label="$t('back')"
                 class="q-mx-md" />
               <q-btn class="q-mx-md" :label="$t('reset')" type="reset" color="primary" flat />
@@ -86,30 +87,31 @@ const { t } = useI18n()
 
 const router = useRouter()
 
-const valid = ref(false)
+const registerForm = ref(null)
 const loading = ref(false)
-const step = ref(1)
+const step = ref(2)
 const account = ref(null)
 const password = ref(null)
 const confirmPassword = ref(null)
 const role = ref(null)
+const warning = ref(false)
 
 const stepper = ref(null)
 
 const form = reactive({
-  account: '',
-  password: '',
-  confirmPassword: '',
+  account: '1234',
+  password: '1234',
+  confirmPassword: '1234',
   role: '',
-  name: '',
-  tel: '',
-  mobile: '',
-  gender: '',
+  name: '老王',
+  tel: '0922390046',
+  mobile: '8686868755',
+  gender: 'male',
   birthday: '1995/01/01',
-  email: '',
-  city: '',
-  district: '',
-  address: ''
+  email: '6786@eagr.rger',
+  city: '臺北市',
+  district: '內湖區',
+  address: '86777776'
 })
 const options = computed(() => {
   return [
@@ -195,11 +197,11 @@ const rules = reactive({
     v => !!v || '性別必填'
   ],
   tel: [
-    v => (v.length >= 9 && v.length <= 10) || '含區碼長度為 9 或 10 個字，ex:02-1234-5678 或 03-1234-567'
+    v => v.length <= 10 || '含區碼長度為 9 或 10 個字，ex:02-1234-5678 或 03-1234-567'
   ],
   mobile: [
     v => !!v || '手機必填',
-    v => (v.length = 10) || '請輸入10位手機'
+    v => v.length === 10 || '請輸入10位手機'
   ],
   birthday: [
     v => !!v || '生日必填'
@@ -226,6 +228,8 @@ const onReset = () => {
   } else {
     form.name = null
     form.gender = null
+    form.tel = null
+    form.mobile = null
     form.birthday = '1995/01/01'
     form.email = null
     form.city = null
@@ -235,14 +239,23 @@ const onReset = () => {
 }
 
 const next = () => {
-  if (account.value.validate() && password.value.validate() && confirmPassword.value.validate() && form.role !== '') {
+  if (!form.role) {
+    warning.value = true
+    return
+  }
+  if (account.value.validate() && password.value.validate() && confirmPassword.value.validate()) {
     stepper.value.next()
   }
 }
+const warningStyle = computed(() => {
+  if (warning.value && !form.role) return { color: 'red' }
+  else return { color: 'black' }
+})
 
 const register = async () => {
-  // if (!valid.value) return
+  if (!registerForm.value.validate()) return
   loading.value = true
+  form.role === 'role_host' ? form.role = 1 : form.role = 2
   try {
     await api.post('/users/register', form)
     await Swal.fire({
@@ -252,8 +265,6 @@ const register = async () => {
     })
     router.push('/')
   } catch (error) {
-    console.log(form.role)
-    console.log(error)
     Swal.fire({
       icon: 'error',
       title: '失敗',

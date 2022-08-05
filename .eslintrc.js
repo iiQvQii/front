@@ -52,7 +52,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-
+'no-unused-vars':'off',
     'vue/script-setup-uses-vars': 'off',
     
     // allow async-await
