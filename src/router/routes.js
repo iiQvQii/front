@@ -11,7 +11,9 @@ const routes = [
         name: 'home',
         component: IndexPage,
         meta: {
-          title: 'Workweee我耶 | Home'
+          title: 'Workweee我耶 | Home',
+          login: false,
+          admin: false
         }
       },
       {
@@ -19,7 +21,9 @@ const routes = [
         name: 'register',
         component: () => import('pages/RegisterPage.vue'),
         meta: {
-          title: 'Workweee我耶 | 註冊會員'
+          title: 'Workweee我耶 | 註冊會員',
+          login: false,
+          admin: false
         }
       },
       {
@@ -27,19 +31,24 @@ const routes = [
         name: 'login',
         component: () => import('pages/LoginPage.vue'),
         meta: {
-          title: 'Workweee我耶 | 登入會員'
+          title: 'Workweee我耶 | 登入會員',
+          login: false,
+          admin: false
         }
       },
       {
         path: 'login/admin',
         component: () => import('pages/AdminLogin.vue'),
         meta: {
-          title: 'Workweee我耶 | 登入管理員'
+          title: 'Workweee我耶 | 登入管理員',
+          login: false,
+          admin: false
         }
       }
 
     ]
   },
+  // 後台 -------------------------------------------------------------
   {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),

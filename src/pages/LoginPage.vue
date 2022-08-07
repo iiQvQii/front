@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('login') }}</h4>
-    <div class="q-pa-md">
+    <div class="q-pa-md" style="min-width: 300px">
       <q-form class="q-gutter-md " ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off"
         spellcheck="false" @submit.prevent="login">
         <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">

@@ -1,46 +1,63 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header reveal elevated class="bg-primary text-white">
+  <q-layout view="hHh LpR fFf">
+    <q-header reveal elevated class="bg-white text-white">
       <q-toolbar>
         <q-toolbar-title>
-          <q-btn to="/">
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-            </q-avatar>
+          <q-btn to="/" flat style="width: 200px;">
+            <img src="../assets/logo.svg" style="width: 300px;">
           </q-btn>
         </q-toolbar-title>
 
         <div class="btn q-gutter-sm q-px-md">
-          <!-- 登入/註冊 -->
-          <q-btn v-if="!isLogin" to="/login" rounded size=".8rem">
+          <!------------------- 登入/註冊 -------------------------------->
+          <q-btn v-if="!isLogin" to="/login" outline rounded>
             {{ $t('login') }}
           </q-btn>
-          <q-btn v-if="!isLogin" to="/register" outline rounded color="white" size=".8rem">
+          <q-btn v-if="!isLogin" to="/register" flat rounded color="white">
             {{ $t('register') }}
           </q-btn>
-        </div>
-        <q-btn icon="translate" flat size=".8rem">
-          <q-menu>
-            <q-list style="min-width: 100px">
-              <q-item v-close-popup>
-                <q-item-section>
+          <!--------------------  語言選項 --------------------------------->
+          <q-btn icon="translate" flat color="dark" style="min-width: 30px">
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <q-item-label header>
                   {{ $t('manage_profile') }}
-                </q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup v-for="localeOption in localeOptions" :key='localeOption.value'
-                :value="localeOption.value" v-model="locale">
-                <q-item-section>
-                  {{ localeOption.label }}
-                </q-item-section>
-                <q-separator />
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
-        <q-select id="locale" class="gt-md" v-model="locale" :options="localeOptions" dense borderless emit-value
-          map-options options-dense style="min-width: 100px;" />
+                </q-item-label>
+                <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
+                  :value="localeOption.value" v-model="locale" @click="locale = localeOptions[i].value"
+                  :active="locale === localeOptions[i].value">
+                  <q-item-section>
+                    {{ localeOption.label }}
+                  </q-item-section>
+
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
+
+        <!-- <q-btn-dropdown icon="translate" flat>
+          <q-list>
+            <q-item-label header>
+              {{ $t('manage_profile') }}
+            </q-item-label>
+            <q-item clickable v-ripple :value="localeOptions[0].value" @click="locale = localeOptions[0].value"
+              :active="locale === localeOptions[0].value">
+              <q-item-section>
+                <q-item-label>{{ localeOptions[0].label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-ripple :value="localeOptions[1].value" @click="locale = localeOptions[1].value"
+              :active="locale === localeOptions[1].value">
+              <q-item-section>
+                <q-item-label>{{ localeOptions[1].label }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown> -->
+
         <!-- 大頭貼 -->
-        <q-btn v-if="isLogin">
+        <q-btn v-if="isLogin" flat>
           <q-avatar>
             <img :src="avatar">
           </q-avatar>
@@ -64,6 +81,9 @@
 
     <q-page-container>
       <router-view />
+      <q-page-sticky position="bottom-right" :offset="[18, 100]">
+        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" />
+      </q-page-sticky>
     </q-page-container>
 
   </q-layout>

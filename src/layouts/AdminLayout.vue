@@ -3,12 +3,33 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
         <q-toolbar-title>
-          {{ $t('title_1') }}
+          <q-btn to="/" flat>
+            <q-avatar>
+              <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            </q-avatar>
+          </q-btn>
         </q-toolbar-title>
-        <q-select v-model="locale" :options="localeOptions" label="Language" dense borderless emit-value map-options
-          options-dense style="min-width: 150px" />
+        <div class="btn q-gutter-sm q-px-md">
+          <!--------------------  語言選項 --------------------------------->
+          <q-btn icon="translate" flat style="min-width: 30px">
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <q-item-label header>
+                  {{ $t('manage_profile') }}
+                </q-item-label>
+                <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
+                  :value="localeOption.value" v-model="locale" @click="locale = localeOptions[i].value"
+                  :active="locale === localeOptions[i].value">
+                  <q-item-section>
+                    {{ localeOption.label }}
+                  </q-item-section>
+
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 

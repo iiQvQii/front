@@ -66,6 +66,21 @@ export const useUserStore = defineStore('user', {
       this.token = ''
       this.account = ''
       this.role = null
+    },
+    // 因為要存localstorage
+    async getUser () {
+      if (this.token.length === 0) return
+      try {
+        const { data } = await apiAuth.get('/users')
+        this.account = data.result.account
+        this.role = data.result.role
+      } catch (error) {
+        this.logout()
+      }
     }
+  },
+  persist: {
+    key: 'workweee',
+    paths: ['token']
   }
 })
