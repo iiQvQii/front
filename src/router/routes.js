@@ -1,5 +1,5 @@
 import MainLayout from 'layouts/MainLayout.vue'
-import IndexPage from 'pages/IndexPage.vue'
+import IndexPage from 'pages/front/IndexPage.vue'
 
 const routes = [
   {
@@ -19,7 +19,7 @@ const routes = [
       {
         path: 'register',
         name: 'register',
-        component: () => import('pages/RegisterPage.vue'),
+        component: () => import('pages/front/RegisterPage.vue'),
         meta: {
           title: 'Workweee我耶 | 註冊會員',
           login: false,
@@ -29,7 +29,7 @@ const routes = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('pages/LoginPage.vue'),
+        component: () => import('pages/front/LoginPage.vue'),
         meta: {
           title: 'Workweee我耶 | 登入會員',
           login: false,
@@ -44,24 +44,65 @@ const routes = [
           login: false,
           admin: false
         }
+      },
+      {
+        path: '/about_us',
+        component: () => import('pages/front/AboutUs.vue'),
+        meta: {
+          title: 'Workweee我耶 | 關於Workweee',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: '/jobs',
+        component: () => import('pages/front/FindJobs.vue'),
+        meta: {
+          title: 'Workweee我耶 | 換宿機會',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: '/faqs',
+        component: () => import('pages/front/FAQs.vue'),
+        meta: {
+          title: 'Workweee我耶 | 換宿FAQs',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: '/contact_us',
+        component: () => import('pages/front/ContactUs.vue'),
+        meta: {
+          title: 'Workweee我耶 | 聯絡我們',
+          login: false,
+          admin: false
+        }
       }
 
     ]
   },
-  // 後台 -------------------------------------------------------------
+  // 後台 ------------------------------------------------------------------------------------
   {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/AdminPage.vue')
+        component: () => import('pages/back/AdminPage.vue')
+      },
+      {
+        path: '/jobs',
+        component: () => import('src/pages/back/JobPage.vue')
+      },
+      {
+        path: '/application_status',
+        component: () => import('src/pages/back/ApplicationStatus.vue')
       }
     ]
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

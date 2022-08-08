@@ -1,0 +1,17 @@
+#toolbar{
+  color: $dark;
+  ul{
+    display: inline-block;
+    margin: 0;
+  }
+  li {
+    list-style: none;
+    display: inline-block;
+    padding: 0 1rem;
+    a {
+      text-decoration: none;
+      color: $dark;
+      font-size: 1rem;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center column">
-    <h4>{{ $t('register') }}</h4>
+    <h1>{{ $t('register') }}</h1>
     <div class="q-pa-md">
       <q-form class="q-gutter-md" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
         ref="registerForm" @submit.prevent="register" @reset="onReset">
@@ -73,14 +73,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, watch, registerRuntimeCompiler } from 'vue'
 import { isEmail } from 'validator'
-import { api } from '../boot/axios.js'
+import { api } from '../../boot/axios.js'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 import { useI18n } from 'vue-i18n'
-import dataEn from '../address/data-en.js'
-import dataZh from '../address/data-zh.js'
+import dataEn from '../../address/data-en.js'
+import dataZh from '../../address/data-zh.js'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
@@ -129,38 +129,38 @@ const genderOptions = computed(() => {
 
 const cityOptions = computed(() => {
   if (locale.value === 'zh-TW') {
-    return dataZh.cities
+    return dataZh.counties
   } else {
-    return dataEn.cities
+    return dataEn.counties
   }
 })
 
 const districtOptions = computed(() => {
   if (locale.value === 'zh-TW') {
-    const idxZh = dataZh.cities.findIndex(v => {
+    const idxZh = dataZh.counties.findIndex(v => {
       return v === form.city
     })
-    return dataZh.districts[idxZh]
+    return dataZh.districts[idxZh][0]
   } else {
-    const idxEn = dataEn.cities.findIndex(v => {
+    const idxEn = dataEn.counties.findIndex(v => {
       return v === form.city
     })
-    return dataEn.districts[idxEn]
+    return dataEn.districts[idxEn][0]
   }
 })
 
 watch(() => locale.value, () => {
   if (locale.value === 'zh-TW') {
-    const idxCity = dataEn.cities.findIndex(v => v === form.city)
+    const idxCity = dataEn.counties.findIndex(v => v === form.city)
     if (idxCity > -1) {
-      form.city = dataZh.cities[idxCity]
+      form.city = dataZh.counties[idxCity]
       form.district = dataZh.districts[idxCity][dataEn.districts[idxCity].findIndex(v => v === form.district)]
     }
     console.log(idxCity, form.city)
   } else {
-    const idxCity = dataZh.cities.findIndex(v => v === form.city)
+    const idxCity = dataZh.counties.findIndex(v => v === form.city)
     if (idxCity > -1) {
-      form.city = dataEn.cities[idxCity]
+      form.city = dataEn.counties[idxCity]
       form.district = dataEn.districts[idxCity][dataZh.districts[idxCity].findIndex(v => v === form.district)]
     }
   }

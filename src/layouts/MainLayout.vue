@@ -1,11 +1,18 @@
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout view="hHh Lpr lff">
     <q-header reveal elevated class="bg-white text-white">
-      <q-toolbar>
+      <q-toolbar id="toolbar">
+        <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
         <q-toolbar-title>
           <q-btn to="/" flat style="width: 200px;">
             <img src="../assets/logo.svg" style="width: 300px;">
           </q-btn>
+          <ul class="gt-md">
+            <li><a href="#/about_us"> {{ $t('about_us') }}</a></li>
+            <li><a href="#/jobs"> {{ $t('find_jobs') }}</a></li>
+            <li><a href="#/faqs"> {{ $t('faqs') }}</a></li>
+            <li><a href="#/contact_us"> {{ $t('contact_us') }}</a></li>
+          </ul>
         </q-toolbar-title>
 
         <div class="btn q-gutter-sm q-px-md">
@@ -13,15 +20,15 @@
           <q-btn v-if="!isLogin" to="/login" outline rounded>
             {{ $t('login') }}
           </q-btn>
-          <q-btn v-if="!isLogin" to="/register" flat rounded color="white">
+          <q-btn v-if="!isLogin" to="/register" class="gt-md" flat rounded>
             {{ $t('register') }}
           </q-btn>
           <!--------------------  語言選項 --------------------------------->
-          <q-btn icon="translate" flat color="dark" style="min-width: 30px">
-            <q-menu>
+          <q-btn class="gt-md" icon="translate" flat color="dark" style="min-width: 30px">
+            <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
-                  {{ $t('manage_profile') }}
+                  {{ $t('translate') }}
                 </q-item-label>
                 <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
                   :value="localeOption.value" v-model="locale" @click="locale = localeOptions[i].value"
@@ -36,28 +43,8 @@
           </q-btn>
         </div>
 
-        <!-- <q-btn-dropdown icon="translate" flat>
-          <q-list>
-            <q-item-label header>
-              {{ $t('manage_profile') }}
-            </q-item-label>
-            <q-item clickable v-ripple :value="localeOptions[0].value" @click="locale = localeOptions[0].value"
-              :active="locale === localeOptions[0].value">
-              <q-item-section>
-                <q-item-label>{{ localeOptions[0].label }}</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-ripple :value="localeOptions[1].value" @click="locale = localeOptions[1].value"
-              :active="locale === localeOptions[1].value">
-              <q-item-section>
-                <q-item-label>{{ localeOptions[1].label }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown> -->
-
         <!-- 大頭貼 -->
-        <q-btn v-if="isLogin" flat>
+        <q-btn v-if="isLogin" class="gt-md" flat>
           <q-avatar>
             <img :src="avatar">
           </q-avatar>
@@ -66,7 +53,10 @@
               <q-item to="/admin" clickable v-close-popup>
                 <q-item-section>{{ $t('manage_profile') }}</q-item-section>
               </q-item>
-              <q-item to="/admin" clickable v-close-popup>
+              <q-item to="/admin/jobs" clickable v-close-popup>
+                <q-item-section>{{ $t('post_jobs') }}</q-item-section>
+              </q-item>
+              <q-item to="/admin/application_status" clickable v-close-popup>
                 <q-item-section>{{ $t('application_status') }}</q-item-section>
               </q-item>
               <q-separator />

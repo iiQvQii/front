@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { api, apiAuth } from '../boot/axios'
 import Swal from 'sweetalert2'
-import router from 'src/router'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -23,7 +22,7 @@ export const useUserStore = defineStore('user', {
       return this.role === 2
     },
     avatar () {
-      return 'https://source.boringavatars.com/beam/120/' + this.account
+      return 'https://source.boringavatars.com/beam/120/' + this.account + this.role
     }
   },
   actions: {
@@ -74,6 +73,7 @@ export const useUserStore = defineStore('user', {
         const { data } = await apiAuth.get('/users')
         this.account = data.result.account
         this.role = data.result.role
+        console.log(this.role)
       } catch (error) {
         this.logout()
       }
