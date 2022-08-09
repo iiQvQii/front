@@ -33,8 +33,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="280" :mini="miniState"
-      @mouseover="miniState = false" @mouseout="miniState = true">
+    <q-drawer v-model="leftDrawerOpen" show-if-above :width="280">
       <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
       <q-card flat class="text-center">
         <q-card-section>
@@ -101,11 +100,6 @@ const linksList = reactive([
     to: '/admin'
   },
   {
-    title: t('my_resume'),
-    icon: 'mdi-file-account',
-    to: '/admin/application_status'
-  },
-  {
     title: t('application_status'),
     icon: 'mdi-list-status',
     to: '/admin/application_status'
@@ -116,7 +110,7 @@ const linksList = reactive([
     to: '/admin/jobs'
   }
 ])
-const miniState = ref(true)
+
 const leftDrawerOpen = ref(true)
 const essentialLinks = ref(linksList)
 const toggleLeftDrawer = () => {

@@ -21,7 +21,8 @@
           <q-step :name="2" prefix="2" :title="$t('step2')" icon="fa-solid fa-file-pen" :done="step > 2">
             <!-- 姓名 -->
             <q-input outlined type="text" v-model="form.name"
-              :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'" lazy-rules :rules="rules.name" />
+              :label="form.role === 'role_helper' ? $t('name') + '*' : $t('host_name') + '*'" lazy-rules
+              :rules="rules.name" />
             <!-- 性別 -->
             <q-select v-if="form.role === 'role_helper'" outlined v-model="form.gender" :options="genderOptions"
               :label="$t('gender') + '*'" emit-value :display-value="$t(form.gender)" lazy-rules :rules="rules.required"
@@ -118,7 +119,7 @@ const form = reactive({
   tel: '0922390046',
   mobile: '8686868755',
   gender: 'male',
-  birthday: '1995/01/01',
+  birth: '1995/01/01',
   email: '6786@eagr.rger',
   city: '',
   district: '',

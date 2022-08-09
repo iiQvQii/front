@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('my_info') }}</h4>
-    <div class="q-pa-md" style="min-width: 300px">
+    <div class="q-pa-md" style="min-width: 500px">
       <q-form class="q-gutter-md " autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
         @submit.prevent="submit">
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
@@ -40,8 +40,21 @@
         <!-- 詳細地址 -->
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
-        <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
+        <QuillEditor theme="snow" />
+        <div class="q-pa-md q-gutter-sm">
+          <q-editor v-model="editor" min-height="5rem" />
 
+          <q-card flat bordered>
+            <q-card-section>
+              <pre style="white-space: pre-line">{{ editor }}</pre>
+            </q-card-section>
+          </q-card>
+
+          <q-card flat bordered>
+            <q-card-section />
+          </q-card>
+        </div>
+        <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>
   </q-page>
@@ -56,12 +69,14 @@ import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
 import dataEn from '../../address/data-en.js'
 import dataZh from '../../address/data-zh.js'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
 
 const user = useUserStore()
-
+const editor = ref('What you see is <b>what</b> you get.')
 const {
   name,
   gender,
@@ -97,6 +112,7 @@ const form = reactive({
   zipcode: zipcode.value
 
 })
+
 const genderOptions = computed(() => {
   return [
     { label: t('male'), value: 'male' },
@@ -234,8 +250,8 @@ const submit = async () => {
     form.city = dataZh.counties[idxZip.city]
     form.district = dataZh.districts[idxZip.city][0][idxZip.district]
   }
-  user.editUserInfo(form)
-  loading.value = false
+  // user.editUserInfo(form)
+  // loading.value = false
 }
 
 </script>
