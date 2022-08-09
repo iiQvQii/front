@@ -27,11 +27,14 @@
               </q-list>
             </q-menu>
           </q-btn>
+          <q-btn v-if="isLogin" icon="fa-solid fa-right-from-bracket" flat color="dark" @click="logout">
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="280">
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="280" :mini="miniState"
+      @mouseover="miniState = false" @mouseout="miniState = true">
       <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
       <q-card flat class="text-center">
         <q-card-section>
@@ -43,8 +46,8 @@
         <q-separator inset />
 
         <q-card-section>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
+          <div class="text-weight-bold">{{ name }}</div>
+          <div>{{ account }}</div>
         </q-card-section>
       </q-card>
 
@@ -70,7 +73,16 @@ import { useUserStore } from '../stores/user'
 
 import { useI18n } from 'vue-i18n'
 const user = useUserStore()
-const { isLogin, isAdmin, isHost, isHelper, avatar } = storeToRefs(user)
+const { logout } = user
+const {
+  name,
+  account,
+  isLogin,
+  isAdmin,
+  isHost,
+  isHelper,
+  avatar
+} = storeToRefs(user)
 
 const { t } = useI18n()
 
@@ -85,21 +97,26 @@ locale.value = useQuasar().lang.getLocale()
 const linksList = reactive([
   {
     title: t('my_info'),
-    icon: 'fa-solid fa-user',
-    link: 'https://github.com/quasarframework'
+    icon: 'mdi-face-man',
+    to: '/admin'
+  },
+  {
+    title: t('my_resume'),
+    icon: 'mdi-file-account',
+    to: '/admin/application_status'
   },
   {
     title: t('application_status'),
-    icon: 'fa-solid fa-list-check',
-    link: 'https://quasar.dev'
+    icon: 'mdi-list-status',
+    to: '/admin/application_status'
   },
   {
     title: t('post_jobs'),
-    icon: 'fa-solid fa-circle-plus',
-    link: 'https://github.com/quasarframework'
+    icon: 'mdi-note-plus',
+    to: '/admin/jobs'
   }
 ])
-
+const miniState = ref(true)
 const leftDrawerOpen = ref(true)
 const essentialLinks = ref(linksList)
 const toggleLeftDrawer = () => {

@@ -6,7 +6,21 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: '',
     account: '',
+    name: '',
+    Avatar: '',
+    tel: '',
+    mobile: '',
+    email: '',
+    city: '',
+    district: '',
+    address: '',
+    zipcode: '',
+    description: '',
+    photos: '',
+    gender: '',
+    birth: '',
     role: ''
+
   }),
   getters: {
     isLogin () {
@@ -31,6 +45,19 @@ export const useUserStore = defineStore('user', {
         const { data } = await api.post('/users/login', form)
         this.token = data.result.token
         this.account = data.result.account
+        this.name = data.result.name
+        this.Avatar = data.result.avatar || ''
+        this.tel = data.result.tel || ''
+        this.mobile = data.result.mobile || ''
+        this.email = data.result.email || ''
+        this.city = data.result.city || ''
+        this.district = data.result.district || ''
+        this.address = data.result.address || ''
+        this.zipcode = data.result.zipcode || ''
+        this.description = data.result.description || ''
+        this.photos = data.result.photos || ''
+        this.gender = data.result.gender || ''
+        this.birth = data.result.birth || ''
         this.role = data.result.role
         Swal.fire({
           icon: 'success',
@@ -42,7 +69,7 @@ export const useUserStore = defineStore('user', {
         Swal.fire({
           icon: 'error',
           title: '失敗',
-          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
+          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
         })
       }
     },
@@ -66,14 +93,59 @@ export const useUserStore = defineStore('user', {
       this.account = ''
       this.role = null
     },
+    async editUserInfo (form) {
+      try {
+        const { data } = await apiAuth.patch('/users/edit_info', form)
+        this.token = data.result.token
+        this.account = data.result.account
+        this.name = data.result.name
+        this.Avatar = data.result.avatar || ''
+        this.tel = data.result.tel || ''
+        this.mobile = data.result.mobile || ''
+        this.email = data.result.email || ''
+        this.city = data.result.city || ''
+        this.district = data.result.district || ''
+        this.address = data.result.address || ''
+        this.zipcode = data.result.zipcode || ''
+        this.description = data.result.description || ''
+        this.photos = data.result.photos || ''
+        this.gender = data.result.gender || ''
+        this.birth = data.result.birth || ''
+        this.role = data.result.role
+        Swal.fire({
+          icon: 'success',
+          title: '成功',
+          text: '修改成功'
+        })
+        this.router.push('/')
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+        })
+      }
+    },
     // 因為要存localstorage
     async getUser () {
       if (this.token.length === 0) return
       try {
         const { data } = await apiAuth.get('/users')
         this.account = data.result.account
+        this.name = data.result.name
+        this.Avatar = data.result.avatar || ''
+        this.tel = data.result.tel || ''
+        this.mobile = data.result.mobile || ''
+        this.email = data.result.email || ''
+        this.city = data.result.city || ''
+        this.district = data.result.district || ''
+        this.address = data.result.address || ''
+        this.zipcode = data.result.zipcode || ''
+        this.description = data.result.description || ''
+        this.photos = data.result.photos || ''
+        this.gender = data.result.gender || ''
+        this.birth = data.result.birth || ''
         this.role = data.result.role
-        console.log(this.role)
       } catch (error) {
         this.logout()
       }

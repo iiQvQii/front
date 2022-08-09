@@ -26,7 +26,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
   Router.afterEach((to, from) => {
-    document.title = to.meta.title
+    document.title = to.meta.title || 'Workweee我耶'
   })
 
   return Router

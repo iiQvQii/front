@@ -38,6 +38,7 @@ const routes = [
       },
       {
         path: 'login/admin',
+        name: 'login_admin',
         component: () => import('pages/AdminLogin.vue'),
         meta: {
           title: 'Workweee我耶 | 登入管理員',
@@ -46,7 +47,8 @@ const routes = [
         }
       },
       {
-        path: '/about_us',
+        path: 'about_us',
+        name: 'about_us',
         component: () => import('pages/front/AboutUs.vue'),
         meta: {
           title: 'Workweee我耶 | 關於Workweee',
@@ -55,7 +57,8 @@ const routes = [
         }
       },
       {
-        path: '/jobs',
+        path: 'jobs',
+        name: 'jobs',
         component: () => import('pages/front/FindJobs.vue'),
         meta: {
           title: 'Workweee我耶 | 換宿機會',
@@ -64,7 +67,8 @@ const routes = [
         }
       },
       {
-        path: '/faqs',
+        path: 'faqs',
+        name: 'faqs',
         component: () => import('pages/front/FAQs.vue'),
         meta: {
           title: 'Workweee我耶 | 換宿FAQs',
@@ -73,7 +77,8 @@ const routes = [
         }
       },
       {
-        path: '/contact_us',
+        path: 'contact_us',
+        name: 'contact_us',
         component: () => import('pages/front/ContactUs.vue'),
         meta: {
           title: 'Workweee我耶 | 聯絡我們',
@@ -91,15 +96,18 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'home',
         component: () => import('pages/back/AdminPage.vue')
       },
       {
-        path: '/jobs',
-        component: () => import('src/pages/back/JobPage.vue')
+        path: 'jobs',
+        name: 'jobs',
+        component: () => import('pages/back/JobPage.vue')
       },
       {
-        path: '/application_status',
-        component: () => import('src/pages/back/ApplicationStatus.vue')
+        path: 'application_status',
+        name: 'application_status',
+        component: () => import('pages/back/ApplicationStatus.vue')
       }
     ]
   },

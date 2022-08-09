@@ -1,7 +1,8 @@
 {
   "logout": "登出",
   "manage_profile": "管理我的帳戶",
-  "my_info": "我的資料",
+  "my_info": "我的基本資料",
+  "my_resume": "我的履歷",
   "application_status": "報名狀態",
   "post_jobs": "刊登換宿",
   "translate": "翻譯語言",
