@@ -95,11 +95,31 @@ export const useUserStore = defineStore('user', {
     },
     async editUserInfo (form) {
       try {
+        // 單個上傳
+        // const fd = new FormData()
+        // for (const key in form) {
+        //   if (key === 'photos') {
+        //     fd.append(key, form[key][0])
+        //   } else {
+        //     fd.append(key, form[key])
+        //   }
+        // }
+        console.log(form)
         const fd = new FormData()
         for (const key in form) {
-          if (key === 'photos') fd.append(key, form[key][0])
-          else fd.append(key, form[key])
+          // console.log(form.photos)
+          // console.log(key)
+          if (key === 'photos') {
+            for (let i = 0; i < form[key].length; i++) {
+              fd.append(key, form[key][i])
+            }
+            console.log(form[key])
+          } else {
+            fd.append(key, form[key])
+          }
         }
+        console.log(fd)
+
         const { data } = await apiAuth.patch('/users/edit_info', fd)
         this.account = data.result.account
         this.name = data.result.name
@@ -121,7 +141,6 @@ export const useUserStore = defineStore('user', {
           title: '成功',
           text: '修改成功'
         })
-        this.router.push('/')
       } catch (error) {
         Swal.fire({
           icon: 'error',

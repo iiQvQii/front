@@ -41,19 +41,19 @@
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
         <h5>{{ $t('story_of_my_life') }}</h5>
-        <QuillEditor theme="snow" toolbar="minimal" :placeholder="$t('tell_me_someting_about_you')" />
+        <QuillEditor v-model="form.description" theme="snow" toolbar="minimal"
+          :placeholder="$t('tell_me_someting_about_you')" />
+
         <h5>{{ $t('photos') }}</h5>
-        <q-file color="primary" filled v-model="form.photos" :label="$t('upload_file')">
+        <sub>{{ '最多上傳5張' }}</sub>
+        <q-file color="primary" filled multiple v-model="form.photos" :label="$t('upload_file')">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
         <div class="q-pa-md">
           <q-carousel animated v-model="slide" arrows navigation infinite>
-            <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-            <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-            <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+            <q-carousel-slide v-for="(photo, i) in photos" :key="i" :name="i" :img-src="photo" />
           </q-carousel>
         </div>
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
@@ -91,6 +91,8 @@ const {
   district,
   address,
   zipcode,
+  description,
+  photos,
   role,
   isHelper
 } = storeToRefs(user)
@@ -114,8 +116,8 @@ const form = reactive({
   address: address.value,
   zipcode: zipcode.value,
   role: role.value,
-  photos: ''
-
+  description: description.value,
+  photos: []
 })
 
 const genderOptions = computed(() => {
