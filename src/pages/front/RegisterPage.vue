@@ -3,8 +3,8 @@
     <h1>{{ $t('register') }}</h1>
     <h1>{{ form.zipcode }}</h1>
     <div class="q-pa-md">
-      <q-form class="q-gutter-md" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
-        ref="registerForm" @submit.prevent="register" @reset="onReset">
+      <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" ref="registerForm"
+        @submit.prevent="register" @reset="onReset">
         <q-stepper v-model="step" ref="stepper" color="primary" animated alternative-labels style="min-width: 400px">
           <q-step :name="1" prefix="1" :title="$t('step1')" icon="settings" :done="step > 1">
             <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account" ref="account">

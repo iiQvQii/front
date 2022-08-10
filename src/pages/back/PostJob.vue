@@ -43,7 +43,7 @@
         <h5>{{ $t('story_of_my_life') }}</h5>
         <QuillEditor theme="snow" toolbar="minimal" :placeholder="$t('tell_me_someting_about_you')" />
         <h5>{{ $t('photos') }}</h5>
-        <q-file color="primary" filled v-model="form.photos" :label="$t('upload_file')">
+        <q-file color="primary" filled v-model="model" :label="$t('upload_file')">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
@@ -91,10 +91,10 @@ const {
   district,
   address,
   zipcode,
-  role,
   isHelper
 } = storeToRefs(user)
 
+const role = ref(null)
 const loading = ref(false)
 const idxZip = reactive({
   city: '',
@@ -112,9 +112,7 @@ const form = reactive({
   city: city.value,
   district: district.value,
   address: address.value,
-  zipcode: zipcode.value,
-  role: role.value,
-  photos: ''
+  zipcode: zipcode.value
 
 })
 
@@ -255,8 +253,8 @@ const submit = async () => {
     form.city = dataZh.counties[idxZip.city]
     form.district = dataZh.districts[idxZip.city][0][idxZip.district]
   }
-  user.editUserInfo(form)
-  loading.value = false
+  // user.editUserInfo(form)
+  // loading.value = false
 }
 
 </script>

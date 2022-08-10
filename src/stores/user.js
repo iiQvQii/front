@@ -95,8 +95,12 @@ export const useUserStore = defineStore('user', {
     },
     async editUserInfo (form) {
       try {
-        const { data } = await apiAuth.patch('/users/edit_info', form)
-        this.token = data.result.token
+        const fd = new FormData()
+        for (const key in form) {
+          if (key === 'photos') fd.append(key, form[key][0])
+          else fd.append(key, form[key])
+        }
+        const { data } = await apiAuth.patch('/users/edit_info', fd)
         this.account = data.result.account
         this.name = data.result.name
         this.Avatar = data.result.avatar || ''
