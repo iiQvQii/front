@@ -118,7 +118,6 @@ export const useUserStore = defineStore('user', {
             fd.append(key, form[key])
           }
         }
-        console.log(fd)
 
         const { data } = await apiAuth.patch('/users/edit_info', fd)
         this.account = data.result.account

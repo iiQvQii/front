@@ -105,6 +105,11 @@ const routes = [
         component: () => import('pages/back/JobPage.vue')
       },
       {
+        path: 'jobs_post',
+        name: 'jobs_post',
+        component: () => import('pages/back/PostJob.vue')
+      },
+      {
         path: 'application_status',
         name: 'application_status',
         component: () => import('pages/back/ApplicationStatus.vue')

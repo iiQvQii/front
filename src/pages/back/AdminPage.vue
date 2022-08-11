@@ -41,21 +41,28 @@
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
         <h5>{{ $t('story_of_my_life') }}</h5>
-        <QuillEditor v-model="form.description" theme="snow" toolbar="minimal"
+        <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('tell_me_someting_about_you')" />
 
-        <h5>{{ $t('photos') }}</h5>
-        <sub>{{ '最多上傳5張' }}</sub>
-        <q-file color="primary" filled multiple v-model="form.photos" :label="$t('upload_file')">
+        <h5 v-if="isHelper">{{ $t('photos') }}</h5>
+        <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
+        <sub>{{ '最多上傳3張' }}</sub>
+        {{ form.photos }}
+        <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
+          :label="$t('upload_file')">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <div class="q-pa-md">
-          <q-carousel animated v-model="slide" arrows navigation infinite>
-            <q-carousel-slide v-for="(photo, i) in photos" :key="i" :name="i" :img-src="photo" />
-          </q-carousel>
+        <!-- 渲染上傳圖片 -->
+        <div class="q-pa-md flex row">
+          <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
+            <q-img :src="photo" :fit="cover" :ratio="4 / 3" spinner-color="white" />
+          </div>
         </div>
+        <q-carousel animated v-model="slide" arrows navigation infinite>
+          <q-carousel-slide v-for="(photo, i) in photos" :key="i" :name="i" :img-src="photo" />
+        </q-carousel>
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>
@@ -69,6 +76,7 @@ import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { isEmail } from 'validator'
 import Swal from 'sweetalert2'
+import { apiAuth } from '../../boot/axios.js'
 import { useUserStore } from 'src/stores/user'
 import dataEn from '../../address/data-en.js'
 import dataZh from '../../address/data-zh.js'
@@ -94,6 +102,7 @@ const {
   description,
   photos,
   role,
+  isHost,
   isHelper
 } = storeToRefs(user)
 
@@ -117,7 +126,7 @@ const form = reactive({
   zipcode: zipcode.value,
   role: role.value,
   description: description.value,
-  photos: []
+  photos: ''
 })
 
 const genderOptions = computed(() => {
@@ -252,10 +261,25 @@ watch(() => form.district, () => {
 
 const submit = async () => {
   loading.value = true
+  console.log(form.photos)
   // 把地址存成中文
   if (locale.value === 'en-US') {
     form.city = dataZh.counties[idxZip.city]
     form.district = dataZh.districts[idxZip.city][0][idxZip.district]
+  }
+  try {
+    await apiAuth.post('/users/register', form)
+    await Swal.fire({
+      icon: 'success',
+      title: '成功',
+      text: '註冊成功'
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
+    })
   }
   user.editUserInfo(form)
   loading.value = false

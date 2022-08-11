@@ -2,17 +2,20 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 1200px">
       <q-card>
-        <q-tabs v-model="tab" dense class="text-grey" active-color="primary" indicator-color="primary" narrow-indicator>
+        <q-tabs v-model="tab" class="text-grey q-pa-sm" active-color="primary" indicator-color="primary"
+          narrow-indicator align="left">
           <q-tab name="isShown" label="已啟用" />
           <q-tab name="notShown" label="未啟用" />
+          <q-btn class="absolute q-ma-lg" flat round color="primary" icon="mdi-plus-circle-outline" style="right: 0;"
+            size="1rem" to="/admin/jobs_post" />
+
         </q-tabs>
 
         <q-separator />
-        <q-select rounded outlined v-model="model" :options="options" label="選擇工作" style="max-width: 200px" />
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="isShown">
-            <q-table title="房務小幫手" :rows="rows" :columns="columns" row-key="name" />
+            <q-table :rows="rows" :columns="columns" row-key="name" />
           </q-tab-panel>
 
           <q-tab-panel name="notShown">
@@ -20,6 +23,7 @@
           </q-tab-panel>
 
         </q-tab-panels>
+
       </q-card>
 
     </div>

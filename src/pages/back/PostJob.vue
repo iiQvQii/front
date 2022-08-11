@@ -1,20 +1,30 @@
 <template>
   <q-page class="flex flex-center column">
-    <h4>{{ $t('my_info') }}</h4>
+    <h4>{{ $t('post_jobs') }}</h4>
     <div class="q-pa-md" style="min-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
-        <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
-          :rules="rules.name">
+        <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
         </q-input>
-        {{ idxZip.city }}
-        {{ idxZip.district }}
-        <q-select v-if="isHelper" outlined v-model="form.gender" :options="genderOptions" :label="$t('gender') + '*'"
-          emit-value :display-value="$t(gender)" lazy-rules :rules="rules.required" />
-        <q-input v-if="isHelper" filled v-model="form.birth" mask="date" :rules="['date']" :label="$t('birthday')">
+        <!-- 時間job_time -->
+        <!-- {{ model }} -->
+        <!-- <q-input filled v-model="model" mask="date" :rules="['date']" :label="$t('job_time')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="birth">
+                <q-date v-model="model" range>
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input> -->
+        <q-input filled v-model="form.date_start" mask="date" :rules="['date']" :label="$t('job_time_start')">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="form.date_start">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -23,12 +33,21 @@
             </q-icon>
           </template>
         </q-input>
-        <q-input outlined v-model="form.tel" :label="$t('tel')" :rules="rules.tel">
+        <q-input filled v-model="form.date_end" mask="date" :rules="['date']" :label="$t('job_time_end')">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="form.date_end">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
-        <q-input outlined v-model="form.mobile" :label="$t('mobile') + '*'" :rules="rules.mobile">
-        </q-input>
-        <q-input outlined v-model="form.email" :label="$t('email') + '*'" :rules="rules.email">
-        </q-input>
+
+        <!-- 縣市 -->
         <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value lazy-rules
           :rules="rules.required">
         </q-select>
@@ -40,22 +59,32 @@
         <!-- 詳細地址 -->
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
-        <h5>{{ $t('story_of_my_life') }}</h5>
-        <QuillEditor theme="snow" toolbar="minimal" :placeholder="$t('tell_me_someting_about_you')" />
-        <h5>{{ $t('photos') }}</h5>
-        <q-file color="primary" filled v-model="model" :label="$t('upload_file')">
+        <!-- 福利job_welfare -->
+        <h5>{{ $t('job_welfare') }}</h5>
+
+        <div class="q-gutter-sm">
+          <q-option-group :options="welfareOptions" type="checkbox" v-model="form.welfare" />
+        </div>
+        <!-- 工作內容 -->
+        <h5>{{ $t('job_description') }}</h5>
+        <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
+          :placeholder="$t('tell_me_someting_about_you')" />
+        <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
+        <sub>{{ '最多上傳3張' }}</sub>
+        {{ form.photos }}
+        <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
+          :label="$t('upload_file')">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
         </q-file>
-        <div class="q-pa-md">
-          <q-carousel animated v-model="slide" arrows navigation infinite>
-            <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-            <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-            <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
-          </q-carousel>
+        <!-- 渲染上傳圖片 -->
+        <div class="q-pa-md flex row">
+          <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
+            <q-img :src="photo" :fit="cover" :ratio="4 / 3" spinner-color="white" />
+          </div>
         </div>
+
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>
@@ -81,86 +110,55 @@ const { t } = useI18n()
 const user = useUserStore()
 const slide = ref(1)
 const {
-  name,
-  gender,
-  birth,
-  tel,
-  mobile,
-  email,
   city,
   district,
   address,
   zipcode,
-  isHelper
+  role,
+  isHost
 } = storeToRefs(user)
 
-const role = ref(null)
 const loading = ref(false)
 const idxZip = reactive({
   city: '',
   district: ''
 })
 
+// const model = ref({ from: '2020/07/08', to: '2020/07/17' })
+
 const form = reactive({
-  name: name.value,
-  avatar: '',
-  gender: gender.value,
-  birth: birth.value,
-  tel: tel.value,
-  mobile: mobile.value,
-  email: email.value,
+  title: '',
+  category: '',
+  timeStart: '',
+  timeEnd: '',
+  // date: {},
+  welfare: [],
   city: city.value,
   district: district.value,
   address: address.value,
-  zipcode: zipcode.value
-
+  zipcode: zipcode.value,
+  role: role.value,
+  description: '',
+  photos: ''
 })
 
-const genderOptions = computed(() => {
+const welfareOptions = computed(() => {
   return [
-    { label: t('male'), value: 'male' },
-    { label: t('female'), value: 'female' },
-    { label: t('rahter_not_say'), value: 'rahter_not_say' }
-  ]
-})
+    { label: t('dorm_bed'), value: 'dorm_bed' },
+    { label: t('vehicle'), value: 'vehicle' },
+    { label: t('pocket_money'), value: 'pocket_money' },
+    { label: t('insurance'), value: 'insurance' },
+    { label: t('free_course'), value: 'female' },
+    { label: t('meal'), value: 'meal' }
 
-const options = computed(() => {
-  return [
-    { label: t('role_host'), value: 'role_host' },
-    { label: t('role_helper'), value: 'role_helper' }
   ]
 })
 
 // 驗證規則(還沒翻譯)
 const rules = reactive({
-  email: [
-    v => !!v || t('required'),
-    v => isEmail(v) || '信箱格式錯誤'
-  ],
-  account: [
-    v => !!v || t('required'),
-    v => (v.length >= 4 && v.length <= 20) || '帳號長度為 4 到 20 個字',
-    v => /^[a-zA-Z0-9]+$/.test(v) || '帳號只能由英數字組成'
-  ],
-  password: [
-    v => !!v || t('required'),
-    v => (v.length >= 4 && v.length <= 20) || '密碼長度為 4 到 20 個字',
-    v => /^[a-zA-Z0-9]+$/.test(v) || '密碼只能由英數字組成'
-  ],
-  confirmPassword: [
-    v => !!v || '請輸入確認密碼',
-    v => v === form.password || '密碼不一致'
-  ],
-  name: [
+  title: [
     v => !!v || t('required'),
     v => (v.length >= 2 && v.length <= 15) || '名稱長度為 2 到 15 個字'
-  ],
-  tel: [
-    v => v.length <= 10 || '含區碼長度為 9 或 10 個字，ex:02-1234-5678 或 03-1234-567'
-  ],
-  mobile: [
-    v => !!v || t('required'),
-    v => v.length === 10 || '請輸入10位手機'
   ],
   address: [
     v => !!v || t('required'),
@@ -246,15 +244,15 @@ watch(() => form.district, () => {
   }
 })
 
-const submit = async () => {
+const submit = () => {
   loading.value = true
   // 把地址存成中文
   if (locale.value === 'en-US') {
     form.city = dataZh.counties[idxZip.city]
     form.district = dataZh.districts[idxZip.city][0][idxZip.district]
   }
-  // user.editUserInfo(form)
-  // loading.value = false
+  user.editUserInfo(form)
+  loading.value = false
 }
 
 </script>
