@@ -6,25 +6,13 @@
         <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
         </q-input>
         <!-- 時間job_time -->
-        <!-- {{ model }} -->
-        <!-- <q-input filled v-model="model" mask="date" :rules="['date']" :label="$t('job_time')">
+        {{ form.date }}
+        <!-- <q-date v-model="form.date" range></q-date> -->
+        <q-input filled v-model="form.date" :rules="['date']" :label="$t('job_time')" @update:model-value="a">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="model" range>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input> -->
-        <q-input filled v-model="form.date_start" mask="date" :rules="['date']" :label="$t('job_time_start')">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date_start">
+                <q-date v-model="form.date" range>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -33,11 +21,24 @@
             </q-icon>
           </template>
         </q-input>
-        <q-input filled v-model="form.date_end" mask="date" :rules="['date']" :label="$t('job_time_end')">
+        <q-input filled v-model="form.date_start" mask="date" :rules="['date']" :label="$t('job_time_start')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date_end">
+                <q-date v-model="form.date_start" today-btn>
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+        <q-input filled v-model="form.date_end" mask="date" :rules="rules.date_end" :label="$t('job_time_end')">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="form.date_end" today-btn>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -61,17 +62,24 @@
           :rules="rules.address" />
         <!-- 福利job_welfare -->
         <h5>{{ $t('job_welfare') }}</h5>
-
         <div class="q-gutter-sm">
-          <q-option-group :options="welfareOptions" type="checkbox" v-model="form.welfare" />
+          <q-checkbox v-for="(welfareOption, i) in welfareOptions" :key="i" v-model="form.welfare"
+            :val="welfareOption.value" :label="welfareOption.label" />
         </div>
+        <!-- 工作時數 -->
+        <h5>{{ $t('job_week_hours') }}</h5>
+        <q-input v-model.number="form.week_hours" type="number" filled :rules="rules.required">
+          <template v-slot:append>
+            <p style="font-size: 1rem;margin: 0;">{{ $t('hours_a_week') }}</p>
+          </template>
+        </q-input>
+
         <!-- 工作內容 -->
         <h5>{{ $t('job_description') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
-          :placeholder="$t('tell_me_someting_about_you')" />
+          :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
         <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
         <sub>{{ '最多上傳3張' }}</sub>
-        {{ form.photos }}
         <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
           :label="$t('upload_file')">
           <template v-slot:prepend>
@@ -96,19 +104,19 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { isEmail } from 'validator'
 import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
 import dataEn from '../../address/data-en.js'
 import dataZh from '../../address/data-zh.js'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { date } from 'quasar'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
 
 const user = useUserStore()
-const slide = ref(1)
+
 const {
   city,
   district,
@@ -119,19 +127,20 @@ const {
 } = storeToRefs(user)
 
 const loading = ref(false)
+const valid = ref(true)
 const idxZip = reactive({
   city: '',
   district: ''
 })
 
-// const model = ref({ from: '2020/07/08', to: '2020/07/17' })
+const date1 = ref({})
 
 const form = reactive({
   title: '',
   category: '',
-  timeStart: '',
-  timeEnd: '',
-  // date: {},
+  date_start: '',
+  date_end: '',
+  date: { from: '2020/07/16', to: '2020/07/17' },
   welfare: [],
   city: city.value,
   district: district.value,
@@ -139,7 +148,8 @@ const form = reactive({
   zipcode: zipcode.value,
   role: role.value,
   description: '',
-  photos: ''
+  photos: '',
+  week_hours: 10
 })
 
 const welfareOptions = computed(() => {
@@ -148,17 +158,38 @@ const welfareOptions = computed(() => {
     { label: t('vehicle'), value: 'vehicle' },
     { label: t('pocket_money'), value: 'pocket_money' },
     { label: t('insurance'), value: 'insurance' },
-    { label: t('free_course'), value: 'female' },
+    { label: t('free_course'), value: 'free_course' },
     { label: t('meal'), value: 'meal' }
 
   ]
 })
+// new Date('2022/08/30').valueOf()  => 1661788800000
+// new Date(1661788800000).getFullYear() => 2022
 
 // 驗證規則(還沒翻譯)
+watch(() => form.date_end, () => {
+  const dateStart = new Date(form.date_start).valueOf()
+  const dateEnd = new Date(form.date_end).valueOf()
+
+  if (dateEnd < dateStart) {
+    valid.value = false
+  } else {
+    valid.value = true
+  }
+})
+
 const rules = reactive({
   title: [
     v => !!v || t('required'),
     v => (v.length >= 2 && v.length <= 15) || '名稱長度為 2 到 15 個字'
+  ],
+  date_start: [
+    v => !!v || t('required')
+  ],
+  date_end: [
+    v => !!v || t('required'),
+    v => date.isValid(v) || '日期格式錯誤',
+    v => valid.value || '結束日期不得小於開始日'
   ],
   address: [
     v => !!v || t('required'),

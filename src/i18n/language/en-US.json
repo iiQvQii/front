@@ -445,5 +445,9 @@
   "pocket_money": "Pocket Money",
   "insurance": "Insurance",
   "free_course": "Free Course",
-  "meal": "Meal"
+  "meal": "Meal",
+  "job_time_start": "Start from",
+  "job_time_end": "To",
+  "job_week_hours": "Week Hours",
+  "hours_a_week": "hours/week"
 }
