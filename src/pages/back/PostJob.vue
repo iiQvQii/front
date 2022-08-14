@@ -8,7 +8,8 @@
         <!-- 時間job_time -->
         {{ form.date }}
         <!-- <q-date v-model="form.date" range></q-date> -->
-        <q-input filled v-model="form.date" :rules="['date']" :label="$t('job_time')" @update:model-value="a">
+        <q-input filled v-model="a" :rules="rules.required" :label="$t('job_time')"
+          :value="[['2020/05/25', '2020/05/27']]">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -133,14 +134,12 @@ const idxZip = reactive({
   district: ''
 })
 
-const date1 = ref({})
-
 const form = reactive({
   title: '',
   category: '',
   date_start: '',
   date_end: '',
-  date: { from: '2020/07/16', to: '2020/07/17' },
+  date: {},
   welfare: [],
   city: city.value,
   district: district.value,
@@ -150,6 +149,13 @@ const form = reactive({
   description: '',
   photos: '',
   week_hours: 10
+})
+// const a = computed(() => {
+//   return form.date.from + '~' + form.date.to
+// })
+const a = ref()
+watch(() => form.date, () => {
+  a.value = form.date.from + '~' + form.date.to
 })
 
 const welfareOptions = computed(() => {

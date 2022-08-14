@@ -440,7 +440,7 @@
   "job_published_time": "Published Time",
   "job_question": "Ask the helpers for a question",
   "job_isShown": "Show",
-  "dorm_bed": "Dorm Bed",
+  "dorm_bed": "Accommodation",
   "vehicle": "Vehicle",
   "pocket_money": "Pocket Money",
   "insurance": "Insurance",
@@ -448,6 +448,7 @@
   "meal": "Meal",
   "job_time_start": "Start from",
   "job_time_end": "To",
+  "write_down_what_the_helpers_need_to_do": "Write down what work is required",
   "job_week_hours": "Week Hours",
-  "hours_a_week": "hours/week"
+  "hours_a_week": "hrs./wk"
 }

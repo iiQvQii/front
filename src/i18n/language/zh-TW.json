@@ -42,7 +42,7 @@
   "female": "女",
   "rahter_not_say": "不願透露",
   "required": "必填",
-  "null": "請詳述工作內容、上下班時間...等等",
+  "null": "帳號長度為 4 到 20 個字",
   "login": "登入",
   "not_yet_registered": "未註冊帳戶？",
   "create_account": "註冊 Workweee",
@@ -448,6 +448,7 @@
   "meal": "供餐",
   "job_time_start": "開始時間",
   "job_time_end": "結束時間",
+  "write_down_what_the_helpers_need_to_do": "請詳述工作內容、上下班時間...等等",
   "job_week_hours": "工作周時數",
   "hours_a_week": "小時/週"
 }
