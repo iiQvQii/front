@@ -292,7 +292,7 @@ const submit = async () => {
     Swal.fire({
       icon: 'success',
       title: '成功',
-      text: '註冊成功'
+      text: '新增成功'
     })
   } catch (error) {
     Swal.fire({
