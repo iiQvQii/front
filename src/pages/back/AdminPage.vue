@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('my_info') }}</h4>
-    <div class="q-pa-md" style="min-width: 500px">
+    <div class="q-pa-md" style="max-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
           :rules="rules.name">
@@ -40,16 +40,17 @@
         <!-- 詳細地址 -->
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
+
+        <!-- 關於我的故事 -->
         <h5>{{ $t('story_of_my_life') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('tell_me_someting_about_you')" />
 
         <h5 v-if="isHelper">{{ $t('photos') }}</h5>
         <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
-        <sub>{{ '最多上傳3張' }}</sub>
-        {{ form.photos }}
+
         <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
-          :label="$t('upload_file')">
+          :label="$t('upload_file')" hint="最多上傳3張">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
@@ -60,9 +61,10 @@
             <q-img :src="photo" :fit="cover" :ratio="4 / 3" spinner-color="white" />
           </div>
         </div>
-        <q-carousel animated v-model="slide" arrows navigation infinite>
+        {{ photos }}
+        <!-- <q-carousel animated v-model="slide" arrows navigation infinite>
           <q-carousel-slide v-for="(photo, i) in photos" :key="i" :name="i" :img-src="photo" />
-        </q-carousel>
+        </q-carousel> -->
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>
@@ -87,7 +89,7 @@ const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
 
 const user = useUserStore()
-const slide = ref(1)
+
 const {
   name,
   gender,
@@ -126,7 +128,11 @@ const form = reactive({
   zipcode: zipcode.value,
   role: role.value,
   description: description.value,
-  photos: ''
+
+  photo_1: '',
+  photo_2: '',
+  photo_3: '',
+  photos: []
 })
 
 const genderOptions = computed(() => {
@@ -259,7 +265,7 @@ watch(() => form.district, () => {
   }
 })
 
-const submit = async () => {
+const submit = () => {
   loading.value = true
   console.log(form.photos)
   // 把地址存成中文
@@ -267,20 +273,7 @@ const submit = async () => {
     form.city = dataZh.counties[idxZip.city]
     form.district = dataZh.districts[idxZip.city][0][idxZip.district]
   }
-  try {
-    await apiAuth.post('/users/register', form)
-    await Swal.fire({
-      icon: 'success',
-      title: '成功',
-      text: '註冊成功'
-    })
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
-    })
-  }
+
   user.editUserInfo(form)
   loading.value = false
 }

@@ -1,45 +1,19 @@
 <template>
-  <q-page class="flex flex-center column">
+  <q-page id="post_jobs" class="flex flex-center column">
     <h4>{{ $t('post_jobs') }}</h4>
     <div class="q-pa-md" style="min-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
+        <q-toggle v-model="form.is_shown" :label="form.is_shown ? $t('is_shown') : $t('is_not_shown')" />
         <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
         </q-input>
         <!-- 時間job_time -->
         {{ form.date }}
-        <!-- <q-date v-model="form.date" range></q-date> -->
         <q-input filled v-model="a" :rules="rules.required" :label="$t('job_time')"
           :value="[['2020/05/25', '2020/05/27']]">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                 <q-date v-model="form.date" range>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-        <q-input filled v-model="form.date_start" mask="date" :rules="['date']" :label="$t('job_time_start')">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date_start" today-btn>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-        <q-input filled v-model="form.date_end" mask="date" :rules="rules.date_end" :label="$t('job_time_end')">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date_end" today-btn>
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -62,6 +36,7 @@
         <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
         <!-- 福利job_welfare -->
+        {{ form.welfare }}
         <h5>{{ $t('job_welfare') }}</h5>
         <div class="q-gutter-sm">
           <q-checkbox v-for="(welfareOption, i) in welfareOptions" :key="i" v-model="form.welfare"
@@ -79,10 +54,11 @@
         <h5>{{ $t('job_description') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
+
+        <!-- 照片 -->
         <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
-        <sub>{{ '最多上傳3張' }}</sub>
         <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
-          :label="$t('upload_file')">
+          :label="$t('upload_file')" hint="最多上傳3張">
           <template v-slot:prepend>
             <q-icon name="cloud_upload" />
           </template>
@@ -93,7 +69,9 @@
             <q-img :src="photo" :fit="cover" :ratio="4 / 3" spinner-color="white" />
           </div>
         </div>
-
+        <!-- 提問小幫手 -->
+        <h5>{{ $t('job_question') }}</h5>
+        <q-input v-model="form.question" filled type="textarea" :hint="$t('job_question_hint')" />
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>
@@ -106,12 +84,12 @@ import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { useUserStore } from 'src/stores/user'
 import dataEn from '../../address/data-en.js'
 import dataZh from '../../address/data-zh.js'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { date } from 'quasar'
+import { apiAuth } from '../../boot/axios.js'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
@@ -135,11 +113,10 @@ const idxZip = reactive({
 })
 
 const form = reactive({
-  title: '',
-  category: '',
-  date_start: '',
-  date_end: '',
+  title: '第一份工作',
   date: {},
+  date_from: '',
+  date_to: '',
   welfare: [],
   city: city.value,
   district: district.value,
@@ -148,7 +125,9 @@ const form = reactive({
   role: role.value,
   description: '',
   photos: '',
-  week_hours: 10
+  question: '1. 請問你為什麼想要來',
+  week_hours: 10,
+  is_shown: true
 })
 // const a = computed(() => {
 //   return form.date.from + '~' + form.date.to
@@ -160,7 +139,7 @@ watch(() => form.date, () => {
 
 const welfareOptions = computed(() => {
   return [
-    { label: t('dorm_bed'), value: 'dorm_bed' },
+    { label: t('accommodation'), value: 'accommodation' },
     { label: t('vehicle'), value: 'vehicle' },
     { label: t('pocket_money'), value: 'pocket_money' },
     { label: t('insurance'), value: 'insurance' },
@@ -172,31 +151,31 @@ const welfareOptions = computed(() => {
 // new Date('2022/08/30').valueOf()  => 1661788800000
 // new Date(1661788800000).getFullYear() => 2022
 
+// watch(() => form.date_end, () => {
+//   const dateStart = new Date(form.date_start).valueOf()
+//   const dateEnd = new Date(form.date_end).valueOf()
+
+//   if (dateEnd < dateStart) {
+//     valid.value = false
+//   } else {
+//     valid.value = true
+//   }
+// })
+
 // 驗證規則(還沒翻譯)
-watch(() => form.date_end, () => {
-  const dateStart = new Date(form.date_start).valueOf()
-  const dateEnd = new Date(form.date_end).valueOf()
-
-  if (dateEnd < dateStart) {
-    valid.value = false
-  } else {
-    valid.value = true
-  }
-})
-
 const rules = reactive({
   title: [
     v => !!v || t('required'),
     v => (v.length >= 2 && v.length <= 15) || '名稱長度為 2 到 15 個字'
   ],
-  date_start: [
-    v => !!v || t('required')
-  ],
-  date_end: [
-    v => !!v || t('required'),
-    v => date.isValid(v) || '日期格式錯誤',
-    v => valid.value || '結束日期不得小於開始日'
-  ],
+  // date_start: [
+  //   v => !!v || t('required')
+  // ],
+  // date_end: [
+  //   v => !!v || t('required'),
+  //   v => date.isValid(v) || '日期格式錯誤',
+  //   v => valid.value || '結束日期不得小於開始日'
+  // ],
   address: [
     v => !!v || t('required'),
     v => (v.length >= 5) || '請填寫正確詳細地址資訊'
@@ -281,14 +260,47 @@ watch(() => form.district, () => {
   }
 })
 
-const submit = () => {
+const submit = async () => {
+  console.log('123')
   loading.value = true
-  // 把地址存成中文
-  if (locale.value === 'en-US') {
-    form.city = dataZh.counties[idxZip.city]
-    form.district = dataZh.districts[idxZip.city][0][idxZip.district]
+  try {
+    form.date_from = form.date.from
+    form.date_to = form.date.to
+    console.log(form.date_from)
+    console.log(form.date_to)
+    // 把地址存成中文
+    if (locale.value === 'en-US') {
+      form.city = dataZh.counties[idxZip.city]
+      form.district = dataZh.districts[idxZip.city][0][idxZip.district]
+    }
+    const fd = new FormData()
+    for (const key in form) {
+      // console.log(form.photos)
+      // console.log(key)
+      if (key === 'photos') {
+        for (let i = 0; i < form[key].length; i++) {
+          fd.append(key, form[key][i])
+        }
+        console.log(form[key])
+      } else {
+        fd.append(key, form[key])
+      }
+    }
+    console.log(form)
+    console.log(fd)
+    await apiAuth.post('/jobs', fd)
+    Swal.fire({
+      icon: 'success',
+      title: '成功',
+      text: '註冊成功'
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
+    })
   }
-  user.editUserInfo(form)
   loading.value = false
 }
 

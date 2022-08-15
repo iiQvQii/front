@@ -440,7 +440,7 @@
   "job_published_time": "Published Time",
   "job_question": "Ask the helpers for a question",
   "job_isShown": "Show",
-  "dorm_bed": "Accommodation",
+  "accommodation": "Accommodation",
   "vehicle": "Vehicle",
   "pocket_money": "Pocket Money",
   "insurance": "Insurance",
@@ -450,5 +450,7 @@
   "job_time_end": "To",
   "write_down_what_the_helpers_need_to_do": "Write down what work is required",
   "job_week_hours": "Week Hours",
-  "hours_a_week": "hrs./wk"
+  "hours_a_week": "hrs./wk",
+  "job_question_hint": "These questions may help you know more about the helper.",
+  "max_upload": "Limited to 3 photos, maximum upload size 5 MB/each photo"
 }

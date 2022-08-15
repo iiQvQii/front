@@ -440,7 +440,7 @@
   "job_published_time": "發布時間",
   "job_question": "提問小幫手",
   "job_isShown": "顯示刊登",
-  "dorm_bed": "住宿床位",
+  "accommodation": "住宿床位",
   "vehicle": "交通工具",
   "pocket_money": "零用金",
   "insurance": "投保保險",
@@ -448,7 +448,9 @@
   "meal": "供餐",
   "job_time_start": "開始時間",
   "job_time_end": "結束時間",
-  "write_down_what_the_helpers_need_to_do": "請詳述工作內容、上下班時間...等等",
+  "write_down_what_the_helpers_need_to_do": "請詳述工作內容、上下班時間...等等。",
   "job_week_hours": "工作周時數",
-  "hours_a_week": "小時/週"
+  "hours_a_week": "小時/週",
+  "job_question_hint": "向應徵的小幫手提問可以增加徵選效率。",
+  "max_upload": "最多上傳3張，大小上限5MB/張。"
 }
