@@ -24,13 +24,15 @@
               <div class="text-caption text-grey">
                 {{ job.description }}
               </div>
+
               <div class="text-caption text-grey">
-                <q-chip v-for="(welfares, i) in job.welfare" :key="i">{{ $t(welfares) }}</q-chip>
+                <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".8rem">{{ $t(welfares) }}
+                </q-chip>
               </div>
             </q-card-section>
 
             <q-card-actions>
-              <q-btn flat color="primary" :label="$t('more')" />
+              <q-btn class="full-width" flat color="primary" :label="$t('more')" :to="('/jobs/' + job._id)" />
             </q-card-actions>
           </q-card>
         </div>

@@ -12,6 +12,9 @@
       text-decoration: none;
       color: $dark;
       font-size: 1rem;
+      &:active{
+      color: red;
+      }
     }
   }
 }
