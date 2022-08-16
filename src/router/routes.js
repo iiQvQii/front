@@ -101,7 +101,7 @@ const routes = [
       },
       {
         path: 'jobs',
-        name: 'jobs',
+        name: 'admin/jobs',
         component: () => import('pages/back/JobPage.vue')
       },
       {

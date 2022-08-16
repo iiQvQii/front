@@ -4,8 +4,8 @@
       <q-card>
         <q-tabs v-model="tab" class="text-grey q-pa-sm" active-color="primary" indicator-color="primary"
           narrow-indicator align="left">
-          <q-tab name="isShown" label="已啟用" />
-          <q-tab name="notShown" label="未啟用" />
+          <q-tab name="isShown" :label="$t('is_shown')" />
+          <q-tab name="notShown" :label="$t('is_not_shown')" />
           <q-btn class="absolute q-ma-lg" flat round color="primary" icon="mdi-plus-circle-outline" style="right: 0;"
             size="1rem" to="/admin/jobs_post" />
 
@@ -15,7 +15,38 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="isShown">
-            <q-table :rows="rows" :columns="columns" row-key="name" />
+            <q-table :rows="jobs" :columns="columns" row-key="name" :loading="loading">
+              <template v-slot:body-cell="props">
+                <!-- <pre>{{ props.row }}</pre> -->
+                <q-td :props="props">
+                  {{ props.value }}
+                </q-td>
+              </template>
+              <!-- photos 民宿照片 -->
+              <template v-slot:body-cell-photos="props">
+                <q-td :props="props">
+                  <div>
+                    <q-img :src="props.value" spinner-color="white" style="height: 140px; min-width: 150px" />
+                  </div>
+                </q-td>
+              </template>
+              <!-- edit 編輯 -->
+              <template v-slot:body-cell-edit="props">
+                <q-td :props="props">
+                  <q-btn round flat color="primary" icon="edit" />
+                </q-td>
+              </template>
+              <!-- delete 刪除 -->
+              <template v-slot:body-cell-delete="props">
+                <q-td :props="props">
+                  <q-btn round flat color="primary" icon="delete" />
+                </q-td>
+              </template>
+              <!-- loading -->
+              <template v-slot:loading>
+                <q-inner-loading showing color="primary" />
+              </template>
+            </q-table>
           </q-tab-panel>
 
           <q-tab-panel name="notShown">
@@ -31,125 +62,82 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { isEmail } from 'validator'
 import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { apiAuth } from '../../boot/axios.js'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
 
 const tab = ref('isShown')
-
+const loading = ref(false)
+const jobs = reactive([])
 // table head -------------------------------------
-const columns = reactive([
-  {
-    name: 'name',
-    required: true,
-    label: '工作名稱',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  {
-    name: 'calories',
-    align: 'center',
-    label: '工作時間',
-    field: 'calories',
-    sortable: true
-  },
-  {
-    name: 'fat',
-    label: '地點',
-    field: 'fat',
-    sortable: true
-  },
-  {
-    name: 'carbs',
-    label: '已報名人數',
-    field: 'carbs'
-  },
-  {
-    name: 'edit',
-    label: '編輯',
-    field: 'edit'
-  },
-  {
-    name: 'delete',
-    label: '刪除',
-    field: 'delete'
-  }
-])
+const columns = computed(() => {
+  return [
+    {
+      name: 'photos',
+      label: '',
+      align: 'center',
+      field: row => row.photos[0]
+    },
+    {
+      name: 'title',
+      required: true,
+      label: t('job_title'),
+      align: 'center',
+      field: row => row.title,
+      format: val => `${val}`,
+      sortable: true
+    },
+    {
+      name: 'job_time',
+      align: 'center',
+      label: t('job_time'),
+      field: row => row.date_from + '~' + row.date_to,
+      sortable: true
+    },
+    {
+      name: 'place',
+      align: 'center',
+      label: t('job_place'),
+      field: row => row.city + row.district
+    },
+    {
+      name: 'edit',
+      label: t('edit')
+    },
+    {
+      name: 'delete',
+      label: t('delete')
+    }
+  ]
+})
 
-// 內容 -------------------------------
-const rows = reactive([
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    edit: 4.0,
-    delete: 87
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    edit: 4.3,
-    delete: 129
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    edit: 6.0,
-    delete: 337
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    edit: 4.3,
-    delete: 413
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    edit: 3.9,
-    delete: 327
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    edit: 0.0,
-    delete: 50
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    edit: 0,
-    delete: 38
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    edit: 6.5,
-    delete: 562
+const getMyJob = async () => {
+  loading.value = true
+  try {
+    const { data } = await apiAuth.get('/jobs/my_job')
+    jobs.push(...data.result)
+    // 處理 Date-8 小
+    jobs.map(v => {
+      v.date_from = new Date(v.date_from).toLocaleDateString()
+      v.date_to = new Date(v.date_to).toLocaleDateString()
+      return v
+    })
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+    })
   }
-])
+  loading.value = false
+}
+getMyJob()
+
 </script>

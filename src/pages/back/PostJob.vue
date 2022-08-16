@@ -124,7 +124,7 @@ const form = reactive({
   zipcode: zipcode.value,
   role: role.value,
   description: '',
-  photos: '',
+  photos: [],
   question: '1. 請問你為什麼想要來',
   week_hours: 10,
   is_shown: true

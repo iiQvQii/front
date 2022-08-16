@@ -31,7 +31,7 @@
                   {{ $t('translate') }}
                 </q-item-label>
                 <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
-                  :value="localeOption.value" v-model="locale" @click="locale = localeOptions[i].value"
+                  :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
                   :active="locale === localeOptions[i].value">
                   <q-item-section>
                     {{ localeOption.label }}
@@ -79,12 +79,16 @@
   </q-layout>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
 
 import { useI18n } from 'vue-i18n'
+// 登入
+const user = useUserStore()
+const { logout } = user
+const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
 // i18n語言
 const { locale } = useI18n({ useScope: 'global' })
@@ -92,14 +96,11 @@ const localeOptions = reactive([
   { value: 'en-US', label: 'English' },
   { value: 'zh-TW', label: '繁體中文' }
 ])
-locale.value = useQuasar().lang.getLocale()
+locale.value = lang.value || useQuasar().lang.getLocale()
+lang.value = locale.value
 
-// 登入
-const user = useUserStore()
-const { isLogin, isAdmin, isHost, isHelper, avatar } = storeToRefs(user)
-const { logout } = user
+watch(() => locale.value, () => {
+  lang.value = locale.value
+})
 
 </script>
-
-<style scoped>
-</style>

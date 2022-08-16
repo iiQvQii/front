@@ -429,8 +429,8 @@
   "photos": "Photos",
   "tell_me_someting_about_you": "Tell me something about you!",
   "upload_file": "Upload files",
-  "is_shown": "",
-  "is_not_shown": "",
+  "is_shown": "Active",
+  "is_not_shown": "Deactivated",
   "save": "Save",
   "job_title": "Job Title",
   "job_category": "Job Category",
@@ -452,5 +452,7 @@
   "job_week_hours": "Week Hours",
   "hours_a_week": "hrs./wk",
   "job_question_hint": "These questions may help you know more about the helper.",
-  "max_upload": "Limited to 3 photos, maximum upload size 5 MB/each photo"
+  "max_upload": "Limited to 3 photos, maximum upload size 5 MB/each photo",
+  "delete": "Delete",
+  "edit": "Edit"
 }

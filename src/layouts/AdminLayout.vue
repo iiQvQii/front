@@ -14,10 +14,10 @@
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
-                  {{ $t('translate') }}
+                  {{ t('translate') }}
                 </q-item-label>
                 <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
-                  :value="localeOption.value" v-model="locale" @click="locale = localeOptions[i].value"
+                  :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
                   :active="locale === localeOptions[i].value">
                   <q-item-section>
                     {{ localeOption.label }}
@@ -52,7 +52,7 @@
 
       <q-list>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
       </q-list>
     </q-drawer>
 
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import EssentialLink from 'components/EssentialLink.vue'
 import { storeToRefs } from 'pinia'
@@ -72,6 +72,7 @@ import { useUserStore } from '../stores/user'
 
 import { useI18n } from 'vue-i18n'
 const user = useUserStore()
+// actions
 const { logout } = user
 const {
   name,
@@ -80,7 +81,8 @@ const {
   isAdmin,
   isHost,
   isHelper,
-  avatar
+  avatar,
+  lang
 } = storeToRefs(user)
 
 const { t } = useI18n()
@@ -91,21 +93,22 @@ const localeOptions = reactive([
   { value: 'zh-TW', label: '繁體中文' }
 ])
 
-locale.value = useQuasar().lang.getLocale()
+locale.value = lang.value || useQuasar().lang.getLocale()
+lang.value = locale.value
 
 const linksList = reactive([
   {
-    title: t('my_info'),
+    title: 'my_info',
     icon: 'mdi-face-man',
     to: '/admin'
   },
   {
-    title: t('application_status'),
+    title: 'application_status',
     icon: 'mdi-list-status',
     to: '/admin/application_status'
   },
   {
-    title: t('post_jobs'),
+    title: 'post_jobs',
     icon: 'mdi-note-plus',
     to: '/admin/jobs'
   }
@@ -116,4 +119,9 @@ const essentialLinks = ref(linksList)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+watch(() => locale.value, () => {
+  lang.value = locale.value
+})
+
 </script>

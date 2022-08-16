@@ -452,5 +452,7 @@
   "job_week_hours": "工作周時數",
   "hours_a_week": "小時/週",
   "job_question_hint": "向應徵的小幫手提問可以增加徵選效率。",
-  "max_upload": "最多上傳3張，大小上限5MB/張。"
+  "max_upload": "最多上傳3張，大小上限5MB/張。",
+  "delete": "刪除",
+  "edit": "編輯"
 }

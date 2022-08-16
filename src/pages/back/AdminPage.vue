@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('my_info') }}</h4>
-    <div class="q-pa-md" style="max-width: 500px">
+    <div class="q-pa-md" style="min-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
           :rules="rules.name">
@@ -105,7 +105,8 @@ const {
   photos,
   role,
   isHost,
-  isHelper
+  isHelper,
+  lang
 } = storeToRefs(user)
 
 const loading = ref(false)
@@ -204,9 +205,17 @@ const districtOptions = computed(() => {
     })
     return dataZh.districts[idxZh][0]
   } else if (locale.value === 'en-US' && form.city) {
+    console.log(form.city)
     const idxEn = dataEn.counties.findIndex(v => {
       return v === form.city
     })
+    if (idxEn === -1) {
+      const idxEn = dataZh.counties.findIndex(v => {
+        return v === form.city
+      })
+      return dataEn.districts[idxEn][0]
+    }
+    // console.log(idxEn)
     return dataEn.districts[idxEn][0]
   } else {
     return null

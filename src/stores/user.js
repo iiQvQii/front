@@ -19,7 +19,8 @@ export const useUserStore = defineStore('user', {
     photos: '',
     gender: '',
     birth: '',
-    role: ''
+    role: '',
+    lang: ''
 
   }),
   getters: {
