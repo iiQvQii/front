@@ -62,9 +62,7 @@
           </div>
         </div>
         {{ photos }}
-        <!-- <q-carousel animated v-model="slide" arrows navigation infinite>
-          <q-carousel-slide v-for="(photo, i) in photos" :key="i" :name="i" :img-src="photo" />
-        </q-carousel> -->
+
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
     </div>

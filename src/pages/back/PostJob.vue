@@ -166,7 +166,7 @@ const welfareOptions = computed(() => {
 const rules = reactive({
   title: [
     v => !!v || t('required'),
-    v => (v.length >= 2 && v.length <= 15) || '名稱長度為 2 到 15 個字'
+    v => (v.length >= 2 && v.length <= 30) || '名稱長度為 2 到 30 個字'
   ],
   // date_start: [
   //   v => !!v || t('required')

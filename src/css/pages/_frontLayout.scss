@@ -1,5 +1,6 @@
 #toolbar{
   color: $dark;
+  // background: transparent;
   ul{
     display: inline-block;
     margin: 0;
@@ -10,6 +11,7 @@
     padding: 0 1rem;
     a {
       text-decoration: none;
+      font-weight: 600;
       color: $dark;
       font-size: 1rem;
       &:active{

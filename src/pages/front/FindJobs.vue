@@ -1,15 +1,16 @@
 <template>
   <q-page-container>
-    <q-page padding class="container">
-      <div class="q-col-gutter-md row items-start">
+    <q-page class="q-mx-auto container">
+      <div class="row q-pb-md">
         <!-- 麵包屑 -->
         <q-breadcrumbs class="col-12">
           <q-breadcrumbs-el exact :label="$t('home')" to="/" />
           <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
-          <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
         </q-breadcrumbs>
-        <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-3">
-          <q-card class="my-card" flat bordered>
+      </div>
+      <div class="q-col-gutter-md row">
+        <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-4">
+          <q-card class="full-height" flat bordered>
             <q-img :src="job.photos[0]" :ratio="4 / 3" />
 
             <q-card-section>
@@ -18,16 +19,15 @@
                 <q-icon name="pin_drop" size="1.1rem" />
                 {{ job.city + ' ' + job.district }}
               </div>
-              <div class="text-h5 q-mt-sm q-mb-xs">
+              <div class="text-h5 q-mt-sm q-mb-xs title">
                 {{ job.title }}
               </div>
-              <div class="text-caption text-grey">
-                {{ job.description }}
-              </div>
-
-              <div class="text-caption text-grey">
+              <div>
                 <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".8rem">{{ $t(welfares) }}
                 </q-chip>
+              </div>
+              <div class="description text-caption text-grey">
+                {{ job.description }}
               </div>
             </q-card-section>
 
@@ -37,7 +37,6 @@
           </q-card>
         </div>
       </div>
-
     </q-page>
   </q-page-container>
 </template>
@@ -51,14 +50,14 @@ const getAllJob = async () => {
   try {
     const { data } = await apiAuth.get('/jobs')
     jobs.push(...data.result)
-    // 處理 Date-8 小
+    // 處理 Date-8 小 福利陣列 描述去tag
     jobs.map(v => {
       v.date_from = new Date(v.date_from).toLocaleDateString()
       v.date_to = new Date(v.date_to).toLocaleDateString()
-      v.welfare = v.welfare[0] ? v.welfare[0].split(',') : ''
+      v.welfare = v.welfare[0]?.split(',')
+      v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
       return v
     })
-    console.log(jobs)
   } catch (error) {
     console.log(error)
     Swal.fire({
@@ -69,4 +68,6 @@ const getAllJob = async () => {
   }
 }
 getAllJob()
+
+// const description = getElementById('')
 </script>

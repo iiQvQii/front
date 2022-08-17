@@ -1,8 +1,8 @@
 <template>
   <q-layout view="hHh Lpr lff">
-    <q-header reveal elevated class="bg-white text-white">
+    <q-header reveal class="bg-white text-dark">
       <q-toolbar id="toolbar">
-        <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
+        <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="white" @click="toggleLeftDrawer" />
         <q-toolbar-title>
           <q-btn to="/" flat style="width: 200px;">
             <img src="../assets/logo.svg" style="width: 300px;">

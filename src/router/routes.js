@@ -3,13 +3,22 @@ import IndexPage from 'pages/front/IndexPage.vue'
 
 const routes = [
   {
+    path: '/home',
+    component: IndexPage,
+    meta: {
+      title: 'Workweee我耶 | Home',
+      login: false,
+      admin: false
+    }
+  },
+  {
     path: '/',
     component: MainLayout,
     children: [
       {
         path: '',
-        name: 'home',
-        component: IndexPage,
+        name: 'front_home',
+        component: () => import('pages/front/IndexPage1.vue'),
         meta: {
           title: 'Workweee我耶 | Home',
           login: false,
@@ -106,7 +115,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'home',
+        name: 'admin_home',
         component: () => import('pages/back/AdminPage.vue')
       },
       {

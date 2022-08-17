@@ -1,0 +1,13 @@
+.q-carousel {
+  position: relative;
+}
+.bg{
+  height: 85vh;
+  width: 100%;
+  background: $accent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .9;
+  // z-index: 100;
+}
