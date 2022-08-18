@@ -1,13 +1,11 @@
 <template>
-  <q-layout view="hHh Lpr lff" id="main_layout">
-    <q-header reveal class="bg-white text-dark">
-      <q-toolbar class="toolbar">
+  <q-layout view="hHh Lpr lff" id="home_layout">
+    <q-header reveal class="text-white">
+      <q-toolbar>
         <!-- 漢堡 --------------------------------------->
         <q-toolbar-title shrink>
-          <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
-          <h1 class="logo">
-            <a href="#">Workweee我耶</a>
-          </h1>
+          <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="white" @click="toggleLeftDrawer" />
+
         </q-toolbar-title>
         <q-tabs class="gt-lg" shrink stretch align="left">
           <q-route-tab to="/about_us" name="about_us" :label="$t('about_us')" />
@@ -70,8 +68,16 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-
-    <q-page-container>
+    <q-footer bordered>
+      <q-toolbar>
+        <q-toolbar-title>Footer</q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+    <!-- rwd drawer --------------------------------->
+    <q-drawer v-model="leftDrawerOpen" :width="280" :breakpoint="700" bordered class="bg-grey-3">
+      <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
+    </q-drawer>
+    <q-page-container class="home_page_container">
       <router-view />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn round color="primary" icon="arrow_forward" class="rotate-270" />
@@ -81,7 +87,7 @@
   </q-layout>
 </template>
 <script setup>
-import { reactive, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
@@ -91,6 +97,11 @@ import { useI18n } from 'vue-i18n'
 const user = useUserStore()
 const { logout } = user
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
+
+const leftDrawerOpen = ref(false)
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
 
 // i18n語言
 const { locale } = useI18n({ useScope: 'global' })

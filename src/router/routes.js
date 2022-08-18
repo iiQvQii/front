@@ -1,30 +1,39 @@
 import MainLayout from 'layouts/MainLayout.vue'
-import IndexPage from 'pages/front/IndexPage.vue'
+import HomeLayout from 'layouts/HomeLayout.vue'
+import HomePage from 'pages/front/HomePage.vue'
 
 const routes = [
   {
-    path: '/home',
-    component: IndexPage,
-    meta: {
-      title: 'Workweee我耶 | Home',
-      login: false,
-      admin: false
-    }
-  },
-  {
     path: '/',
-    component: MainLayout,
+    component: HomeLayout,
     children: [
       {
         path: '',
         name: 'front_home',
-        component: () => import('pages/front/IndexPage1.vue'),
+        component: () => import('pages/front/HomePage.vue'),
         meta: {
           title: 'Workweee我耶 | Home',
           login: false,
           admin: false
         }
       },
+      {
+        path: 'about_us',
+        name: 'about_us',
+        component: () => import('pages/front/AboutUs.vue'),
+        meta: {
+          title: 'Workweee我耶 | 關於Workweee',
+          login: false,
+          admin: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: MainLayout,
+    children: [
+
       {
         path: 'register',
         name: 'register',
@@ -51,16 +60,6 @@ const routes = [
         component: () => import('pages/AdminLogin.vue'),
         meta: {
           title: 'Workweee我耶 | 登入管理員',
-          login: false,
-          admin: false
-        }
-      },
-      {
-        path: 'about_us',
-        name: 'about_us',
-        component: () => import('pages/front/AboutUs.vue'),
-        meta: {
-          title: 'Workweee我耶 | 關於Workweee',
           login: false,
           admin: false
         }

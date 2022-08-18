@@ -65,7 +65,6 @@
               </q-card>
             </q-form>
           </div>
-
         </q-dialog>
       </div>
     </q-page>
@@ -76,11 +75,13 @@
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from 'src/stores/user'
 import { apiAuth } from '../../boot/axios'
-import { useRoute } from 'vue-router'
-import { Loading } from 'quasar'
 
+const { locale } = useI18n({ useScope: 'global' })
+const { t } = useI18n()
 const route = useRoute()
 const user = useUserStore()
 
@@ -111,7 +112,7 @@ const job = reactive({
   question: ''
 })
 const form = reactive({
-  _id: job._id,
+  job: '',
   answer: ''
 })
 
@@ -122,12 +123,22 @@ const dialog = ref(false)
 
 // 報名
 const apply = async () => {
-  console.log('a')
   loading.value = true
   try {
+    form.job = job._id
     await apiAuth.post('/orders', form)
+    Swal.fire({
+      icon: 'success',
+      title: t('apply') + t('success'),
+      text: '可至會員中心查看報名資訊'
+    })
   } catch (error) {
     console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+    })
   }
   loading.value = false
 }

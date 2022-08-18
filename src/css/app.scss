@@ -3,10 +3,11 @@
 body{
 font-family:'Ubuntu','Noto Sans TC', sans-serif;
 }
+@import './layouts/mainLayout';
+@import './layouts/homeLayout';
 
 @import './pages/register';
 @import './pages/login';
-@import './pages/frontLayout';
 @import './pages/admin';
 @import './pages/home';
 @import './pages/job';

@@ -1,0 +1,21 @@
+#main_layout{
+  .logo {
+    margin: 0;
+    a {
+      display: block;
+      background: url('@/assets/logo.svg');
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 150px 100px;
+      width: 150px;
+      height: 36px;
+      text-indent: 101%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}
+.q-tab__label{
+  font-weight: 600;
+  letter-spacing: .1rem;
+}
