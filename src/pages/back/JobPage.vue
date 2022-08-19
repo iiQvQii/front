@@ -64,9 +64,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
-import { useUserStore } from 'src/stores/user'
 import { apiAuth } from '../../boot/axios.js'
 
 const { locale } = useI18n({ useScope: 'global' })
@@ -108,10 +106,12 @@ const columns = computed(() => {
     },
     {
       name: 'edit',
+      align: 'center',
       label: t('edit')
     },
     {
       name: 'delete',
+      align: 'center',
       label: t('delete')
     }
   ]

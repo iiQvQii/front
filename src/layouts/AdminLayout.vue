@@ -2,7 +2,7 @@
   <q-layout view="hHh Lpr lff">
     <q-header elevated class="bg-white text-white">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
+        <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
         <q-toolbar-title>
           <q-btn to="/" flat style="width: 200px;">
             <img src="../assets/logo.svg" style="width: 300px;">
@@ -95,22 +95,26 @@ const localeOptions = reactive([
 
 locale.value = lang.value || useQuasar().lang.getLocale()
 lang.value = locale.value
-
+console.log(isHelper.value)
 const linksList = reactive([
   {
     title: 'my_info',
     icon: 'mdi-face-man',
-    to: '/admin'
+    to: '/admin',
+    isHost: true
   },
   {
     title: 'application_status',
     icon: 'mdi-list-status',
-    to: '/admin/application_status'
+    to: '/admin/application_status',
+    isHost: true
   },
   {
     title: 'post_jobs',
     icon: 'mdi-note-plus',
-    to: '/admin/jobs'
+    to: '/admin/jobs',
+    isHost: isHost.value // true
+
   }
 ])
 

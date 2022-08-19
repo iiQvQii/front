@@ -457,5 +457,13 @@
   "job_question_hint": "向應徵的小幫手提問可以增加徵選效率。",
   "max_upload": "最多上傳3張，大小上限5MB/張。",
   "delete": "刪除",
-  "edit": "編輯"
+  "edit": "編輯",
+  "status_1": "業主審核中",
+  "status_2": "錄取",
+  "status_3": "未錄取",
+  "status_4": "已取消報名",
+  "are_you_sure": "確認要取消報名?",
+  "yes": "確認",
+  "no": "否",
+  "job_location": "工作地點"
 }

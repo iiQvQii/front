@@ -56,7 +56,7 @@
               <q-item to="/admin/application_status" clickable v-close-popup>
                 <q-item-section>{{ $t('application_status') }}</q-item-section>
               </q-item>
-              <q-item to="/admin/jobs" clickable v-close-popup>
+              <q-item v-if="isHost" to="/admin/jobs" clickable v-close-popup>
                 <q-item-section>{{ $t('post_jobs') }}</q-item-section>
               </q-item>
               <q-separator />

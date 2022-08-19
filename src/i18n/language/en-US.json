@@ -457,5 +457,13 @@
   "job_question_hint": "These questions may help you know more about the helper.",
   "max_upload": "Limited to 3 photos, maximum upload size 5 MB/each photo",
   "delete": "Delete",
-  "edit": "Edit"
+  "edit": "Edit",
+  "status_1": "In progress",
+  "status_2": "Accepted",
+  "status_3": "Rejected",
+  "status_4": "Canceled",
+  "are_you_sure": "Cancel the application?",
+  "yes": "Yes",
+  "no": "No",
+  "job_location": "Location"
 }

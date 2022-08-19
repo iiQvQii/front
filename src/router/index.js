@@ -1,6 +1,7 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import { useUserStore } from '@/stores/user.js'
 
 /*
  * If not building with SSR mode, you can
@@ -27,6 +28,22 @@ export default route(function (/* { store, ssrContext } */) {
   })
   Router.afterEach((to, from) => {
     document.title = to.meta.title || 'Workweee我耶'
+  })
+
+  Router.beforeEach((to, from, next) => {
+    const user = useUserStore()
+    // 已登入去登入或註冊頁 => 回首頁
+    if (user.isLogin && (to.path === '/register' || to.path === '/login')) {
+      next('/')
+    } else if (to.meta.login && !user.isLogin) {
+      next('/login')
+    } else if (to.meta.admin && !user.isAdmin) {
+      next('/')
+    } else if (to.meta.host && !user.isHost) {
+      next('/')
+    } else {
+      next()
+    }
   })
 
   return Router

@@ -261,7 +261,6 @@ watch(() => form.district, () => {
 })
 
 const submit = async () => {
-  console.log('123')
   loading.value = true
   try {
     form.date_from = form.date.from

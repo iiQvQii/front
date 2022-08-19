@@ -1,5 +1,5 @@
 <template>
-  <q-item exact clickable tag="a" :to="link.to">
+  <q-item v-if="link.isHost" exact clickable tag="a" :to="link.to">
     <q-item-section v-if="link.icon" avatar>
       <q-icon :name="link.icon" />
     </q-item-section>

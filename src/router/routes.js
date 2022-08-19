@@ -57,7 +57,7 @@ const routes = [
       {
         path: 'login/admin',
         name: 'login_admin',
-        component: () => import('pages/AdminLogin.vue'),
+        component: () => import('pages/front/AdminLogin.vue'),
         meta: {
           title: 'Workweee我耶 | 登入管理員',
           login: false,
@@ -115,22 +115,46 @@ const routes = [
       {
         path: '',
         name: 'admin_home',
-        component: () => import('pages/back/AdminPage.vue')
+        component: () => import('pages/back/AdminPage.vue'),
+        meta: {
+          title: 'Workweee我耶 | 聯絡我們',
+          login: true,
+          host: false,
+          admin: false
+        }
       },
       {
         path: 'jobs',
         name: 'admin/jobs',
-        component: () => import('pages/back/JobPage.vue')
+        component: () => import('pages/back/JobPage.vue'),
+        meta: {
+          title: 'Workweee我耶 | 聯絡我們',
+          login: true,
+          host: true,
+          admin: false
+        }
       },
       {
         path: 'jobs_post',
         name: 'jobs_post',
-        component: () => import('pages/back/PostJob.vue')
+        component: () => import('pages/back/PostJob.vue'),
+        meta: {
+          title: 'Workweee我耶 | 聯絡我們',
+          login: true,
+          host: true,
+          admin: false
+        }
       },
       {
         path: 'application_status',
         name: 'application_status',
-        component: () => import('pages/back/ApplicationStatus.vue')
+        component: () => import('pages/back/ApplicationStatus.vue'),
+        meta: {
+          title: 'Workweee我耶 | 聯絡我們',
+          login: true,
+          host: false,
+          admin: false
+        }
       }
     ]
   },
