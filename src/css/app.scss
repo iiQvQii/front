@@ -3,6 +3,8 @@
 body{
 font-family:'Ubuntu','Noto Sans TC', sans-serif;
 }
+@import './general';
+
 @import './layouts/mainLayout';
 @import './layouts/homeLayout';
 

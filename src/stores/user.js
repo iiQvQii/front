@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { api, apiAuth } from '../boot/axios'
 import Swal from 'sweetalert2'
+import flatten from 'flat'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -15,8 +16,9 @@ export const useUserStore = defineStore('user', {
     district: '',
     address: '',
     zipcode: '',
+    idxCity: '',
     description: '',
-    photos: '',
+    photos: [],
     gender: '',
     birth: '',
     role: '',
@@ -58,8 +60,11 @@ export const useUserStore = defineStore('user', {
         this.description = data.result.description || ''
         this.photos = data.result.photos || ''
         this.gender = data.result.gender || ''
-        this.birth = data.result.birth || ''
         this.role = data.result.role
+        const year = new Date(data.result.birth).getFullYear()
+        const month = new Date(data.result.birth).getMonth() + 1
+        const day = new Date(data.result.birth).getDate()
+        this.birth = (year + '/' + month + '/' + day) || ''
         Swal.fire({
           icon: 'success',
           title: '成功',
@@ -70,7 +75,7 @@ export const useUserStore = defineStore('user', {
         Swal.fire({
           icon: 'error',
           title: '失敗',
-          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
         })
       }
     },
@@ -105,23 +110,20 @@ export const useUserStore = defineStore('user', {
         //     fd.append(key, form[key])
         //   }
         // }
-        console.log(form)
         const fd = new FormData()
         for (const key in form) {
-          // console.log(form.photos)
-          // console.log(key)
           if (key === 'photos') {
             for (let i = 0; i < form[key].length; i++) {
               fd.append(key, form[key][i])
             }
-            console.log(form[key])
           } else {
             fd.append(key, form[key])
           }
         }
 
         const { data } = await apiAuth.patch('/users/edit_info', fd)
-        this.account = data.result.account
+        console.log('ok')
+        this.account = data.result?.account
         this.name = data.result.name
         this.Avatar = data.result.avatar || ''
         this.tel = data.result.tel || ''
@@ -134,18 +136,23 @@ export const useUserStore = defineStore('user', {
         this.description = data.result.description || ''
         this.photos = data.result.photos || ''
         this.gender = data.result.gender || ''
-        this.birth = data.result.birth || ''
         this.role = data.result.role
+        const year = new Date(data.result.birth).getFullYear()
+        const month = new Date(data.result.birth).getMonth() + 1
+        const day = new Date(data.result.birth).getDate()
+        this.birth = (year + '/' + month + '/' + day) || ''
         Swal.fire({
           icon: 'success',
           title: '成功',
           text: '修改成功'
         })
+        this.router.push('/admin')
       } catch (error) {
+        console.log(error)
         Swal.fire({
           icon: 'error',
           title: '失敗',
-          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+          text: (error.isAxiosError && error.response.data) ? error.response.data.message : '修改發生錯誤'
         })
       }
     },

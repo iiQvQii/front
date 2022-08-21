@@ -4,9 +4,9 @@
     <div id="banner" class="q-pa-none relative-position">
       <q-carousel animated v-model="slide" infinite :autoplay="autoplay" transition-prev="fade" transition-next="fade"
         @mouseenter="autoplay = false" @mouseleave="autoplay = true" transition-duration="1200" height="100%">
-        <q-carousel-slide :name="1" img-src="../../assets/banner-1.jpg" />
-        <q-carousel-slide :name="2" img-src="../../assets/banner-2.jpg" />
-        <q-carousel-slide :name="3" img-src="../../assets/banner-3.jpg" />
+        <q-carousel-slide :name="1" img-src="../../assets/banner-1.jpg" style="backdrop-filter: sepia(90%)" />
+        <q-carousel-slide :name="2" img-src="../../assets/banner-2.jpg" style="backdrop-filter: sepia(90%)" />
+        <q-carousel-slide :name="3" img-src="../../assets/banner-3.jpg" style="backdrop-filter: grayscale(70%);" />
       </q-carousel>
       <div class="bg"></div>
       <!-- banner區塊內容 -->
@@ -21,7 +21,7 @@
           <q-btn color="white" text-color="primary" :label="$t('home')" />
         </q-btn-group>
 
-        <q-input id="search" v-model="keyword" standout type="search" :placeholder="$t('search')" maxlength="30"
+        <q-input id="search" v-model="form.keyword" standout type="search" :placeholder="$t('search')" maxlength="30"
           color="dark" bg-color="white">
           <template v-slot:append>
             <q-icon name="search" />

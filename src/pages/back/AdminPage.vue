@@ -6,15 +6,15 @@
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
           :rules="rules.name">
         </q-input>
-        {{ idxZip.city }}
-        {{ idxZip.district }}
+        <!-- 性別 -->
         <q-select v-if="isHelper" outlined v-model="form.gender" :options="genderOptions" :label="$t('gender') + '*'"
-          emit-value :display-value="$t(gender)" lazy-rules :rules="rules.required" />
-        <q-input v-if="isHelper" filled v-model="form.birth" mask="date" :rules="['date']" :label="$t('birthday')">
+          emit-value :display-value="$t(form.gender)" lazy-rules :rules="rules.required" />
+        <!-- 生日 -->
+        <q-input v-if="isHelper" filled v-model="form.birth" :label="$t('birthday')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="birth">
+                <q-date v-model="form.birth">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -29,20 +29,21 @@
         </q-input>
         <q-input outlined v-model="form.email" :label="$t('email') + '*'" :rules="rules.email">
         </q-input>
-        <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value lazy-rules
-          :rules="rules.required">
+        <q-select v-if="isHost" outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
+          lazy-rules :rules="rules.required">
         </q-select>
         <!-- 區 -->
-        <q-select outlined v-model="form.district" :options="districtOptions" :label="$t('district') + '*'" emit-value
-          :rules="rules.required">
+        <q-select v-if="isHost" outlined v-model="form.district" :options="districtOptions"
+          :label="$t('district') + '*'" emit-value :rules="rules.required">
         </q-select>
 
         <!-- 詳細地址 -->
-        <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
+        <q-input v-if="isHost" outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
           :rules="rules.address" />
 
         <!-- 關於我的故事 -->
         <h5>{{ $t('story_of_my_life') }}</h5>
+        {{ form.description }}
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('tell_me_someting_about_you')" />
 
@@ -58,10 +59,9 @@
         <!-- 渲染上傳圖片 -->
         <div class="q-pa-md flex row">
           <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
-            <q-img :src="photo" :fit="cover" :ratio="4 / 3" spinner-color="white" />
+            <q-img :src="photo" :ratio="4 / 3" spinner-color="white" />
           </div>
         </div>
-        {{ photos }}
 
         <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
       </q-form>
@@ -243,6 +243,7 @@ watch(() => locale.value, () => {
 })
 
 watch(() => form.city, () => {
+  form.district = ''
   if (locale.value === 'zh-TW') {
     const idxCity = dataZh.counties.findIndex(v => v === form.city)
     if (idxCity > -1) {

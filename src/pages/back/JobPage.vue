@@ -15,7 +15,7 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="isShown">
-            <q-table :rows="jobs" :columns="columns" row-key="name" :loading="loading">
+            <q-table :rows="jobs" :columns="columns" row-key="name" :loading="loading" flat>
               <template v-slot:body-cell="props">
                 <!-- <pre>{{ props.row }}</pre> -->
                 <q-td :props="props">
@@ -33,13 +33,13 @@
               <!-- edit 編輯 -->
               <template v-slot:body-cell-edit="props">
                 <q-td :props="props">
-                  <q-btn round flat color="primary" icon="edit" />
+                  <q-btn round flat color="primary" icon="edit" :to="'/admin/jobs/' + props.row._id" />
                 </q-td>
               </template>
               <!-- delete 刪除 -->
               <template v-slot:body-cell-delete="props">
                 <q-td :props="props">
-                  <q-btn round flat color="primary" icon="delete" />
+                  <q-btn round flat color="primary" icon="delete" to="'/admin/jobs/' + props.row._id" />
                 </q-td>
               </template>
               <!-- loading -->
@@ -66,9 +66,11 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Swal from 'sweetalert2'
 import { apiAuth } from '../../boot/axios.js'
+import { useRoute } from 'vue-router'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
+const route = useRoute()
 
 const tab = ref('isShown')
 const loading = ref(false)
@@ -139,5 +141,18 @@ const getMyJob = async () => {
   loading.value = false
 }
 getMyJob()
+
+const deleteJob = async () => {
+  try {
+    const { data } = await apiAuth.delete('/jobs/' + route.params.id)
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+    })
+  }
+}
 
 </script>

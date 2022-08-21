@@ -117,7 +117,7 @@ const routes = [
         name: 'admin_home',
         component: () => import('pages/back/AdminPage.vue'),
         meta: {
-          title: 'Workweee我耶 | 聯絡我們',
+          title: 'Workweee我耶 | 後台會員中心',
           login: true,
           host: false,
           admin: false
@@ -128,7 +128,18 @@ const routes = [
         name: 'admin/jobs',
         component: () => import('pages/back/JobPage.vue'),
         meta: {
-          title: 'Workweee我耶 | 聯絡我們',
+          title: 'Workweee我耶 | 刊登換宿',
+          login: true,
+          host: true,
+          admin: false
+        }
+      },
+      {
+        path: 'jobs/:id',
+        name: 'admin/jobs_edit',
+        component: () => import('pages/back/EditJob.vue'),
+        meta: {
+          title: 'Workweee我耶 | 編輯刊登換宿',
           login: true,
           host: true,
           admin: false
@@ -139,7 +150,7 @@ const routes = [
         name: 'jobs_post',
         component: () => import('pages/back/PostJob.vue'),
         meta: {
-          title: 'Workweee我耶 | 聯絡我們',
+          title: 'Workweee我耶 | 新增換宿機會',
           login: true,
           host: true,
           admin: false
@@ -150,7 +161,18 @@ const routes = [
         name: 'application_status',
         component: () => import('pages/back/ApplicationStatus.vue'),
         meta: {
-          title: 'Workweee我耶 | 聯絡我們',
+          title: 'Workweee我耶 | 報名狀態',
+          login: true,
+          host: false,
+          admin: false
+        }
+      },
+      {
+        path: 'host_application_status',
+        name: 'host_application_status',
+        component: () => import('pages/back/HostApplicationStatus.vue'),
+        meta: {
+          title: 'Workweee我耶 | 報名狀態',
           login: true,
           host: false,
           admin: false

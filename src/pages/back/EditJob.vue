@@ -1,6 +1,6 @@
 <template>
   <q-page id="post_jobs" class="flex flex-center column">
-    <h4>{{ $t('post_jobs') }}</h4>
+    <h4>{{ $t('edit_jobs') }}</h4>
     <div class="q-pa-md" style="min-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-toggle v-model="form.is_shown" :label="form.is_shown ? $t('is_shown') : $t('is_not_shown')" />
@@ -52,7 +52,8 @@
         <h5>{{ $t('job_description') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
-
+        {{ form.description }}
+        <pre>{{ form }}</pre>
         <!-- 照片 -->
         <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
         <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
@@ -103,9 +104,10 @@ const {
 } = storeToRefs(user)
 
 const date = ref('')
+const photos = ref('')
 const loading = ref(false)
 const valid = ref(true)
-
+const job = reactive([])
 // 第幾個city、第幾個district
 const idxZip = reactive({
   city: '',
@@ -124,9 +126,9 @@ const form = reactive({
   address: '',
   zipcode: '',
   role: role.value,
-  description: '?',
+  description: '',
   photos: [],
-  question: '1. 請問你為什麼想要來',
+  question: '',
   week_hours: 10,
   is_shown: true
 })
@@ -169,6 +171,7 @@ const rules = reactive({
     v => !!v || t('required')
   ]
 })
+
 const cityOptions = computed(() => {
   if (locale.value === 'zh-TW') {
     return dataZh.counties
@@ -203,7 +206,6 @@ watch(() => locale.value, () => {
 
 // 記第幾個位置
 watch(() => form.city, () => {
-  form.district = ''
   if (locale.value === 'zh-TW') {
     const idxCity = dataZh.counties.findIndex(v => v === form.city)
     if (idxCity > -1) {
@@ -220,10 +222,7 @@ watch(() => form.city, () => {
 // 記第幾個位置 + 轉郵遞區號
 watch(() => form.district, () => {
   if (locale.value === 'zh-TW') {
-    console.log(idxZip.city)
     const idxDist = dataZh.districts[idxZip.city][0].findIndex(v => v === form.district)
-    console.log(idxZip.city)
-    console.log(idxDist)
     if (idxDist > -1) {
       idxZip.district = idxDist
       form.zipcode = dataZh.districts[idxZip.city][1][idxDist]
@@ -237,7 +236,48 @@ watch(() => form.district, () => {
   }
 })
 
-// 新增工作
+const getJob = async () => {
+  try {
+    const { data } = await apiAuth.get('/jobs/' + route.params.id)
+    form._id = data.result._id
+    form.title = data.result.title
+    form.city = data.result.city
+    form.district = data.result.district
+    form.address = data.result.address
+    form.zipcode = data.result.zipcode
+    form.description = data.result.description
+    photos.value = data.result.photos
+    form.welfare = data.result.welfare[0]?.split(',')
+    form.week_hours = data.result.week_hours
+    form.published_time = data.result.published_time
+    form.question = data.result.question
+    form.is_shown = data.result.is_shown
+
+    // 轉換時間
+    let year = new Date(data.result.date_from).getFullYear()
+    let month = new Date(data.result.date_from).getMonth() + 1
+    let day = new Date(data.result.date_from).getDate()
+    form.date.from = year + '/' + month + '/' + day
+    year = new Date(data.result.date_to).getFullYear()
+    month = new Date(data.result.date_to).getMonth() + 1
+    day = new Date(data.result.date_to).getDate()
+    form.date.to = year + '/' + month + '/' + day
+    date.value = form.date.from + '~' + form.date.to
+
+    // 轉換為英文地址
+    if (locale.value === 'en-US') {
+      const idxCity = dataZh.counties.findIndex(v => v === data.result.city)
+      form.city = dataEn.counties[idxCity]
+      const idxDistrict = dataZh.districts[idxCity][0].findIndex(v => v === data.result.district)
+      form.district = dataEn.districts[idxCity][0][idxDistrict]
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+getJob()
+
+// 編輯工作
 const submit = async () => {
   loading.value = true
   try {
@@ -251,19 +291,21 @@ const submit = async () => {
     const fd = new FormData()
     for (const key in form) {
       if (key === 'photos') {
-        for (let i = 0; i < form[key].length; i++) {
-          fd.append(key, form[key][i])
+        console.log(form[key].length)
+        if (form[key].length > 0) {
+          for (let i = 0; i < form[key].length; i++) {
+            fd.append(key, form[key][i])
+          }
         }
-        console.log(form[key])
       } else {
         fd.append(key, form[key])
       }
     }
-    await apiAuth.post('/jobs', fd)
+    await apiAuth.patch('/jobs/' + route.params.id, fd)
     await Swal.fire({
       icon: 'success',
       title: '成功',
-      text: '新增成功'
+      text: '編輯成功'
     })
     router.push('/admin/jobs')
   } catch (error) {

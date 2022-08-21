@@ -37,7 +37,7 @@
               </q-card-section>
 
               <q-card-actions align="center">
-                <q-btn padding="sm lg" size="1rem" color="primary" @click.prevent="dialog = true">
+                <q-btn padding="sm lg" size="1rem" color="primary" @click.prevent="openDialog">
                   {{ $t('apply') }}
                 </q-btn>
               </q-card-actions>
@@ -54,7 +54,7 @@
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
-                  <q-input v-model="form.answer" autofocus @keyup.enter="dialog = false" />
+                  <q-input v-model="form.answer" autofocus @keyup.enter="apply" />
                 </q-card-section>
 
                 <q-card-actions align="right" class="text-primary">
@@ -75,7 +75,7 @@
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from 'src/stores/user'
 import { apiAuth } from '../../boot/axios'
@@ -83,6 +83,7 @@ import { apiAuth } from '../../boot/axios'
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const user = useUserStore()
 
 const {
@@ -90,6 +91,7 @@ const {
   role,
   isHost,
   isHelper,
+  isLogin,
   lang
 } = storeToRefs(user)
 
@@ -120,10 +122,18 @@ const autoplay = ref(true)
 const slide = ref(0)
 const loading = ref(false)
 const dialog = ref(false)
+const openDialog = () => {
+  if (isLogin.value) {
+    dialog.value = true
+  } else {
+    router.push('/login')
+  }
+}
 
 // 報名
 const apply = async () => {
   loading.value = true
+  dialog.value = false
   try {
     form.job = job._id
     await apiAuth.post('/orders', form)

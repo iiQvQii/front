@@ -1,6 +1,8 @@
 <template>
-  <q-page-container>
-    <q-page class="q-mx-auto container">
+
+  <q-page>
+    <div class="container q-mx-auto">
+
       <div class="row q-pb-md">
         <!-- 麵包屑 -->
         <q-breadcrumbs class="col-12">
@@ -8,7 +10,7 @@
           <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
         </q-breadcrumbs>
       </div>
-      <div class="q-col-gutter-md row">
+      <div class="row q-col-gutter-md">
         <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-4">
           <q-card class="full-height" flat bordered>
             <q-img :src="job.photos[0]" :ratio="4 / 3" />
@@ -37,8 +39,8 @@
           </q-card>
         </div>
       </div>
-    </q-page>
-  </q-page-container>
+    </div>
+  </q-page>
 </template>
 <script setup>
 import { reactive } from 'vue'

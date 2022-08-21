@@ -14,18 +14,22 @@
 
 // src/css/quasar.variables.sass
 
-$primary   : #ff4c30;
-$secondary : #f2784b;
+$primary   : #ff7e00;
+$secondary : #205375;
 $accent    : #e23628;
-
-$dark      : #444444;
-$dark-page : #121212;
+// #E26A2C
+// #FFEBD4
+// #205375
+// #112B3C
+// #EFEFEF
+$dark      : #112B3C;
+$dark-page : #0b1b26;
 
 $positive  : #2ea64a;
 $negative  : #C10015;
 $info      : #d9d9d9;
 $warning   : #f9b42d;
-$white     : #fff;
+$white     : #EFEFEF;
 
 // Max width at which point
 // current size ends
@@ -81,18 +85,18 @@ $breakpoint-lg-max: (map-get($sizes, "xl") - 0.02) !default;
 
 $breakpoint-xl-min: map-get($sizes, "xl") !default;
 
-$h1:        (size: 2.5rem,     line-height: 2.5rem,     letter-spacing: -.01562em, weight: 500) !default;
-$h2:        (size: 2rem,  line-height: 2rem,  letter-spacing: -.00833em, weight: 500) !default;
-$h3:        (size: 1.75rem,     line-height: 1.75rem, letter-spacing: normal,    weight: 500) !default;
-$h4:        (size: 1.5rem, line-height: 1.5rem,   letter-spacing: .00735em,  weight: 400) !default;
-$h5:        (size: 1.25rem,   line-height: 1.25rem,     letter-spacing: normal,    weight: 400) !default;
+$h1:        (size: 2.5rem,     line-height: 2.5rem,     letter-spacing: -.01562em, weight:600) !default;
+$h2:        (size: 2rem,  line-height: 2rem,  letter-spacing: -.00833em, weight: 600) !default;
+$h3:        (size: 1.75rem,     line-height: 1.75rem, letter-spacing: normal,    weight: 600) !default;
+$h4:        (size: 1.5rem, line-height: 1.5rem,   letter-spacing: .00735em,  weight: 500) !default;
+$h5:        (size: 1.25rem,   line-height: 1.25rem,     letter-spacing: normal,    weight: 500) !default;
 $h6:        (size: 1rem,  line-height: 1rem,     letter-spacing: .0125em,   weight: 500) !default;
 $subtitle1: (size: 1rem,     line-height: 1.75rem,  letter-spacing: .00937em,  weight: 400) !default;
 $subtitle2: (size: .875rem,  line-height: 1.375rem, letter-spacing: .00714em,  weight: 500) !default;
-$body1:     (size: 1rem,     line-height: 1.5rem,   letter-spacing: .03125em,  weight: 400) !default;
-$body2:     (size: .875rem,  line-height: 1.25rem,  letter-spacing: .01786em,  weight: 400) !default;
+$body1:     (size: 1rem,     line-height: 1.5rem,   letter-spacing: .03125em,  weight: 600) !default;
+$body2:     (size: .875rem,  line-height: 1.25rem,  letter-spacing: .01786em,  weight: 600) !default;
 $overline:  (size: .75rem,   line-height: 2rem,     letter-spacing: .16667em,  weight: 500) !default;
-$caption:   (size: .75rem,   line-height: 1.25rem,  letter-spacing: .03333em,  weight: 400) !default;
+$caption:   (size: .75rem,   line-height: 1.25rem,  letter-spacing: .03333em,  weight: 500) !default;
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, 'subtitle1': $subtitle1, 'subtitle2': $subtitle2, 'body1': $body1, 'body2': $body2, 'overline': $overline, 'caption': $caption) !default;
@@ -101,7 +105,7 @@ $headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, 's
 $h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-get($headings, "h3"), h4: map-get($headings, "h4"), h5: map-get($headings, "h5"), h6: map-get($headings, "h6")) !default;
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
-$text-weights: (thin: 100, light: 300, regular: 400, medium: 500, bold: 700, bolder: 900) !default;
+$text-weights: (thin: 100, light: 300, regular: 500, medium: 600, bold: 700, bolder: 900) !default;
 
 $dimmed-background       : rgba(0, 0, 0, .4) !default;
 $light-dimmed-background : rgba(255, 255, 255, .6) !default;
@@ -475,18 +479,18 @@ $shadow-up-24 : 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $shadows-up: ($shadow-up-1, $shadow-up-2, $shadow-up-3, $shadow-up-4, $shadow-up-5, $shadow-up-6, $shadow-up-7, $shadow-up-8, $shadow-up-9, $shadow-up-10, $shadow-up-11, $shadow-up-12, $shadow-up-13, $shadow-up-14, $shadow-up-15, $shadow-up-16, $shadow-up-17, $shadow-up-18, $shadow-up-19, $shadow-up-20, $shadow-up-21, $shadow-up-22, $shadow-up-23, $shadow-up-24);
 
-$generic-border-radius          : 4px !default;
+$generic-border-radius          : 8px !default;
 $generic-hover-transition       : .3s cubic-bezier(.25, .8, .5, 1) !default;
 $typography-font-family         : 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 $min-line-height                : 1.12 !default;
 
-$button-border-radius           : 3px !default;
+$button-border-radius           : 8px !default;
 $button-padding                 : 4px 16px !default;
 $button-dense-padding           : .285em !default;
 $button-transition              : $generic-hover-transition !default;
 $button-font-size               : 14px !default;
 $button-line-height             : 1.715em !default;
-$button-font-weight             : 500 !default;
+$button-font-weight             : 700 !default;
 $button-shadow                  : $shadow-2 !default;
 $button-shadow-active           : $shadow-5 !default;
 $button-rounded-border-radius   : 28px !default;

@@ -462,8 +462,10 @@
   "status_2": "錄取",
   "status_3": "未錄取",
   "status_4": "已取消報名",
+  "status_5": "職缺已關閉",
   "are_you_sure": "確認要取消報名?",
   "yes": "確認",
   "no": "否",
-  "job_location": "工作地點"
+  "job_location": "工作地點",
+  "review": "審核"
 }

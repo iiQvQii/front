@@ -462,8 +462,10 @@
   "status_2": "Accepted",
   "status_3": "Rejected",
   "status_4": "Canceled",
+  "status_5": "Closed",
   "are_you_sure": "Cancel the application?",
   "yes": "Yes",
   "no": "No",
-  "job_location": "Location"
+  "job_location": "Location",
+  "review": "Review"
 }

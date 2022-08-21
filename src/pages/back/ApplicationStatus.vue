@@ -13,7 +13,8 @@
         <!-- // 1審核中/2通過/3未通過/4取消報名 -->
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="isShown">
-            <q-table v-if="isHelper" :rows="jobs" :columns="columns" row-key="name" :loading="loading"
+            <!-- 小幫手的table --------------------------------------------------------------------------------->
+            <q-table v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
               no-data-label="I didn't find anything for you">
               <template v-slot:body-cell="props">
                 <!-- <pre>{{ props.row }}</pre> -->
@@ -68,11 +69,11 @@
               <!-- cancel 取消報名 -->
               <template v-slot:body-cell-cancel="props">
                 <q-td :props="props">
-                  <q-btn v-if="props.row.review === 1 ? true : props.row.review === 2 ? true : false" round flat
-                    color="primary" icon="mdi-close-circle-outline" @click="dialog = false" />
+                  <q-btn round flat color="primary" icon="mdi-close-circle-outline" @click="dialog = true"></q-btn>
+                  {{ props.row._id }}
                   <q-dialog v-model="dialog" persistent>
                     <div>
-                      <q-form @submit.prevent="apply">
+                      <q-form @submit.prevent="cancelApply(props.row._id)">
                         <q-card style="min-width: 350px">
                           <q-card-section>
                             <div class="text-h6">{{ $t('are_you_sure') }}</div>
@@ -81,7 +82,7 @@
                           <q-card-actions align="right" class="text-primary">
                             <q-btn padding="sm lg" flat :label="$t('no')" v-close-popup @click="dialog = false" />
                             <q-btn padding="sm lg" color="primary" :label="$t('yes')" v-close-popup type="submit"
-                              :loading="loading" @click="cancelApply(props.row._id)" />
+                              :loading="loading" />
                           </q-card-actions>
                         </q-card>
                       </q-form>
@@ -95,8 +96,8 @@
               </template>
             </q-table>
 
-            <!-- 業主的table ------------------------------------------------------->
-            <q-table v-if="isHost" :rows="jobs" :columns="columns" row-key="name" :loading="loading"
+            <!-- 業主的table --------------------------------------------------------------------------------->
+            <q-table v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
               no-data-label="I didn't find anything for you">
               <template v-slot:body-cell="props">
                 <q-td :props="props">
@@ -124,7 +125,7 @@
                 </q-td>
               </template>
               <!-- 小幫手 -->
-              <template v-slot:body-cell-host="props">
+              <template v-slot:body-cell-helper="props">
                 <q-td :props="props">
                   <a :href="'#/helpers/' + props.row.helper._id">
                     {{ props.value }}
@@ -146,23 +147,26 @@
                   <p v-if="props.value === 5" class="q-mb-none text-grey">{{ $t('status_5') }}</p>
                 </q-td>
               </template>
-              <!-- cancel 取消報名 -->
+              <!-- review 審核報名 -->
               <template v-slot:body-cell-review="props">
                 <q-td :props="props">
-                  <q-btn v-if="props.row.review === 1 ? true : props.row.review === 2 ? true : false" round flat
-                    color="primary" icon="mdi-close-circle-outline" @click="dialog = false" />
+                  <q-btn v-if="props.row.review === 4 ? false : true" round flat color="primary" icon="spellcheck"
+                    @click="dialog = true" />
                   <q-dialog v-model="dialog" persistent>
                     <div>
                       <q-form @submit.prevent="apply">
                         <q-card style="min-width: 350px">
                           <q-card-section>
-                            <div class="text-h6">{{ $t('are_you_sure') }}</div>
-                          </q-card-section>
+                            <div class="text-h6"> 請選擇審核結果 </div>
 
+                          </q-card-section>
+                          <q-card-section>
+                            <q-select v-model="form.review" :options="reviewOptions" />
+                          </q-card-section>
                           <q-card-actions align="right" class="text-primary">
-                            <q-btn padding="sm lg" flat :label="$t('no')" v-close-popup @click="dialog = false" />
+                            <q-btn padding="sm lg" flat :label="$t('cancel')" v-close-popup @click="dialog = false" />
                             <q-btn padding="sm lg" color="primary" :label="$t('yes')" v-close-popup type="submit"
-                              :loading="loading" @click="cancelApply(props.row._id)" />
+                              :loading="loading" @click="reviewSubmit(props.row._id)" />
                           </q-card-actions>
                         </q-card>
                       </q-form>
@@ -194,23 +198,85 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router'
 
 import { apiAuth } from '../../boot/axios.js'
 import { useUserStore } from 'src/stores/user'
 
 const { locale } = useI18n({ useScope: 'global' })
 const { t } = useI18n()
+const router = useRouter()
 
 const tab = ref('isShown')
 const loading = ref(false)
 const dialog = ref(false)
 const jobs = reactive([])
-
+const form = reactive({
+  review: ''
+})
 const user = useUserStore()
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
+const reviewOptions = reactive([
+  '錄取', '未錄取'
+])
 // table head -------------------------------------
-const columns = computed(() => {
+const helperColumns = computed(() => {
+  return [
+    {
+      name: 'photos',
+      label: '',
+      align: 'center',
+      field: row => row.job.photos[0]
+    },
+    {
+      name: 'title',
+      required: true,
+      label: t('job_title'),
+      align: 'center',
+      field: row => row.job.title,
+      sortable: true
+    },
+    {
+      name: 'host',
+      required: true,
+      label: t('host_name'),
+      align: 'center',
+      field: row => row.host.name,
+      sortable: true
+    },
+    {
+      name: 'job_time',
+      align: 'center',
+      label: t('job_time'),
+      field: row => row.job.date_from + '~' + row.job.date_to,
+      sortable: true
+    },
+    {
+      name: 'apply_time',
+      align: 'center',
+      label: t('apply_time'),
+      field: row => row.applied_time,
+      sortable: true
+
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: t('application_status'),
+      field: row => row.review,
+      sortable: true
+    },
+    {
+      name: 'cancel',
+      align: 'center',
+      label: t('cancel') + t('apply')
+    }
+
+  ]
+})
+
+const hostColumns = computed(() => {
   return [
     {
       name: 'photos',
@@ -228,9 +294,9 @@ const columns = computed(() => {
       sortable: true
     },
     {
-      name: 'host',
+      name: 'helper',
       required: true,
-      label: isHost ? t('name') : t('host_name'),
+      label: t('name'),
       align: 'center',
       field: row => row.helper.name,
       format: val => `${val}`,
@@ -261,9 +327,7 @@ const columns = computed(() => {
     {
       name: 'review',
       align: 'center',
-      label: t('review'),
-      field: row => row.review,
-      sortable: true
+      label: t('review')
     }
 
   ]
@@ -294,15 +358,37 @@ const getMyOrders = async () => {
 }
 getMyOrders()
 
+const reviewSubmit = async (_id) => {
+  try {
+    // <!-- 1審核中 / 2通過 / 3未通過 / 4取消報名 / 5履歷關閉 -->
+    form._id = _id
+    form.review === '錄取' ? form.review = 2 : form.review = 3
+    await apiAuth.patch('/orders/host', form)
+    Swal.fire({
+      icon: 'success',
+      title: '成功',
+      text: '審核成功'
+    })
+    router.push('/admin/application_status')
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+    })
+  }
+}
+
 // 後台還沒寫
 const cancelApply = async (_id) => {
-  // <!-- 1審核中 / 2通過 / 3未通過 / 4取消報名 -->
-  const status = reactive({
-    _id,
-    review: 4
-  })
+  // <!-- 1審核中 / 2通過 / 3未通過 / 4取消報名 / 5履歷關閉 -->
+  console.log(_id)
+  form._id = _id
+  form.review = 4
+  console.log(_id)
   try {
-    await apiAuth.patch('/orders', status)
+    await apiAuth.patch('/orders', form)
     Swal.fire({
       icon: 'success',
       title: '取消成功',

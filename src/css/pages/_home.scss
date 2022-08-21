@@ -11,7 +11,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    opacity: .9;
+    opacity: .92;
   }
   #banner{
     width: 100%;
@@ -29,11 +29,8 @@
     .q-input {
       width: 40%;
     }
-    .q-field__control{
-      border-radius: .6rem;
-    }
+
     #search_btn{
-      border-radius: .6rem;
       padding: 2rem 0 2rem 0;
       width: 40%;
     }
@@ -53,6 +50,9 @@
       overflow: hidden;
       white-space: nowrap;
     }
+  }
+  .q-panel{
+    backdrop-filter: sepia(90%);
   }
 }
 
