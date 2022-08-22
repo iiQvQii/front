@@ -168,16 +168,17 @@ const routes = [
         }
       },
       {
-        path: 'host_application_status',
-        name: 'host_application_status',
-        component: () => import('pages/back/HostApplicationStatus.vue'),
+        path: 'helper/:id',
+        name: 'helper',
+        component: () => import('pages/back/HelperPage.vue'),
         meta: {
-          title: 'Workweee我耶 | 報名狀態',
+          title: 'Workweee我耶 | 小幫手資訊',
           login: true,
-          host: false,
+          host: true,
           admin: false
         }
       }
+
     ]
   },
   {

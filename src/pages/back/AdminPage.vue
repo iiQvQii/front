@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('my_info') }}</h4>
-    <div class="q-pa-md" style="min-width: 500px">
+    <div class="q-pa-md" style="max-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
           :rules="rules.name">
@@ -10,7 +10,7 @@
         <q-select v-if="isHelper" outlined v-model="form.gender" :options="genderOptions" :label="$t('gender') + '*'"
           emit-value :display-value="$t(form.gender)" lazy-rules :rules="rules.required" />
         <!-- 生日 -->
-        <q-input v-if="isHelper" filled v-model="form.birth" :label="$t('birthday')">
+        <q-input v-if="isHelper" outlined v-model="form.birth" :rules="['date']" :label="$t('birthday')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">

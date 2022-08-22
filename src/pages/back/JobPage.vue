@@ -36,12 +36,6 @@
                   <q-btn round flat color="primary" icon="edit" :to="'/admin/jobs/' + props.row._id" />
                 </q-td>
               </template>
-              <!-- delete 刪除 -->
-              <template v-slot:body-cell-delete="props">
-                <q-td :props="props">
-                  <q-btn round flat color="primary" icon="delete" to="'/admin/jobs/' + props.row._id" />
-                </q-td>
-              </template>
               <!-- loading -->
               <template v-slot:loading>
                 <q-inner-loading showing color="primary" />
@@ -65,6 +59,7 @@
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Swal from 'sweetalert2'
+
 import { apiAuth } from '../../boot/axios.js'
 import { useRoute } from 'vue-router'
 
@@ -110,11 +105,6 @@ const columns = computed(() => {
       name: 'edit',
       align: 'center',
       label: t('edit')
-    },
-    {
-      name: 'delete',
-      align: 'center',
-      label: t('delete')
     }
   ]
 })

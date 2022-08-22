@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { api, apiAuth } from '../boot/axios'
 import Swal from 'sweetalert2'
-import flatten from 'flat'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -174,8 +173,12 @@ export const useUserStore = defineStore('user', {
         this.description = data.result.description || ''
         this.photos = data.result.photos || ''
         this.gender = data.result.gender || ''
-        this.birth = data.result.birth || ''
+        // this.birth = data.result.birth || ''
         this.role = data.result.role
+        const year = new Date(data.result.birth).getFullYear()
+        const month = new Date(data.result.birth).getMonth() + 1
+        const day = new Date(data.result.birth).getDate()
+        this.birth = (year + '/' + month + '/' + day) || ''
       } catch (error) {
         this.logout()
       }

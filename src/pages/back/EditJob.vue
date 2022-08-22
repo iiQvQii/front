@@ -8,7 +8,7 @@
         <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
         </q-input>
         <!-- 時間job_time -->
-        <q-input filled v-model="date" :rules="rules.required" :label="$t('job_time')">
+        <q-input outlined v-model="date" :rules="rules.required" :label="$t('job_time')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -51,7 +51,7 @@
         <!-- 工作內容 -->
         <h5>{{ $t('job_description') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
-          :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
+          :placeholder="$t('write_down_what_the_helpers_need_to_do')" ref="a" />
         {{ form.description }}
         <pre>{{ form }}</pre>
         <!-- 照片 -->
@@ -83,6 +83,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
+
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { useUserStore } from 'src/stores/user'
@@ -102,7 +103,7 @@ const {
   role,
   isHost
 } = storeToRefs(user)
-
+const a = ref(null)
 const date = ref('')
 const photos = ref('')
 const loading = ref(false)
@@ -246,6 +247,7 @@ const getJob = async () => {
     form.address = data.result.address
     form.zipcode = data.result.zipcode
     form.description = data.result.description
+    a.value.setHTML(form.description)
     photos.value = data.result.photos
     form.welfare = data.result.welfare[0]?.split(',')
     form.week_hours = data.result.week_hours

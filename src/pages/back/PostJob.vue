@@ -1,6 +1,6 @@
 <template>
   <q-page id="post_jobs" class="flex flex-center column">
-    <h4>{{ $t('post_jobs') }}</h4>
+    <h4>{{ $t('new_jobs') }}</h4>
     <div class="q-pa-md" style="min-width: 500px">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-toggle v-model="form.is_shown" :label="form.is_shown ? $t('is_shown') : $t('is_not_shown')" />
@@ -8,7 +8,7 @@
         <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
         </q-input>
         <!-- 時間job_time -->
-        <q-input filled v-model="date" :rules="rules.required" :label="$t('job_time')">
+        <q-input outlined v-model="date" :rules="rules.required" :label="$t('job_time')">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -82,6 +82,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import Swal from 'sweetalert2'
+
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { useUserStore } from 'src/stores/user'

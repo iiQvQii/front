@@ -45,6 +45,7 @@
 <script setup>
 import { reactive } from 'vue'
 import Swal from 'sweetalert2'
+
 import { apiAuth } from '../../boot/axios'
 const jobs = reactive([])
 

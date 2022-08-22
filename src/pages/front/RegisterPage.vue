@@ -86,6 +86,7 @@ import { isEmail } from 'validator'
 import { api } from '../../boot/axios.js'
 import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
+
 import { useI18n } from 'vue-i18n'
 import dataEn from '../../address/data-en.js'
 import dataZh from '../../address/data-zh.js'

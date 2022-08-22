@@ -95,7 +95,6 @@ const localeOptions = reactive([
 
 locale.value = lang.value || useQuasar().lang.getLocale()
 lang.value = locale.value
-console.log(isHelper.value)
 const linksList = reactive([
   {
     title: 'my_info',
