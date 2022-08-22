@@ -37,7 +37,11 @@ $breakpoint-xs: 576px !default;
 $breakpoint-sm: 767px !default;
 $breakpoint-md: 991px !default;
 $breakpoint-lg: 1199px !default;
-
+// $breakpoint-xs: 300px !default;
+// $breakpoint-sm: 576px !default;
+// $breakpoint-md: 767px !default;
+// $breakpoint-lg: 991px !default;
+// 992以上lg
 $space-base   : 16px !default;
 $space-x-base : $space-base !default;
 $space-y-base : $space-base !default;

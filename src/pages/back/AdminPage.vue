@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <h4>{{ $t('my_info') }}</h4>
-    <div class="q-pa-md" style="max-width: 500px">
+    <div class="q-pa-md" id="admin_page">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
         <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
           :rules="rules.name">

@@ -5,11 +5,12 @@ font-family:'Ubuntu','Noto Sans TC', sans-serif;
 }
 // @import '@sweetalert2/themes/material-ui/material-ui.css';
 
-
-@import './general';
+@import 'rwd';
+@import 'general';
 
 @import './layouts/mainLayout';
 @import './layouts/homeLayout';
+@import './layouts/adminLayout';
 
 @import './pages/register';
 @import './pages/login';

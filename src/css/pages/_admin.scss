@@ -6,6 +6,33 @@
     margin-bottom: 1rem;
   }
 }
+// AdminPage
+#admin_page{
+    min-width: 100%;
+  @media (min-width: $breakpoint-sm) {
+    min-width: 70%;
+  }
+  @media (min-width: $breakpoint-md) {
+    min-width: 50%;
+  }
+}
 #birth{
   margin-bottom: 20px;
+}
+
+// ApplicationStatus
+#helper_table{
+  a {
+    color: $dark;
+    text-decoration: none;
+  }
+  p{
+    margin: 0 0 8px;
+  }
+  .q-table th{
+    font-weight: 600;
+    font-size: .9rem;
+    letter-spacing: .1rem;
+  }
+
 }

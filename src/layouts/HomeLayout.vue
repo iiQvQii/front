@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="hHh Lpr lff" id="home_layout">
+  <!-- lHh Lpr lFf -->
+  <q-layout view="lHh Lpr lFf" id="home_layout">
     <q-header reveal class="text-white">
       <q-toolbar>
         <!-- 漢堡 --------------------------------------->
@@ -74,8 +75,37 @@
       </q-toolbar>
     </q-footer>
     <!-- rwd drawer --------------------------------->
-    <q-drawer v-model="leftDrawerOpen" :width="280" :breakpoint="700" bordered class="bg-grey-3">
-      <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
+    <q-drawer v-model="leftDrawerOpen" overlay bordered class="lt-lg bg-white">
+      <div>
+        <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
+          @click="toggleLeftDrawer" />
+        <q-list>
+          <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
+        </q-list>
+      </div>
+      <q-separator inset />
+      <q-list>
+        <q-expansion-item expand-separator icon="translate" :label="t('translate')">
+          <q-list style="min-width: 100px">
+            <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
+              :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
+              :active="locale === localeOptions[i].value">
+              <q-item-section>
+                {{ localeOption.label }}
+              </q-item-section>
+
+            </q-item>
+          </q-list>
+        </q-expansion-item>
+        <q-item v-if="isLogin" clickable tag="a" @click="logout">
+          <q-item-section avatar>
+            <q-icon name="fa-solid fa-right-from-bracket" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('logout') }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
     <q-page-container class="home_page_container">
       <router-view />
@@ -91,17 +121,57 @@ import { ref, reactive, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
+import EssentialLink from 'components/EssentialLink.vue'
 
 import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
 // 登入
 const user = useUserStore()
 const { logout } = user
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
-
 const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+const linksList = reactive([
+  {
+    title: 'home',
+    icon: 'home',
+    to: '/',
+    font_size: 'text-h5',
+    isHost: true
+  },
+  {
+    title: 'about_us',
+    icon: 'mdi-face-man',
+    to: '/about_us',
+    font_size: 'text-h5',
+    isHost: true
+  },
+  {
+    title: 'find_jobs',
+    icon: 'work',
+    to: '/jobs',
+    font_size: 'text-h5',
+    isHost: true
+  },
+  {
+    title: 'faqs',
+    icon: 'mdi-chat-question',
+    to: '/faqs',
+    font_size: 'text-h5',
+    isHost: true
+  },
+  {
+    title: 'contact_us',
+    icon: 'mdi-form-select',
+    to: '/contact_us',
+    font_size: 'text-h5',
+    isHost: true
+  }
+])
+const essentialLinks = ref(linksList)
 
 // i18n語言
 const { locale } = useI18n({ useScope: 'global' })

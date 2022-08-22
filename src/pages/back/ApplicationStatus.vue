@@ -1,11 +1,19 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width: 1200px">
+    <div class="q-mx-auto" style="max-width: 1200px">
       <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
       <h3 class="text-center">{{ $t('application_status') }}</h3>
-      <q-separator />
-      <q-table v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
-        :grid="$q.screen.lt.md" no-data-label="I didn't find anything for you">
+      <q-separator class="q-mb-lg" />
+      <q-table id="helper_table" v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
+        :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter"
+        no-data-label="I didn't find anything for you" no-results-label="The filter didn't uncover any results">
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
+              {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
         <template v-slot:body-cell="props">
           <!-- <pre>{{ props.row }}</pre> -->
           <q-td :props="props">
@@ -17,7 +25,7 @@
           <q-td :props="props">
             <div>
               <a :href="'#/jobs/' + props.row.job._id">
-                <q-img :src="props.value" spinner-color="white" :ratio="4 / 3" />
+                <q-img :src="props.value" spinner-color="white" :ratio="4 / 3" style="min-width: 150px;" />
               </a>
             </div>
           </q-td>
@@ -68,10 +76,84 @@
         <template v-slot:loading>
           <q-inner-loading showing color="primary" />
         </template>
+        <!-- 搜尋bar -->
+        <template v-slot:top-right>
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+        <!--  小幫手grid slot -->
+        <template v-slot:item="props">
+          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+            <q-card>
+              <q-card-section class="text-center">
+                <a :href="'#/jobs/' + props.row.job._id">
+                  <q-img :src="props.row.job.photos[0]" spinner-color="white" :ratio="4 / 3"
+                    style="min-width: 150px;" />
+                </a>
+              </q-card-section>
+              <q-separator inset />
+              <q-card-section class="q-pb-none">
+                <div>
+                  <a class="text-h5" :href="'#/jobs/' + props.row.job._id">
+                    {{ props.row.job.title }}
+                  </a>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('host_name') }} </p>
+                <div>
+                  <a :href="'#/host/' + props.row.job.host">
+                    {{ props.row.host.name }}
+                  </a>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('job_time') }} </p>
+                <div>
+                  {{ props.row.job.date_from + '~' + props.row.job.date_to }}
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('application_status') }} </p>
+                <div>
+                  <!-- 1審核中 -->
+                  <p v-if="props.row.review === 1" class="q-mb-none">{{ $t('status_1') }}</p>
+                  <!-- 2通過 -->
+                  <p v-if="props.row.review === 2" class="q-mb-none text-teal">{{ $t('status_2') }}</p>
+                  <!-- 3未通過 -->
+                  <p v-if="props.row.review === 3" class="q-mb-none"><i class="text-red">{{ $t('status_3') }}</i></p>
+                  <!-- 4取消報名 -->
+                  <p v-if="props.row.review === 4" class="q-mb-none text-grey">{{ $t('status_4') }}</p>
+                  <!-- 5業主關閉職缺 -->
+                  <p v-if="props.row.review === 5" class="q-mb-none text-grey">{{ $t('status_5') }}</p>
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <p class="text-h6 text-primary"> {{ $t('cancel') + $t('apply') }} </p>
+                <q-btn v-if="props.row.review === 1 ? true : false" class="full-width" color="primary" outline
+                  icon="mdi-close-circle-outline" @click="cancelApply(props.row._id)">
+                </q-btn>
+              </q-card-section>
+            </q-card>
+          </div>
+        </template>
+        <!-- no-data狀態 -->
+        <template v-slot:no-data="{ icon, message, filter }">
+          <div class="full-width row flex-center text-accent q-gutter-sm">
+            <q-icon size="2em" name="sentiment_dissatisfied" />
+            <span>
+              Well this is sad... {{ message }}
+            </span>
+            <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+          </div>
+        </template>
       </q-table>
 
       <!-- 業主的table ---------------------------------------------------------------------------------------------------------------------------------->
-      <q-table v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
+      <q-table id="host_table" v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
         no-data-label="I didn't find anything for you" :grid="$q.screen.lt.md">
         <template v-slot:body-cell="props">
           <q-td :props="props">
@@ -208,7 +290,7 @@ const { t } = useI18n()
 const router = useRouter()
 const $q = useQuasar()
 
-const tab = ref('isShown')
+const filter = ref('')
 const loading = ref(false)
 const alert = ref(false)
 const autoplay = ref(true)
@@ -262,8 +344,7 @@ const helperColumns = computed(() => {
       name: 'status',
       align: 'center',
       label: t('application_status'),
-      field: row => row.review,
-      sortable: true
+      field: row => row.review
     },
     {
       name: 'cancel',
@@ -288,7 +369,6 @@ const hostColumns = computed(() => {
       label: t('job_title'),
       align: 'center',
       field: row => row.job.title,
-      format: val => `${val}`,
       sortable: true
     },
     {
@@ -297,7 +377,6 @@ const hostColumns = computed(() => {
       label: t('name'),
       align: 'center',
       field: row => row.helper.name,
-      format: val => `${val}`,
       sortable: true
     },
     {

@@ -1,0 +1,21 @@
+#admin_layout {
+  .q-toolbar__title{
+    text-align: center;
+  }
+  // list 的 exact class
+  .my-menu-link {
+    color: $primary;
+  }
+  @include md {
+    .q-drawer {
+      width: 400px !important;
+    }
+  }
+  @include lg {
+    .q-toolbar__title{
+      text-align: left;
+    }
+  }
+
+
+}

@@ -1,4 +1,7 @@
 #main_layout{
+  .q-toolbar__title{
+    text-align: center;
+  }
   .logo {
     margin: 0;
     a {
@@ -12,6 +15,11 @@
       text-indent: 101%;
       overflow: hidden;
       white-space: nowrap;
+    }
+  }
+  @include lg {
+    .q-toolbar__title{
+      text-align: left;
     }
   }
 }

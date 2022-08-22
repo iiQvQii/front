@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lff">
+  <q-layout view="hHh Lpr lff" id="admin_layout">
     <q-header elevated class="bg-white text-white">
       <q-toolbar>
         <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
@@ -10,7 +10,7 @@
         </q-toolbar-title>
         <div class="btn q-gutter-sm q-px-md">
           <!--------------------  語言選項 --------------------------------->
-          <q-btn icon="translate" flat color="dark" style="min-width: 30px">
+          <q-btn class="gt-lg" icon="translate" flat color="dark" style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -27,13 +27,13 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn v-if="isLogin" icon="fa-solid fa-right-from-bracket" flat color="dark" @click="logout">
+          <q-btn v-if="isLogin" class="gt-lg" icon="fa-solid fa-right-from-bracket" flat color="dark" @click="logout">
           </q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above :width="280">
+    <q-drawer v-model="leftDrawerOpen">
       <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
       <q-card flat class="text-center">
         <q-card-section>
@@ -53,6 +53,29 @@
       <q-list>
 
         <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
+      </q-list>
+      <q-separator inset />
+      <q-list>
+        <q-expansion-item expand-separator icon="translate" :label="t('translate')">
+          <q-list style="min-width: 100px">
+            <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
+              :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
+              :active="locale === localeOptions[i].value">
+              <q-item-section>
+                {{ localeOption.label }}
+              </q-item-section>
+
+            </q-item>
+          </q-list>
+        </q-expansion-item>
+        <q-item clickable tag="a" @click="logout">
+          <q-item-section avatar>
+            <q-icon name="fa-solid fa-right-from-bracket" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('logout') }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

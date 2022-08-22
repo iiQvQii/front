@@ -464,8 +464,13 @@
   "status_4": "已取消報名",
   "status_5": "職缺已關閉",
   "are_you_sure": "確定要取消報名?",
-  "cancel_apply": "取消報名",
+  "comfirm": "取消報名",
   "no": "否",
   "job_location": "工作地點",
-  "review": "審核"
+  "review": "審核",
+  "review_application": "請選擇審核結果",
+  "edit_jobs": "編輯換宿",
+  "new_jobs": "新增換宿",
+  "apply_time": "報名時間",
+  "helper_info": "小幫手資訊"
 }

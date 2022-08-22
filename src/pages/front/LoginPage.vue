@@ -4,13 +4,17 @@
     <div class="q-pa-md" style="min-width: 300px">
       <q-form ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
         @submit.prevent="login">
+        <!-- 帳號 -->
         <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">
         </q-input>
+        <!-- 密碼 -->
         <q-input outlined type="password" v-model="form.password" :label="$t('password') + '*'" lazy-rules
           :rules="rules.password" />
+        <!-- 請選擇登入身分 -->
         <p :style="warningStyle">{{ $t('login_as') + '*' }}</p>
         <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread :rules="rules.role"
-          ref="role" />
+          ref="role" style="margin-bottom: 20px;" />
+        <!-- 送出btn -->
         <q-btn class="full-width" color="primary" :label="$t('login')" type="submit" :loading="loading" />
       </q-form>
 

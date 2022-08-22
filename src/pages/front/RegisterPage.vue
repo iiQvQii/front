@@ -35,7 +35,7 @@
             <q-input outlined type="text" v-model="form.mobile" :label="$t('mobile') + '*'" lazy-rules
               :rules="rules.mobile" mask="####-###-###" unmasked-value />
             <!-- 生日 -->
-            <q-input v-if="form.role === 'role_helper'" filled v-model="form.birth" mask="date" :rules="['date']"
+            <q-input v-if="form.role === 'role_helper'" outlined v-model="form.birth" mask="date" :rules="['date']"
               :label="$t('birthday')">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
@@ -112,19 +112,19 @@ const idxZip = reactive({
 const stepper = ref(null)
 
 const form = reactive({
-  account: '1234',
-  password: '1234',
-  confirmPassword: '1234',
+  account: '',
+  password: '',
+  confirmPassword: '',
   role: '',
-  name: '老王',
-  tel: '0922390046',
-  mobile: '8686868755',
-  gender: 'male',
-  birth: '1995/01/01',
-  email: '6786@eagr.rger',
+  name: '',
+  tel: '',
+  mobile: '',
+  gender: '',
+  birth: '',
+  email: '',
   city: '',
   district: '',
-  address: '86777776',
+  address: '',
   zipcode: ''
 })
 const options = computed(() => {

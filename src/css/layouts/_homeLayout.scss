@@ -1,5 +1,27 @@
+// 首頁navbar透明
 #home_layout {
+
   .q-layout__section--marginal {
     background-color: transparent;
   }
+  .my-menu-link {
+    color: white;
+    background: $primary;
+  }
+  .q-card {
+    width: 100%;
+  }
+  @include md {
+    .q-drawer {
+      width: 400px !important;
+      .q-item{
+        padding: 1.5rem 1rem;
+      }
+      .q-item__label{
+        font-size: 1.5rem;
+      }
+    }
+  }
+  
 }
+
