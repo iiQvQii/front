@@ -18,14 +18,14 @@
 
         <div class="btn q-gutter-sm q-px-md">
           <!------------------- 登入/註冊 -------------------------------->
-          <q-btn v-if="!isLogin" to="/login" outline rounded>
+          <q-btn v-if="!isLogin" to="/login" class="gt-lg" outline rounded>
             {{ $t('login') }}
           </q-btn>
-          <q-btn v-if="!isLogin" to="/register" class="gt-md" flat rounded>
+          <q-btn v-if="!isLogin" to="/register" class="gt-lg" flat rounded>
             {{ $t('register') }}
           </q-btn>
           <!--------------------  語言選項 --------------------------------->
-          <q-btn class="gt-md" icon="translate" flat color="white" style="min-width: 30px">
+          <q-btn class="gt-lg" icon="translate" flat color="white" style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -76,27 +76,36 @@
     </q-footer>
     <!-- rwd drawer --------------------------------->
     <q-drawer v-model="leftDrawerOpen" overlay bordered class="lt-lg bg-white">
-      <div>
-        <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
-          @click="toggleLeftDrawer" />
-        <q-list>
-          <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
-        </q-list>
+      <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
+        @click="toggleLeftDrawer" />
+      <div class="flex flex-center q-py-lg q-gutter-lg">
+        <!------------------- 登入/註冊 -------------------------------->
+        <q-btn v-if="!isLogin" to="/login" outline rounded size="1rem">
+          {{ $t('login') }}
+        </q-btn>
+        <q-btn v-if="!isLogin" to="/register" outline rounded size="1rem">
+          {{ $t('register') }}
+        </q-btn>
       </div>
       <q-separator inset />
       <q-list>
-        <q-expansion-item expand-separator icon="translate" :label="t('translate')">
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
+      </q-list>
+      <q-separator inset />
+      <q-list>
+        <!-- 語言選項 -->
+        <q-expansion-item expand-separator icon="translate" :label="t('translate')" class="text-h6">
           <q-list style="min-width: 100px">
             <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
               :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
               :active="locale === localeOptions[i].value">
               <q-item-section>
-                {{ localeOption.label }}
+                <q-item-label class="text-h6">{{ localeOption.label }}</q-item-label>
               </q-item-section>
-
             </q-item>
           </q-list>
         </q-expansion-item>
+        <!-- 登出 -->
         <q-item v-if="isLogin" clickable tag="a" @click="logout">
           <q-item-section avatar>
             <q-icon name="fa-solid fa-right-from-bracket" />
