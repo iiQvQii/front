@@ -71,7 +71,11 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: './',
       // analyze: true,
-      env: {},
+      env: {
+        GOOGLE_SHEET: process.env.GOOGLE_SHEET,
+        SHEET_KEY: process.env.SHEET_KEY,
+        VITE_API: process.env.VITE_API
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
