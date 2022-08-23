@@ -12,15 +12,17 @@
       <!-- banner區塊內容 -->
       <div id="banner_info" class="flex column flex-center q-mx-auto text-center">
         <h3 class="q-mb-none">slogan</h3>
+        <!-- logo ----------------------->
         <h1 class="logo text-center">
           <a href="#">Workweee我耶</a>
         </h1>
+        <!-- 搜尋導覽按鈕 -->
         <q-btn-group id="search_btn" unelevated spread>
-          <q-btn color="white" text-color="primary" :label="$t('home')" />
+          <q-btn color="white" text-color="primary" :label="$t('search_directly')" />
           <q-btn color="white" text-color="primary" :label="$t('home')" />
           <q-btn color="white" text-color="primary" :label="$t('home')" />
         </q-btn-group>
-
+        <!-- search bar -->
         <q-input id="search" v-model="form.keyword" standout type="search" :placeholder="$t('search')" maxlength="30"
           color="dark" bg-color="white">
           <template v-slot:append>

@@ -27,6 +27,7 @@
               <div>
                 <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".8rem">{{ $t(welfares) }}
                 </q-chip>
+                {{ form.welfare }}
               </div>
               <div class="description text-caption text-grey">
                 {{ job.description }}
@@ -43,21 +44,38 @@
   </q-page>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import Swal from 'sweetalert2'
+import { useRoute, useRouter } from 'vue-router'
 
 import { apiAuth } from '../../boot/axios'
+const route = useRoute()
+const router = useRouter()
 const jobs = reactive([])
+
+const form = reactive({
+  title: '',
+  city: '',
+  district: '',
+  welfare: 'accommodation'
+})
 
 const getAllJob = async () => {
   try {
-    const { data } = await apiAuth.get('/jobs')
+    let url = '/jobs/search?'
+    for (const key in form) {
+      url += key + '=' + form[key] + '&'
+    }
+    url.slice(0, -1)
+    console.log(url)
+    const { data } = await apiAuth.get(url)
+    // router.replace({ path: '/' })
+    // const { data } = await apiAuth.get('/jobs')
     jobs.push(...data.result)
     // 處理 Date-8 小 福利陣列 描述去tag
     jobs.map(v => {
       v.date_from = new Date(v.date_from).toLocaleDateString()
       v.date_to = new Date(v.date_to).toLocaleDateString()
-      v.welfare = v.welfare[0]?.split(',')
       v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
       return v
     })
@@ -71,6 +89,6 @@ const getAllJob = async () => {
   }
 }
 getAllJob()
+console.log(route.query)
 
-// const description = getElementById('')
 </script>

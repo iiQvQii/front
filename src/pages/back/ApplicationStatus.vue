@@ -116,7 +116,7 @@
                   {{ props.row.job.date_from + '~' + props.row.job.date_to }}
                 </div>
               </q-card-section>
-              <q-card-section class="q-pb-none">
+              <q-card-section>
                 <p class="text-h6 text-primary"> {{ $t('application_status') }} </p>
                 <div>
                   <!-- 1審核中 -->
@@ -131,10 +131,10 @@
                   <p v-if="props.row.review === 5" class="q-mb-none text-grey">{{ $t('status_5') }}</p>
                 </div>
               </q-card-section>
-              <q-card-section>
+              <q-card-section v-if="props.row.review === 1 ? true : false">
                 <p class="text-h6 text-primary"> {{ $t('cancel') + $t('apply') }} </p>
-                <q-btn v-if="props.row.review === 1 ? true : false" class="full-width" color="primary" outline
-                  icon="mdi-close-circle-outline" @click="cancelApply(props.row._id)">
+                <q-btn class="full-width" color="primary" outline icon="mdi-close-circle-outline"
+                  @click="cancelApply(props.row._id)">
                 </q-btn>
               </q-card-section>
             </q-card>
@@ -252,7 +252,7 @@
               </tr>
               <tr>
                 <td class="text-left">{{ $t('description') }}</td>
-                <td>
+                <td style="white-space: normal;">
                   <span v-html="detail.helper.description">
                   </span>
                 </td>
@@ -481,6 +481,7 @@ const reviewSubmit = async (_id) => {
         title: '審核成功',
         text: '審核成功'
       })
+      router.go(0)
     } catch (error) {
       console.log(error)
       Swal.fire({
@@ -523,6 +524,7 @@ const cancelApply = (_id) => {
         title: '取消成功',
         text: '取消報名'
       })
+      router.go(0)
     } catch (error) {
       console.log(error)
       Swal.fire({

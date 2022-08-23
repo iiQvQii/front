@@ -8,7 +8,7 @@
           <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="white" @click="toggleLeftDrawer" />
 
         </q-toolbar-title>
-        <q-tabs class="gt-lg" shrink stretch align="left">
+        <q-tabs class="gt-md" shrink stretch align="left">
           <q-route-tab to="/about_us" name="about_us" :label="$t('about_us')" />
           <q-route-tab to="/jobs" name="jobs" :label="$t('find_jobs')" />
           <q-route-tab to="/faqs" name="faqs" :label="$t('faqs')" />
@@ -25,7 +25,7 @@
             {{ $t('register') }}
           </q-btn>
           <!--------------------  語言選項 --------------------------------->
-          <q-btn class="gt-lg" icon="translate" flat color="white" style="min-width: 30px">
+          <q-btn class="gt-md" icon="translate" flat color="white" style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -44,7 +44,7 @@
           </q-btn>
         </div>
 
-        <!-- 大頭貼 ------------------------------------>
+        <!------------------------------------------- 大頭貼 ----------------------------------------------------->
         <q-btn v-if="isLogin" class="gt-md" flat>
           <q-avatar>
             <img :src="avatar">
@@ -74,10 +74,21 @@
         <q-toolbar-title>Footer</q-toolbar-title>
       </q-toolbar>
     </q-footer>
-    <!-- rwd drawer --------------------------------->
+    <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->
     <q-drawer v-model="leftDrawerOpen" overlay bordered class="lt-lg bg-white">
       <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
         @click="toggleLeftDrawer" />
+      <!----------------------------------------------------------- 大頭貼 --------------------------------------------->
+      <div v-if="isLogin" class="flex flex-center q-py-lg">
+        <q-avatar size="80px">
+          <img :src="avatar">
+        </q-avatar>
+      </div>
+      <q-list v-if="isLogin">
+        <q-item to="/admin" clickable>
+          <q-item-section class="text-h5 text-center text-weight-bold">{{ $t('manage_profile') }}</q-item-section>
+        </q-item>
+      </q-list>
       <div class="flex flex-center q-py-lg q-gutter-lg">
         <!------------------- 登入/註冊 -------------------------------->
         <q-btn v-if="!isLogin" to="/login" outline rounded size="1rem">
@@ -111,7 +122,7 @@
             <q-icon name="fa-solid fa-right-from-bracket" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ $t('logout') }}</q-item-label>
+            <q-item-label class="text-h6">{{ $t('logout') }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

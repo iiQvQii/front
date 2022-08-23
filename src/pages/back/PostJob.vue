@@ -40,6 +40,7 @@
           <q-checkbox v-for="(welfareOption, i) in welfareOptions" :key="i" v-model="form.welfare"
             :val="welfareOption.value" :label="welfareOption.label" />
         </div>
+        {{ form.welfare }}
         <!-- 工作時數 -->
         <h5>{{ $t('job_week_hours') }}</h5>
         <q-input v-model.number="form.week_hours" type="number" filled :rules="rules.required">
@@ -255,7 +256,10 @@ const submit = async () => {
         for (let i = 0; i < form[key].length; i++) {
           fd.append(key, form[key][i])
         }
-        console.log(form[key])
+      } else if (key === 'welfare') {
+        for (let i = 0; i < form[key].length; i++) {
+          fd.append(key, form[key][i])
+        }
       } else {
         fd.append(key, form[key])
       }

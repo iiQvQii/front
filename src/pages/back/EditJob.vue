@@ -249,7 +249,8 @@ const getJob = async () => {
     form.description = data.result.description
     a.value.setHTML(form.description)
     photos.value = data.result.photos
-    form.welfare = data.result.welfare[0]?.split(',')
+    // form.welfare = data.result.welfare[0]?.split(',')
+    form.welfare = data.result.welfare
     form.week_hours = data.result.week_hours
     form.published_time = data.result.published_time
     form.question = data.result.question
@@ -298,6 +299,10 @@ const submit = async () => {
           for (let i = 0; i < form[key].length; i++) {
             fd.append(key, form[key][i])
           }
+        }
+      } else if (key === 'welfare') {
+        for (let i = 0; i < form[key].length; i++) {
+          fd.append(key, form[key][i])
         }
       } else {
         fd.append(key, form[key])

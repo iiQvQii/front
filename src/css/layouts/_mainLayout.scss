@@ -2,10 +2,17 @@
   .q-toolbar__title{
     text-align: center;
   }
+  .my-menu-link {
+    color: white;
+    background: $primary;
+  }
   .logo {
-    margin: 0;
+    margin: 0 auto;
+    position: relative;
+    left: 40%;
+    transform: translate(-50%,0);
     a {
-      display: block;
+      display: inline-block;
       background: url('@/assets/logo.svg');
       background-repeat: no-repeat;
       background-position: left center;
@@ -17,9 +24,29 @@
       white-space: nowrap;
     }
   }
+  @include md {
+    .logo{
+      left: 45%;
+      transform: translate(-50%,0);
+    }
+    .q-drawer {
+      width: 400px !important;
+      .q-item{
+        padding: 1.5rem 1rem;
+      }
+      .q-item__label{
+        font-size: 1.5rem;
+      }
+    }
+  }
+
   @include lg {
     .q-toolbar__title{
       text-align: left;
+    }
+    .logo{
+      left: 0%;
+      transform: translate(0,0);
     }
   }
 }

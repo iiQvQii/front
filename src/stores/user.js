@@ -71,6 +71,7 @@ export const useUserStore = defineStore('user', {
         })
         this.router.push('/')
       } catch (error) {
+        console.log(error)
         Swal.fire({
           icon: 'error',
           title: '失敗',

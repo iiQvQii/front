@@ -169,7 +169,7 @@ const getJob = async () => {
     job.date_to = new Date(data.result.date_to).toLocaleDateString()
     job.description = data.result.description
     job.photos = data.result.photos
-    job.welfare = data.result.welfare[0]?.split(',')
+    job.welfare = data.result.welfare
     job.week_hours = data.result.week_hours
     job.published_time = data.result.published_time
     job.question = data.result.question
