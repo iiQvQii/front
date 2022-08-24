@@ -1,12 +1,13 @@
 <template>
   <div class="q-pa-md">
     <div class="q-mx-auto" style="max-width: 1200px">
-      <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
+
       <h3 class="text-center">{{ $t('application_status') }}</h3>
       <q-separator class="q-mb-lg" />
+      <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
       <q-table id="helper_table" v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
-        :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter"
-        no-data-label="I didn't find anything for you" no-results-label="The filter didn't uncover any results">
+        :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter" :no-data-label="$t('no_data_label')"
+        :no-results-label="$t('no_results_label')" :column-sort-order="da">
         <template v-slot:header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
@@ -15,7 +16,6 @@
           </q-tr>
         </template>
         <template v-slot:body-cell="props">
-          <!-- <pre>{{ props.row }}</pre> -->
           <q-td :props="props">
             {{ props.value }}
           </q-td>
@@ -78,7 +78,7 @@
         </template>
         <!-- 搜尋bar -->
         <template v-slot:top-right>
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <q-input borderless dense debounce="300" v-model="filter" :placeholder="$t('search')">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
@@ -88,6 +88,7 @@
         <template v-slot:item="props">
           <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
             <q-card>
+              <!-- 圖片 ------------------>
               <q-card-section class="text-center">
                 <a :href="'#/jobs/' + props.row.job._id">
                   <q-img :src="props.row.job.photos[0]" spinner-color="white" :ratio="4 / 3"
@@ -141,20 +142,27 @@
           </div>
         </template>
         <!-- no-data狀態 -->
-        <template v-slot:no-data="{ icon, message, filter }">
+        <template v-slot:no-data="{ message }">
           <div class="full-width row flex-center text-accent q-gutter-sm">
             <q-icon size="2em" name="sentiment_dissatisfied" />
             <span>
-              Well this is sad... {{ message }}
+              {{ message }}
             </span>
-            <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
           </div>
         </template>
       </q-table>
 
       <!-- 業主的table ---------------------------------------------------------------------------------------------------------------------------------->
       <q-table id="host_table" v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
-        no-data-label="I didn't find anything for you" :grid="$q.screen.lt.md">
+        :no-data-label="$t('no_data_label')" :no-results-label="$t('no_results_label')" :grid="$q.screen.lt.lg"
+        :hide-bottom="$q.screen.lt.lg" :filter="filter">
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
+              {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
         <template v-slot:body-cell="props">
           <q-td :props="props">
             {{ props.value }}
@@ -165,7 +173,7 @@
           <q-td :props="props">
             <div>
               <a :href="'#/jobs/' + props.row.job._id">
-                <q-img :src="props.value" spinner-color="white" style="height: 140px; min-width: 150px" />
+                <q-img :src="props.value" spinner-color="white" :ratio="4 / 3" style="min-width: 150px;" />
               </a>
             </div>
           </q-td>
@@ -196,10 +204,11 @@
             <p v-if="props.value === 5" class="q-mb-none text-grey">{{ $t('status_5') }}</p>
           </q-td>
         </template>
+        <!-- 小幫手資訊 + answer -->
         <template v-slot:body-cell-detail="props">
           <q-td :props="props">
-            <q-btn round flat color="primary" icon="question_answer"
-              @click="showDetail(props.row.helper, props.row.answer)" />
+            <q-btn round flat color="primary" icon="mdi-account-supervisor
+" @click="showDetail(props.row.helper, props.row.answer)" />
           </q-td>
 
         </template>
@@ -214,7 +223,71 @@
         <template v-slot:loading>
           <q-inner-loading showing color="primary" />
         </template>
+        <!-- 業主grid slot------------------------------>
+        <template v-slot:item="props">
+          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+            <q-card>
+              <!-- 圖片 ------------------>
+              <q-card-section class="text-center">
+                <a :href="'#/jobs/' + props.row.job._id">
+                  <q-img :src="props.row.job.photos[0]" spinner-color="white" :ratio="4 / 3"
+                    style="min-width: 150px;" />
+                </a>
+              </q-card-section>
+              <q-separator inset />
+              <q-card-section class="q-pb-none">
+                <div>
+                  <a class="text-h5" :href="'#/jobs/' + props.row.job._id">
+                    {{ props.row.job.title }}
+                  </a>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('host_name') }} </p>
+                {{ props.row.helper.name }}
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('job_time') }} </p>
+                <div>
+                  {{ props.row.job.date_from + '~' + props.row.job.date_to }}
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('apply_time') }} </p>
+                <div>
+                  {{ props.row.apply_time }}
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-none">
+                <p class="text-h6 text-primary"> {{ $t('application_status') }} </p>
+                <div>
+                  <!-- 1審核中 -->
+                  <p v-if="props.row.review === 1" class="q-mb-none">{{ $t('status_1') }}</p>
+                  <!-- 2通過 -->
+                  <p v-if="props.row.review === 2" class="q-mb-none text-teal">{{ $t('status_2') }}</p>
+                  <!-- 3未通過 -->
+                  <p v-if="props.row.review === 3" class="q-mb-none"><i class="text-red">{{ $t('status_3') }}</i></p>
+                  <!-- 4取消報名 -->
+                  <p v-if="props.row.review === 4" class="q-mb-none text-grey">{{ $t('status_4') }}</p>
+                  <!-- 5業主關閉職缺 -->
+                  <p v-if="props.row.review === 5" class="q-mb-none text-grey">{{ $t('status_5') }}</p>
+                </div>
+              </q-card-section>
+              <!-- 小幫手資訊 -->
+              <q-card-section v-if="props.row.review === 1 ? true : false" class="q-pb-none">
+                <q-btn class="full-width" outline color="primary" icon="question_answer" :label="$t('helper_info')"
+                  @click="showDetail(props.row.helper, props.row.answer)" />
+              </q-card-section>
+              <!-- review 審核 -->
+              <q-card-section v-if="props.row.review === 1 ? true : false">
+                <q-btn v-if="props.row.review === 4 ? false : true" class="full-width" outline color="primary"
+                  :label="$t('review')" icon="spellcheck" @click="reviewSubmit(props.row._id)" />
+              </q-card-section>
+            </q-card>
+          </div>
+        </template>
       </q-table>
+      <!-- 小幫手的資訊 ------------->
       <q-dialog v-model="alert">
         <q-card class="my-card">
           <q-card-section>
@@ -227,7 +300,6 @@
           <q-card-section>
             <div class="text-h6">{{ detail.helper.name }}</div>
           </q-card-section>
-
           <q-markup-table class="helper_info">
             <tbody>
               <tr>
@@ -267,7 +339,6 @@
             <q-btn flat label="OK" color="primary" v-close-popup />
           </q-card-actions>
         </q-card>
-
       </q-dialog>
     </div>
   </div>
@@ -338,6 +409,7 @@ const helperColumns = computed(() => {
       align: 'center',
       label: t('job_time'),
       field: row => row.job.date_from + '~' + row.job.date_to,
+      sortOrder: 'da',
       sortable: true
     },
     {
@@ -361,7 +433,7 @@ const hostColumns = computed(() => {
       name: 'photos',
       label: '',
       align: 'center',
-      field: row => row.job.photos[0]
+      field: row => row.job?.photos[0]
     },
     {
       name: 'title',

@@ -70,13 +70,60 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-    <q-footer bordered>
-      <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
-      </q-toolbar>
+    <!-- footer -->
+    <q-footer class="footer bg-white text-dark container q-mx-auto" bordered>
+      <!-- footer內容區 -->
+      <div class="row justify-center">
+        <div class="col-3 q-pr-lg">
+          <a href="#">
+            <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
+          </a>
+          <div class="q-py-md">
+            <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
+            <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
+            <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+          </div>
+        </div>
+        <!-- 換宿機會 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
+          <p>{{ $t('find_jobs') }}</p>
+          <p>{{ $t('hot_jobs') }}</p>
+          <p>{{ $t('latest_jobs') }}</p>
+
+        </div>
+        <!-- 關於我們 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
+          <p>{{ $t('about_us') }}</p>
+          <p>{{ $t('faqs') }}</p>
+
+        </div>
+        <!-- 會員中心 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('member') }}</h6>
+          <p>{{ $t('manage_profile') }}</p>
+          <p>{{ $t('check_application_status') }}</p>
+          <p>{{ $t('post_jobs') }}</p>
+        </div>
+        <!-- 幫助 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('support') }}</h6>
+          <p>{{ $t('terms_of_service') }}</p>
+          <p>{{ $t('privacy_policy') }}</p>
+          <p>{{ $t('contact_us') }}</p>
+        </div>
+        <!-- 版權宣告 -->
+        <div class="col-12 text-center text-grey q-pt-md">
+          {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+        </div>
+      </div>
+
+      <div></div>
     </q-footer>
     <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->
-    <q-drawer v-model="leftDrawerOpen" overlay bordered class="lt-lg bg-white">
+    <q-drawer v-model="leftDrawerOpen" overlay bordered no-swipe-open no-swipe-close class="lt-lg bg-white"
+      :breakpiont="767">
       <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
         @click="toggleLeftDrawer" />
       <!----------------------------------------------------------- 大頭貼 --------------------------------------------->

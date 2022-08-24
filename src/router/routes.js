@@ -176,17 +176,6 @@ const routes = [
           host: false,
           admin: false
         }
-      },
-      {
-        path: 'helper/:id',
-        name: 'helper',
-        component: () => import('pages/back/HelperPage.vue'),
-        meta: {
-          title: 'Workweee我耶 | 小幫手資訊',
-          login: true,
-          host: true,
-          admin: false
-        }
       }
 
     ]

@@ -10,6 +10,24 @@
   .q-card {
     width: 100%;
   }
+
+  .footer {
+    padding: 3rem 0 1rem 0;
+  }
+  .col-3 {
+    p {
+      letter-spacing: .1rem;
+      margin-bottom: .5rem;
+    }
+  }
+  
+  h6 {
+    letter-spacing: .1rem;
+  }
+
+  .q-drawer-container {
+    display: block;
+  }
   @include md {
     .q-drawer {
       width: 400px !important;
@@ -21,6 +39,11 @@
       }
     }
   }
-  
+  @include lg { 
+    .q-drawer-container {
+      display: none;
+    }
+  }
 }
+
 

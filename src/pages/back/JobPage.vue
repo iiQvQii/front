@@ -1,55 +1,82 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width: 1200px">
-      <q-card>
-        <q-tabs v-model="tab" class="text-grey q-pa-sm" active-color="primary" indicator-color="primary"
-          narrow-indicator align="left">
-          <q-tab name="isShown" :label="$t('is_shown')" />
-          <q-tab name="notShown" :label="$t('is_not_shown')" />
-          <q-btn class="absolute q-ma-lg" flat round color="primary" icon="mdi-plus-circle-outline" style="right: 0;"
-            size="1rem" to="/admin/jobs_post" />
+    <div class="q-mx-auto" style="max-width: 1200px">
+      <h3 class="text-center">{{ $t('manage_jobs') }}</h3>
+      <q-separator class="q-mb-lg" />
 
-        </q-tabs>
+      <q-table id="job_table" :rows="jobs" :columns="columns" row-key="name" :loading="loading" :grid="$q.screen.lt.lg"
+        :hide-bottom="$q.screen.lt.lg" :filter="filter" :no-data-label="$t('no_data_label')"
+        :no-results-label="$t('no_results_label')">
+        <template v-slot:body-cell="props">
+          <!-- <pre>{{ props.row }}</pre> -->
+          <q-td :props="props">
+            {{ props.value }}
+          </q-td>
+        </template>
+        <!-- photos 民宿照片 -->
+        <template v-slot:body-cell-photos="props">
+          <q-td :props="props">
+            <div>
+              <q-img :src="props.value" spinner-color="white" :ratio="4 / 3" style="min-width: 150px" />
+            </div>
+          </q-td>
+        </template>
+        <!-- edit 編輯 -->
+        <template v-slot:body-cell-edit="props">
+          <q-td :props="props">
+            <q-btn round flat color="primary" icon="edit" :to="'/admin/jobs/' + props.row._id" />
+          </q-td>
+        </template>
+        <!-- loading -->
+        <template v-slot:loading>
+          <q-inner-loading showing color="primary" />
+        </template>
+        <!--  grid slot --------------------------->
+        <template v-slot:item="props">
+          <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+            <q-card>
 
-        <q-separator />
-
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="isShown">
-            <q-table :rows="jobs" :columns="columns" row-key="name" :loading="loading" flat>
-              <template v-slot:body-cell="props">
-                <!-- <pre>{{ props.row }}</pre> -->
-                <q-td :props="props">
-                  {{ props.value }}
-                </q-td>
-              </template>
-              <!-- photos 民宿照片 -->
-              <template v-slot:body-cell-photos="props">
-                <q-td :props="props">
-                  <div>
-                    <q-img :src="props.value" spinner-color="white" style="height: 140px; min-width: 150px" />
+              <!-- 圖片 ------------------>
+              <q-card-section class="text-center">
+                <a :href="'#/jobs/' + props.row._id">
+                  <q-img :src="props.row.photos[0]" spinner-color="white" :ratio="4 / 3" style="min-width: 150px;" />
+                </a>
+              </q-card-section>
+              <q-separator inset />
+              <q-card-section class="q-pb-none">
+                <div style="height:160px">
+                  <!-- 工作名稱 -->
+                  <div class="q-pb-md">
+                    <a class="text-h5" :href="'#/jobs/' + props.row._id">
+                      {{ props.row.title }}
+                    </a>
                   </div>
-                </q-td>
-              </template>
-              <!-- edit 編輯 -->
-              <template v-slot:body-cell-edit="props">
-                <q-td :props="props">
-                  <q-btn round flat color="primary" icon="edit" :to="'/admin/jobs/' + props.row._id" />
-                </q-td>
-              </template>
-              <!-- loading -->
-              <template v-slot:loading>
-                <q-inner-loading showing color="primary" />
-              </template>
-            </q-table>
-          </q-tab-panel>
+                  <!-- 工作時間 -->
+                  <div class="q-pb-xs">
+                    <p class="text-h6 text-primary"> {{ $t('job_time') }} </p>
+                    <p>
+                      {{ props.row.date_from + '~' + props.row.date_to }}
+                    </p>
+                  </div>
+                  <!-- 工作地點 -->
+                  <div class="q-pb-xs">
+                    <p class="text-h6 text-primary"> {{ $t('job_location') }} </p>
+                    <p>
+                      {{ props.row.city + props.row.district }}
+                    </p>
+                  </div>
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <!-- edit 編輯 -->
+                <q-btn class="full-width" outline color="primary" :label="$t('edit')" icon="edit"
+                  :to="'/admin/jobs/' + props.row._id" />
+              </q-card-section>
 
-          <q-tab-panel name="notShown">
-
-          </q-tab-panel>
-
-        </q-tab-panels>
-
-      </q-card>
+            </q-card>
+          </div>
+        </template>
+      </q-table>
 
     </div>
   </div>
@@ -98,7 +125,7 @@ const columns = computed(() => {
     {
       name: 'place',
       align: 'center',
-      label: t('job_place'),
+      label: t('job_location'),
       field: row => row.city + row.district
     },
     {

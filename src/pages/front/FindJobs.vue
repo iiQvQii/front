@@ -1,7 +1,7 @@
 <template>
 
   <q-page>
-    <div class="container q-mx-auto">
+    <div id="find_job" class="container q-mx-auto ">
 
       <div class="row q-pb-md">
         <!-- 麵包屑 -->
@@ -24,10 +24,12 @@
               <div class="text-h5 q-mt-sm q-mb-xs title">
                 {{ job.title }}
               </div>
-              <div>
-                <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".8rem">{{ $t(welfares) }}
+              <div class="q-pb-sm">
+                <div class="text-overline text-orange-9">
+                  {{ $t('job_welfare') }}
+                </div>
+                <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
                 </q-chip>
-                {{ form.welfare }}
               </div>
               <div class="description text-caption text-grey">
                 {{ job.description }}
@@ -51,7 +53,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { apiAuth } from '../../boot/axios'
 const route = useRoute()
 const router = useRouter()
-const jobs = reactive([])
+let jobs = reactive([])
 
 const form = reactive({
   title: '',
@@ -62,6 +64,30 @@ const form = reactive({
 
 const getAllJob = async () => {
   try {
+    const { data } = await apiAuth.get('/jobs')
+    jobs.push(...data.result)
+    jobs.reverse()
+    // 處理 Date-8 小 福利陣列 描述去tag
+    jobs.map(v => {
+      v.date_from = new Date(v.date_from).toLocaleDateString()
+      v.date_to = new Date(v.date_to).toLocaleDateString()
+      v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
+      return v
+    })
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
+    })
+  }
+}
+getAllJob()
+// console.log(route.query)
+
+const searchJob = async () => {
+  try {
     let url = '/jobs/search?'
     for (const key in form) {
       url += key + '=' + form[key] + '&'
@@ -70,7 +96,7 @@ const getAllJob = async () => {
     console.log(url)
     const { data } = await apiAuth.get(url)
     // router.replace({ path: '/' })
-    // const { data } = await apiAuth.get('/jobs')
+    jobs = []
     jobs.push(...data.result)
     // 處理 Date-8 小 福利陣列 描述去tag
     jobs.map(v => {
@@ -84,11 +110,9 @@ const getAllJob = async () => {
     Swal.fire({
       icon: 'error',
       title: '失敗',
-      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤!'
+      text: (error.isAxiosError && error.response.data) ? error.response.data.message : '發生錯誤'
     })
   }
 }
-getAllJob()
-console.log(route.query)
 
 </script>

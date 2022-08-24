@@ -2,9 +2,17 @@
   .q-toolbar__title{
     text-align: center;
   }
+  .q-avatar {
+    position: relative;
+  }
   // list 的 exact class
   .my-menu-link {
     color: $primary;
+  }
+  #camera {
+    position: absolute;
+    right: -15%;
+    bottom: -15%;
   }
   @include md {
     .q-drawer {

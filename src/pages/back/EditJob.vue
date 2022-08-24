@@ -52,8 +52,6 @@
         <h5>{{ $t('job_description') }}</h5>
         <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
           :placeholder="$t('write_down_what_the_helpers_need_to_do')" ref="a" />
-        {{ form.description }}
-        <pre>{{ form }}</pre>
         <!-- 照片 -->
         <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
         <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"

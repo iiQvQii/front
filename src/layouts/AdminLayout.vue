@@ -10,7 +10,7 @@
         </q-toolbar-title>
         <div class="btn q-gutter-sm q-px-md">
           <!--------------------  語言選項 --------------------------------->
-          <q-btn class="gt-lg" icon="translate" flat color="dark" style="min-width: 30px">
+          <q-btn class="gt-md" icon="translate" flat color="dark" style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -27,19 +27,22 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn v-if="isLogin" class="gt-lg" icon="fa-solid fa-right-from-bracket" flat color="dark" @click="logout">
+          <q-btn v-if="isLogin" class="gt-md" icon="fa-solid fa-right-from-bracket" flat color="dark" @click="logout">
           </q-btn>
         </div>
       </q-toolbar>
     </q-header>
-
+    <!-- drawer 側選單 ------------------------------>
     <q-drawer v-model="leftDrawerOpen">
       <q-btn class="lt-lg" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @click="toggleLeftDrawer" />
       <q-card flat class="text-center">
+        <!-- 大頭貼 -->
         <q-card-section>
           <q-avatar>
             <img :src="avatar">
+            <q-btn id="camera" round icon="fa-solid fa-camera" color="dark" size=".6rem" @click="changeAvatar" />
           </q-avatar>
+
         </q-card-section>
 
         <q-separator inset />
@@ -50,13 +53,13 @@
         </q-card-section>
       </q-card>
 
+      <!-- 選單 -->
       <q-list>
-
         <EssentialLink v-for="link in essentialLinks" :key="link.title" :link="link" />
       </q-list>
       <q-separator inset />
       <q-list>
-        <q-expansion-item expand-separator icon="translate" :label="t('translate')">
+        <q-expansion-item class="lt-lg" expand-separator icon="translate" :label="t('translate')">
           <q-list style="min-width: 100px">
             <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
               :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
@@ -64,11 +67,10 @@
               <q-item-section>
                 {{ localeOption.label }}
               </q-item-section>
-
             </q-item>
           </q-list>
         </q-expansion-item>
-        <q-item clickable tag="a" @click="logout">
+        <q-item class="lt-lg" clickable tag="a" @click="logout">
           <q-item-section avatar>
             <q-icon name="fa-solid fa-right-from-bracket" />
           </q-item-section>
@@ -132,7 +134,7 @@ const linksList = reactive([
     isHost: true
   },
   {
-    title: 'post_jobs',
+    title: 'manage_jobs',
     icon: 'mdi-note-plus',
     to: '/admin/jobs',
     isHost: isHost.value // true
@@ -149,5 +151,10 @@ const toggleLeftDrawer = () => {
 watch(() => locale.value, () => {
   lang.value = locale.value
 })
+
+// 更換大頭貼
+const changeAvatar = async () => {
+
+}
 
 </script>

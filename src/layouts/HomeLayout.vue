@@ -1,6 +1,6 @@
 <template>
   <!-- lHh Lpr lFf -->
-  <q-layout view="lHh Lpr lFf" id="home_layout">
+  <q-layout view="lHh Lpr lfr" id="home_layout">
     <q-header reveal class="text-white">
       <q-toolbar>
         <!-- 漢堡 --------------------------------------->
@@ -58,7 +58,7 @@
                 <q-item-section>{{ $t('application_status') }}</q-item-section>
               </q-item>
               <q-item v-if="isHost" to="/admin/jobs" clickable v-close-popup>
-                <q-item-section>{{ $t('post_jobs') }}</q-item-section>
+                <q-item-section>{{ $t('manage_jobs') }}</q-item-section>
               </q-item>
               <q-separator />
               <q-item @click="logout" clickable v-close-popup>
@@ -69,15 +69,61 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-    <q-footer bordered>
-      <q-toolbar>
-        <q-toolbar-title>Footer</q-toolbar-title>
-      </q-toolbar>
+    <!-- footer -->
+    <q-footer class="footer text-dark container q-mx-auto" bordered>
+      <!-- footer內容區 -->
+      <div class="row justify-center">
+        <div class="col-3 q-pr-lg">
+          <a href="#">
+            <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
+          </a>
+          <div class="q-py-md">
+            <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
+            <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
+            <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+          </div>
+        </div>
+        <!-- 換宿機會 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
+          <p>{{ $t('find_jobs') }}</p>
+          <p>{{ $t('hot_jobs') }}</p>
+          <p>{{ $t('latest_jobs') }}</p>
+
+        </div>
+        <!-- 關於我們 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
+          <p>{{ $t('about_us') }}</p>
+          <p>{{ $t('faqs') }}</p>
+
+        </div>
+        <!-- 會員中心 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('member') }}</h6>
+          <p>{{ $t('manage_profile') }}</p>
+          <p>{{ $t('check_application_status') }}</p>
+          <p>{{ $t('post_jobs') }}</p>
+        </div>
+        <!-- 幫助 -->
+        <div class="col-2  q-pr-lg">
+          <h6 class="q-my-md">{{ $t('support') }}</h6>
+          <p>{{ $t('terms_of_service') }}</p>
+          <p>{{ $t('privacy_policy') }}</p>
+          <p>{{ $t('contact_us') }}</p>
+        </div>
+        <!-- 版權宣告 -->
+        <div class="col-12 text-center text-grey q-pt-md">
+          {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+        </div>
+      </div>
+
+      <div></div>
     </q-footer>
+
     <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->
-    <q-drawer v-model="leftDrawerOpen" overlay bordered class="lt-lg bg-white">
-      <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
-        @click="toggleLeftDrawer" />
+    <q-drawer v-model="leftDrawerOpen" overlay bordered class="bg-white">
+      <q-btn class="q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark" @1click="toggleLeftDrawer" />
       <!----------------------------------------------------------- 大頭貼 --------------------------------------------->
       <div v-if="isLogin" class="flex flex-center q-py-lg">
         <q-avatar size="80px">
@@ -150,10 +196,16 @@ const { t } = useI18n()
 const user = useUserStore()
 const { logout } = user
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
+
+let year = ref('')
+year = new Date().getFullYear()
+console.log(year)
+// drawer
 const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
 const linksList = reactive([
   {
     title: 'home',
