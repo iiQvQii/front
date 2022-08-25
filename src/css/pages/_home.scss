@@ -25,42 +25,70 @@
     width: 100%;
     height: 90vh;
   }
+}
 //  banner內容區------------------------------------------------------
-  #banner_info {
-    // border: 1px solid white;
-    width: 100%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    z-index: 1;
-    .q-input {
-      width: 40%;
-    }
+#banner_info {
+  // border: 1px solid white;
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 1;
 
-    #search_btn{
-      padding: 2rem 0 2rem 0;
-      width: 40%;
+  #search_btn_group{
+    padding: 2rem 0 2rem 0;
+    width: calc(100% - 50px);
+    .q-btn--outline:before {
+      border: 2px solid currentColor;
     }
   }
-  .logo {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    a {
-      background: url('@/assets/logo.svg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 100%;
-      min-width: 15%;
-      height: 100px;
-      text-indent: 101%;
-      overflow: hidden;
-      white-space: nowrap;
+  .q-input {
+    width: calc(100% - 50px);
+    .q-field__control {
+      height: 50px !important;
     }
   }
-  .q-panel{
-    backdrop-filter: sepia(90%);
+
+  #search_btn {
+    width: 100px;
+    height: 60px;
+  }
+  @include md {
+    #search_btn_group{
+      width: 500px;
+    }
+    .q-input {
+      width: 500px;
+      .q-field__control {
+        height: 60px !important;
+      }
+    }
+    #search_btn {
+      height: 50px;
+    }
+  }
+}
+
+.logo {
+  margin: 0;
+  display: inline-block;
+  justify-content: center;
+  line-height: 10rem;
+  width: 450px;
+  height: 100%;
+
+  a {
+    display: block;
+    background: url('@/assets/logo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    text-indent: 101%;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

@@ -23,10 +23,11 @@
   "post_jobs": "刊登換宿",
   "support": "幫助中心",
   "title_1": "熱門換宿",
-  "slogan": "",
+  "slogan": "體驗生活，看見臺灣",
   "search_by_location": "地區搜尋",
   "search_by_time": "時間搜尋",
   "search_directly": "直接搜尋",
+  "search": "搜尋",
   "home": "首頁",
   "read_more": "詳細資訊",
   "apply": "報名",
@@ -487,6 +488,8 @@
   "new_jobs": "新增換宿",
   "apply_time": "報名時間",
   "helper_info": "小幫手資訊",
-  "no_data_label": "找不到資料",
-  "no_results_label": "無過濾資料"
+  "no_data_status_host": "目前還沒有人提出換宿申請",
+  "no_data_status_helper": "",
+  "no_data_label": "無刊登換宿工作資訊",
+  "no_results_label": "查無過濾資料! 換個條件試試?"
 }

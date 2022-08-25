@@ -11,27 +11,25 @@
       <div class="bg"></div>
       <!-- banner區塊內容 -->
       <div id="banner_info" class="flex column flex-center q-mx-auto text-center">
-        <h3 class="q-mb-none">slogan</h3>
+        <h2 class="q-mb-none text-white">{{ $t('slogan') }}</h2>
         <!-- logo ----------------------->
         <h1 class="logo text-center">
           <a href="#">Workweee我耶</a>
         </h1>
         <!-- 搜尋導覽按鈕 -->
-        <q-btn-group id="search_btn" unelevated spread>
+        <q-btn-group id="search_btn_group" unelevated spread>
           <q-btn color="white" text-color="primary" :label="$t('search_directly')" />
-          <q-btn color="white" text-color="primary" :label="$t('search_by_location')" />
-          <q-btn color="white" text-color="primary" :label="$t('search_by_time')" />
+          <q-btn outline color="white" text-color="white" :label="$t('search_by_location')" />
+          <q-btn outline color="white" text-color="white" :label="$t('search_by_time')" />
         </q-btn-group>
         <!-- search bar -->
         <q-input id="search" v-model="form.keyword" standout type="search" :placeholder="$t('search')" maxlength="30"
           color="dark" bg-color="white">
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
         </q-input>
+        <q-btn id="search_btn" color="secondary" :label="$t('search')" icon="search" />
       </div>
     </div>
-    <!--  -->
+    <!-- 找換宿工作/刊登換宿 -->
     <!-- 熱門換宿 -->
     <div class="row">
       <div class="col">

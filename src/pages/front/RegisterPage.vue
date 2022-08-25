@@ -1,7 +1,6 @@
 <template>
   <q-page class="flex flex-center column">
-    <h1>{{ $t('register') }}</h1>
-    <h1>{{ form.zipcode }}</h1>
+    <h3>{{ $t('register') }}</h3>
     <div class="q-pa-md">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" ref="registerForm"
         @submit.prevent="register" @reset="onReset">

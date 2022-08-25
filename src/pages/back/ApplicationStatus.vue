@@ -154,7 +154,7 @@
 
       <!-- 業主的table ---------------------------------------------------------------------------------------------------------------------------------->
       <q-table id="host_table" v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
-        :no-data-label="$t('no_data_label')" :no-results-label="$t('no_results_label')" :grid="$q.screen.lt.lg"
+        :no-data-label="$t('no_data_label_status')" :no-results-label="$t('no_results_label')" :grid="$q.screen.lt.lg"
         :hide-bottom="$q.screen.lt.lg" :filter="filter">
         <template v-slot:header="props">
           <q-tr :props="props">

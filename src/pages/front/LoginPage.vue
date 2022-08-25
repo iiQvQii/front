@@ -1,7 +1,7 @@
 <template>
   <q-page>
-    <div class="flex flex-center column">
-      <h4>{{ $t('login') }}</h4>
+    <div class="flex flex-center column q-pt-xl">
+      <h3>{{ $t('login') }}</h3>
       <div class="q-pa-md" style="min-width: 300px">
         <q-form ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
           @submit.prevent="login">

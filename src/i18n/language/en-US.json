@@ -23,10 +23,11 @@
   "post_jobs": "Post Jobs",
   "support": "Support",
   "title_1": "Hot",
-  "slogan": "",
+  "slogan": "Live yor life fully while you're here. Experience everything!",
   "search_by_location": "By location",
   "search_by_time": "By time",
   "search_directly": "Search Directly",
+  "search": "Search",
   "home": "Home",
   "read_more": "Read More",
   "apply": "Apply",
@@ -487,6 +488,8 @@
   "new_jobs": "New Jobs",
   "apply_time": "Apply Time",
   "helper_info": "Helper Info",
-  "no_data_label": "I didn't find anything for you",
+  "no_data_status_host": "You haven't receive any applications yet.",
+  "no_data_status_helper": "You haven't applied any applications yet.",
+  "no_data_label": "You haven't posted any jobs yet.",
   "no_results_label": "The filter didn't uncover any results"
 }
