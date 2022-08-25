@@ -1,7 +1,18 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-mx-auto" style="max-width: 1200px">
-      <h3 class="text-center">{{ $t('manage_jobs') }}</h3>
+  <q-page>
+    <div class="q-pa-xl q-mx-auto" style="max-width: 1200px">
+      <div class="row">
+        <div class="col-12">
+          <h3 class="text-center q-mb-none">{{ $t('manage_jobs') }}</h3>
+        </div>
+      </div>
+      <!-- 新增工作btn -->
+      <div class="row justify-end">
+        <div class="col-2 q-pb-sm text-right">
+          <q-btn id="plus" flat color="primary" icon="mdi-plus-circle-outline" :label="$t('post_jobs')"
+            to="/admin/jobs_post" />
+        </div>
+      </div>
       <q-separator class="q-mb-lg" />
 
       <q-table id="job_table" :rows="jobs" :columns="columns" row-key="name" :loading="loading" :grid="$q.screen.lt.lg"
@@ -12,6 +23,14 @@
           <q-td :props="props">
             {{ props.value }}
           </q-td>
+        </template>
+        <!-- 表頭 -->
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
+              {{ col.label }}
+            </q-th>
+          </q-tr>
         </template>
         <!-- photos 民宿照片 -->
         <template v-slot:body-cell-photos="props">
@@ -79,7 +98,7 @@
       </q-table>
 
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script setup>

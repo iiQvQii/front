@@ -1,13 +1,13 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-mx-auto" style="max-width: 1200px">
+  <q-page>
+    <div class="q-pa-xl q-mx-auto" style="max-width: 1200px">
 
       <h3 class="text-center">{{ $t('application_status') }}</h3>
       <q-separator class="q-mb-lg" />
       <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
       <q-table id="helper_table" v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
         :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter" :no-data-label="$t('no_data_label')"
-        :no-results-label="$t('no_results_label')" :column-sort-order="da">
+        :no-results-label="$t('no_results_label')">
         <template v-slot:header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
@@ -341,7 +341,7 @@
         </q-card>
       </q-dialog>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script setup>
@@ -409,7 +409,6 @@ const helperColumns = computed(() => {
       align: 'center',
       label: t('job_time'),
       field: row => row.job.date_from + '~' + row.job.date_to,
-      sortOrder: 'da',
       sortable: true
     },
     {

@@ -1,78 +1,105 @@
 <template>
-  <q-page id="post_jobs" class="flex flex-center column">
-    <h4>{{ $t('new_jobs') }}</h4>
-    <div class="q-pa-md" style="min-width: 500px">
-      <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
-        <q-toggle v-model="form.is_shown" :label="form.is_shown ? $t('is_shown') : $t('is_not_shown')" />
-        <!-- 職缺名稱 -->
-        <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
-        </q-input>
-        <!-- 時間job_time -->
-        <q-input outlined v-model="date" :rules="rules.required" :label="$t('job_time')">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                <q-date v-model="form.date" range>
-                  <div class="row items-center justify-end">
-                    <q-btn v-close-popup label="Close" color="primary" flat />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
+  <q-page id="post_jobs">
+    <div class="q-pa-xl q-mx-auto">
+      <h3 class="text-center">{{ $t('new_jobs') }}</h3>
+      <q-separator inset class="q-mb-lg" />
 
-        <!-- 縣市 -->
-        <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value lazy-rules
-          :rules="rules.required">
-        </q-select>
-        <!-- 區 -->
-        <q-select outlined v-model="form.district" :options="districtOptions" :label="$t('district') + '*'" emit-value
-          :rules="rules.required">
-        </q-select>
-        {{ idxZip.city }}
-        <!-- 詳細地址 -->
-        <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
-          :rules="rules.address" />
-        <!-- 福利job_welfare -->
-        <h5>{{ $t('job_welfare') }}</h5>
-        <div class="q-gutter-sm">
-          <q-checkbox v-for="(welfareOption, i) in welfareOptions" :key="i" v-model="form.welfare"
-            :val="welfareOption.value" :label="welfareOption.label" />
-        </div>
-        {{ form.welfare }}
-        <!-- 工作時數 -->
-        <h5>{{ $t('job_week_hours') }}</h5>
-        <q-input v-model.number="form.week_hours" type="number" filled :rules="rules.required">
-          <template v-slot:append>
-            <p style="font-size: 1rem;margin: 0;">{{ $t('hours_a_week') }}</p>
-          </template>
-        </q-input>
+      <div class="q-mx-auto form_container">
+        <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
 
-        <!-- 工作內容 -->
-        <h5>{{ $t('job_description') }}</h5>
-        <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
-          :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
-
-        <!-- 照片 -->
-        <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
-        <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
-          :label="$t('upload_file')" hint="最多上傳3張">
-          <template v-slot:prepend>
-            <q-icon name="cloud_upload" />
-          </template>
-        </q-file>
-        <!-- 渲染上傳圖片 -->
-        <div class="q-pa-md flex row">
-          <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
-            <q-img :src="photo" :ratio="4 / 3" spinner-color="white" />
+          <div class="row justify-end">
+            <div class="col q-pb-md text-right text-weight-bold">
+              <q-toggle v-model="form.is_shown" :label="form.is_shown ? $t('is_shown') : $t('is_not_shown')" />
+            </div>
           </div>
-        </div>
-        <!-- 提問小幫手 -->
-        <h5>{{ $t('job_question') }}</h5>
-        <q-input v-model="form.question" filled type="textarea" :hint="$t('job_question_hint')" />
-        <q-btn class="full-width" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
-      </q-form>
+
+          <div>
+            <!-- 職缺名稱 -->
+            <q-input outlined v-model="form.title" :label="$t('job_title') + '*'" :rules="rules.title">
+            </q-input>
+            <!-- 時間job_time -->
+            <q-input outlined v-model="date" :rules="rules.required" :label="$t('job_time')">
+              <template v-slot:append>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="form.date" range>
+                      <div class="row items-center justify-end">
+                        <q-btn v-close-popup label="Close" color="primary" flat />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-icon>
+              </template>
+            </q-input>
+
+            <!-- 縣市 -->
+            <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
+              lazy-rules :rules="rules.required">
+            </q-select>
+            <!-- 區 -->
+            <q-select outlined v-model="form.district" :options="districtOptions" :label="$t('district') + '*'"
+              emit-value :rules="rules.required">
+            </q-select>
+            {{ idxZip.city }}
+            <!-- 詳細地址 -->
+            <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
+              :rules="rules.address" />
+          </div>
+
+          <!-- 福利job_welfare -->
+          <div>
+            <h5>{{ $t('job_welfare') }}</h5>
+            <div class="q-gutter-sm">
+              <q-checkbox v-for="(welfareOption, i) in welfareOptions" :key="i" v-model="form.welfare"
+                :val="welfareOption.value" :label="welfareOption.label" />
+            </div>
+
+          </div>
+
+          <!-- 工作時數 -->
+          <div>
+            <h5>{{ $t('job_week_hours') }}</h5>
+            <q-input v-model.number="form.week_hours" type="number" filled :rules="rules.required">
+              <template v-slot:append>
+                <p style="font-size: 1rem;margin: 0;">{{ $t('hours_a_week') }}</p>
+              </template>
+            </q-input>
+          </div>
+
+          <!-- 工作內容 -->
+          <div>
+            <h5>{{ $t('job_description') }}</h5>
+            <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
+              :placeholder="$t('write_down_what_the_helpers_need_to_do')" />
+          </div>
+
+          <!-- 照片 -->
+          <div>
+            <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
+            <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
+              :label="$t('upload_file')" hint="最多上傳3張">
+              <template v-slot:prepend>
+                <q-icon name="cloud_upload" />
+              </template>
+            </q-file>
+            <!-- 渲染上傳圖片 -->
+            <div class="q-pa-md flex row">
+              <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
+                <q-img :src="photo" :ratio="4 / 3" spinner-color="white" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 提問小幫手 -->
+          <div>
+            <h5>{{ $t('job_question') }}</h5>
+            <q-input v-model="form.question" filled type="textarea" :hint="$t('job_question_hint')" />
+          </div>
+
+          <!-- 送出 -->
+          <q-btn class="full-width q-mt-xl" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
+        </q-form>
+      </div>
     </div>
 
   </q-page>

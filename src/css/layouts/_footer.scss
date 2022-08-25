@@ -1,0 +1,17 @@
+.footer {
+  z-index: 1;
+  padding: 3rem 0 1rem 0;
+  .col-3 {
+    p {
+      letter-spacing: .1rem;
+      margin-bottom: .5rem;
+    }
+  }
+  
+  h6 {
+    letter-spacing: .1rem;
+  }
+}
+.footer_logo {
+  width: 150px;
+}

@@ -10,7 +10,7 @@ const routes = [
       {
         path: '',
         name: 'front_home',
-        component: () => import('pages/front/HomePage.vue'),
+        component: HomePage,
         meta: {
           title: 'Workweee我耶 | Home',
           login: false,

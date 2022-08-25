@@ -1,27 +1,33 @@
 <template>
-  <q-page class="flex flex-center column">
-    <h4>{{ $t('login') }}</h4>
-    <div class="q-pa-md" style="min-width: 300px">
-      <q-form ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
-        @submit.prevent="login">
-        <!-- 帳號 -->
-        <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">
-        </q-input>
-        <!-- 密碼 -->
-        <q-input outlined type="password" v-model="form.password" :label="$t('password') + '*'" lazy-rules
-          :rules="rules.password" />
-        <!-- 請選擇登入身分 -->
-        <p :style="warningStyle">{{ $t('login_as') + '*' }}</p>
-        <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread :rules="rules.role"
-          ref="role" style="margin-bottom: 20px;" />
-        <!-- 送出btn -->
-        <q-btn class="full-width" color="primary" :label="$t('login')" type="submit" :loading="loading" />
-      </q-form>
+  <q-page>
+    <div class="flex flex-center column">
+      <h4>{{ $t('login') }}</h4>
+      <div class="q-pa-md" style="min-width: 300px">
+        <q-form ref="loginForm" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
+          @submit.prevent="login">
+          <!-- 帳號 -->
+          <q-input outlined v-model="form.account" :label="$t('account') + '*'" :rules="rules.account">
+          </q-input>
+          <!-- 密碼 -->
+          <q-input outlined type="password" v-model="form.password" :label="$t('password') + '*'" lazy-rules
+            :rules="rules.password" />
+          <!-- 請選擇登入身分 -->
+          <p :style="warningStyle">{{ $t('login_as') + '*' }}</p>
+          <q-btn-toggle v-model="form.role" toggle-color="primary" :options="options" spread :rules="rules.role"
+            ref="role" style="margin-bottom: 20px;" />
+          <!-- 送出btn -->
+          <q-btn class="full-width" color="primary" :label="$t('login')" type="submit" :loading="loading" />
+        </q-form>
 
-      <q-separator class="q-my-lg" />
-      <p class="q-my-sm text-center">{{ $t('not_yet_registered') }}</p>
-      <q-btn class="full-width" :label="$t('create_account')" color="primary" outline no-caps to="/register" />
+        <q-separator class="q-my-lg" />
+        <div class="q-pb-lg">
+          <p class="q-my-sm text-center">{{ $t('not_yet_registered') }}</p>
+          <q-btn class="full-width" :label="$t('create_account')" color="primary" outline no-caps to="/register" />
+        </div>
+
+      </div>
     </div>
+
   </q-page>
 </template>
 

@@ -304,8 +304,8 @@ const register = async () => {
     await api.post('/users/register', form)
     await Swal.fire({
       icon: 'success',
-      title: '成功',
-      text: '註冊成功'
+      title: '註冊成功',
+      text: '請登入至會員中心填寫個人資料'
     })
     router.push('/')
   } catch (error) {

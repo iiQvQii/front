@@ -16,14 +16,25 @@
             <q-img :src="job.photos[0]" :ratio="4 / 3" />
 
             <q-card-section>
-              <!-- {{ jobs }} -->
-              <div class="text-overline text-orange-9">
-                <q-icon name="pin_drop" size="1.1rem" />
-                {{ job.city + ' ' + job.district }}
+              <div class="left">
+                <q-avatar size="2rem">
+                  <img :src="job.host.avatar">
+                </q-avatar>
               </div>
-              <div class="text-h5 q-mt-sm q-mb-xs title">
-                {{ job.title }}
+              <div class="right">
+                <!-- 地點 -->
+                <div class="text-overline text-orange-9">
+                  <q-icon name="pin_drop" size="1.1rem" />
+                  {{ job.city + ' ' + job.district }}
+                </div>
+                <!-- 工作名稱 -->
+                <div class="text-h5 q-mt-sm q-mb-xs title">
+                  {{ job.title }}
+
+                </div>
               </div>
+
+              <!-- 換宿福利 -->
               <div class="q-pb-sm">
                 <div class="text-overline text-orange-9">
                   {{ $t('job_welfare') }}
@@ -31,11 +42,13 @@
                 <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
                 </q-chip>
               </div>
+              <!-- 工作內容 -->
               <div class="description text-caption text-grey">
                 {{ job.description }}
               </div>
             </q-card-section>
 
+            <!-- more btn -->
             <q-card-actions>
               <q-btn class="full-width" flat color="primary" :label="$t('more')" :to="('/jobs/' + job._id)" />
             </q-card-actions>

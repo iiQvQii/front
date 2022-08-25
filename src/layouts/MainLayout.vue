@@ -48,7 +48,7 @@
         <!-- 大頭貼 ------------------------------------>
         <q-btn v-if="isLogin" class="gt-md" flat>
           <q-avatar>
-            <img :src="avatar">
+            <img :src="avatar || beamAvatar">
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 100px">
@@ -197,7 +197,11 @@ const { t } = useI18n()
 // 登入
 const user = useUserStore()
 const { logout } = user
-const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
+const { isLogin, isAdmin, isHost, isHelper, avatar, beamAvatar, lang } = storeToRefs(user)
+
+let year = ref('')
+year = new Date().getFullYear()
+
 const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value

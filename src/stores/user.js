@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', {
     token: '',
     account: '',
     name: '',
-    Avatar: '',
+    avatar: '',
     tel: '',
     mobile: '',
     email: '',
@@ -37,7 +37,7 @@ export const useUserStore = defineStore('user', {
     isHelper () {
       return this.role === 2
     },
-    avatar () {
+    beamAvatar () {
       return 'https://source.boringavatars.com/beam/120/' + this.account + this.role
     }
   },
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         this.token = data.result.token
         this.account = data.result.account
         this.name = data.result.name
-        this.Avatar = data.result.avatar || ''
+        this.avatar = data.result.avatar || ''
         this.tel = data.result.tel || ''
         this.mobile = data.result.mobile || ''
         this.email = data.result.email || ''
@@ -101,15 +101,6 @@ export const useUserStore = defineStore('user', {
     },
     async editUserInfo (form) {
       try {
-        // 單個上傳
-        // const fd = new FormData()
-        // for (const key in form) {
-        //   if (key === 'photos') {
-        //     fd.append(key, form[key][0])
-        //   } else {
-        //     fd.append(key, form[key])
-        //   }
-        // }
         const fd = new FormData()
         for (const key in form) {
           if (key === 'photos') {
@@ -125,7 +116,7 @@ export const useUserStore = defineStore('user', {
         console.log('ok')
         this.account = data.result?.account
         this.name = data.result.name
-        this.Avatar = data.result.avatar || ''
+        this.avatar = data.result.avatar || ''
         this.tel = data.result.tel || ''
         this.mobile = data.result.mobile || ''
         this.email = data.result.email || ''
@@ -163,7 +154,7 @@ export const useUserStore = defineStore('user', {
         const { data } = await apiAuth.get('/users')
         this.account = data.result.account
         this.name = data.result.name
-        this.Avatar = data.result.avatar || ''
+        this.avatar = data.result.avatar || ''
         this.tel = data.result.tel || ''
         this.mobile = data.result.mobile || ''
         this.email = data.result.email || ''
