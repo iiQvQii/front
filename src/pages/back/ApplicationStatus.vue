@@ -6,8 +6,8 @@
       <q-separator class="q-mb-lg" />
       <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
       <q-table id="helper_table" v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"
-        :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter" :no-data-label="$t('no_data_label')"
-        :no-results-label="$t('no_results_label')">
+        :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg" :filter="filter"
+        :no-data-label="$t('no_data_status_helper')" :no-results-label="$t('no_results_label')">
         <template v-slot:header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
@@ -154,8 +154,9 @@
 
       <!-- 業主的table ---------------------------------------------------------------------------------------------------------------------------------->
       <q-table id="host_table" v-if="isHost" :rows="jobs" :columns="hostColumns" row-key="name" :loading="loading"
-        :no-data-label="$t('no_data_label_status')" :no-results-label="$t('no_results_label')" :grid="$q.screen.lt.lg"
-        :hide-bottom="$q.screen.lt.lg" :filter="filter">
+        :pagination="initialPagination" :no-data-label="$t('no_data_status_host')"
+        :no-results-label="$t('no_results_label')" :grid="$q.screen.lt.lg" :hide-bottom="$q.screen.lt.lg"
+        :filter="filter">
         <template v-slot:header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props" class=" text-primary">
@@ -483,6 +484,11 @@ const hostColumns = computed(() => {
     }
 
   ]
+})
+
+const initialPagination = reactive({
+  page: 1,
+  rowsPerPage: 0
 })
 
 const getMyOrders = async () => {

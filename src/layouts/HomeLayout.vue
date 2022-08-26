@@ -10,7 +10,7 @@
         </q-toolbar-title>
         <q-tabs class="gt-md" shrink stretch align="left">
           <q-route-tab to="/about_us" name="about_us" :label="$t('about_us')" />
-          <q-route-tab to="/jobs" name="jobs" :label="$t('find_jobs')" />
+          <q-route-tab to="/jobs/search?title=&city=" name="jobs" :label="$t('find_jobs')" />
           <q-route-tab to="/faqs" name="faqs" :label="$t('faqs')" />
           <q-route-tab to="/contact_us" name="contact_us" :label="$t('contact_us')" />
         </q-tabs>
@@ -47,7 +47,7 @@
         <!------------------------------------------- 大頭貼 ----------------------------------------------------->
         <q-btn v-if="isLogin" class="gt-md" flat>
           <q-avatar>
-            <img :src="avatar || beamAvatar">
+            <img :src="avatar">
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 100px">
@@ -195,7 +195,7 @@ const { t } = useI18n()
 // 登入
 const user = useUserStore()
 const { logout } = user
-const { isLogin, isAdmin, isHost, isHelper, avatar, beamAvatar, lang } = storeToRefs(user)
+const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
 let year = ref('')
 year = new Date().getFullYear()
@@ -224,7 +224,7 @@ const linksList = reactive([
   {
     title: 'find_jobs',
     icon: 'work',
-    to: '/jobs',
+    to: '/jobs/search?title=&city=',
     font_size: 'text-h5',
     isHost: true
   },

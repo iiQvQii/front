@@ -19,16 +19,55 @@
         <!-- 搜尋導覽按鈕 -->
         <q-btn-group id="search_btn_group" unelevated spread>
           <q-btn color="white" text-color="primary" :label="$t('search_directly')" />
-          <q-btn outline color="white" text-color="white" :label="$t('search_by_location')" />
-          <q-btn outline color="white" text-color="white" :label="$t('search_by_time')" />
+          <q-btn outline color="white" text-color="white" :label="$t('search_by_location')" @click="openLocationList" />
+          <q-btn outline color="white" text-color="white" :label="$t('search_by_time')" @click="openTimeList" />
         </q-btn-group>
         <!-- search bar -->
-        <q-input id="search" v-model="form.keyword" standout type="search" :placeholder="$t('search')" maxlength="30"
-          color="dark" bg-color="white">
-        </q-input>
-        <q-btn id="search_btn" color="secondary" :label="$t('search')" icon="search" />
+        <div id="search">
+          <q-input v-model="form.keyword" standout type="search" maxlength="30" color="dark" bg-color="white"
+            :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
+          </q-input>
+          <q-btn id="search_btn" color="secondary" :label="$t('search')" icon="search" />
+        </div>
+
       </div>
     </div>
+    <!-- 地區搜尋 -->
+    <q-dialog v-model="locationDialog">
+      <q-card style="width: 700px; max-width: 90vw;">
+        <q-card-section>
+          <h5 class="q-mb-none text-center">{{ $t('search_by_location') }}</h5>
+        </q-card-section>
+        <q-separator inset class="q-my-md" />
+        <div class="row flex-center">
+          <q-card-section class="q-pt-none col-12 q-gutter-md ">
+            <q-btn v-for="(city, idx) in cities" :key="idx" :label="city" color="primary" flat
+              @click="searchDistrict(city)" />
+          </q-card-section>
+        </div>
+      </q-card>
+    </q-dialog>
+    {{ form.district }}
+
+    <!-- 時間搜尋 -->
+    <!-- <q-dialog v-model="timeDialog">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="q-pa-md">
+            <q-option-group :options="districtOptions" type="checkbox" v-model="form.district" />
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat :label="$t('submit')" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog> -->
+
     <!-- 找換宿工作/刊登換宿 -->
     <!-- 熱門換宿 -->
     <div class="row">
@@ -75,11 +114,15 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-
+import { ref, reactive, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../../stores/user'
+import dataZh from '../../address/data-zh'
+import dataEn from '../../address/data-en'
+import { apiAuth } from 'src/boot/axios'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const autoplay = ref(true)
 const slide = ref(1)
 // 登入
@@ -87,8 +130,28 @@ const user = useUserStore()
 const { logout } = user
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
+const locationDialog = ref(false)
+const timeDialog = ref(false)
+
 const form = reactive({
-  keyword: ''
+  keyword: '',
+  district: []
 })
 
+const cities = reactive(dataZh.counties)
+
+const searchDistrict = (city) => {
+  console.log(city)
+  // const city = dataZh.counties[idx]
+  // /jobs/search?title=&city=' + city + 'district=&welfare
+  router.push('/jobs/search?title=&city=' + city)
+}
+
+const openLocationList = () => {
+  locationDialog.value = true
+}
+
+const openTimeList = () => {
+  timeDialog.value = true
+}
 </script>

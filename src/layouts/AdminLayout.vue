@@ -93,7 +93,7 @@
               @update:model-value="changeAvatar" />
           </div>
           <q-avatar size="5rem">
-            <img :src="avatar || beamAvatar">
+            <img :src="avatar">
             <q-btn id="camera" round icon="fa-solid fa-camera" color="dark" size=".6rem" @click="openFile" />
           </q-avatar>
 
@@ -167,7 +167,6 @@ const {
   isHost,
   isHelper,
   avatar,
-  beamAvatar,
   lang
 } = storeToRefs(user)
 const avatarFile = ref(null)

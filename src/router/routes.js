@@ -67,7 +67,7 @@ const routes = [
       {
         path: 'jobs',
         name: 'jobs',
-        component: () => import('pages/front/FindJobs.vue'),
+        component: () => import('pages/front/SearchJobs.vue'),
         meta: {
           title: 'Workweee我耶 | 換宿機會',
           login: false,
@@ -77,7 +77,7 @@ const routes = [
       {
         path: 'jobs/search',
         name: 'jobs_search',
-        component: () => import('pages/front/FindJobs.vue'),
+        component: () => import('pages/front/SearchJobs.vue'),
         meta: {
           title: 'Workweee我耶 | 換宿機會',
           login: false,

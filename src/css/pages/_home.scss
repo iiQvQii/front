@@ -19,7 +19,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    opacity: .92;
+    opacity: .85;
   }
   #banner{
     width: 100%;
@@ -50,26 +50,23 @@
     }
   }
 
+  #search {
+    position: relative;
+    .q-field__control {
+      box-shadow: none;
+    }
+  }
+
   #search_btn {
     width: 100px;
-    height: 60px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 0 8px 8px 0;
+    
   }
-  @include md {
-    #search_btn_group{
-      width: 500px;
-    }
-    .q-input {
-      width: 500px;
-      .q-field__control {
-        height: 60px !important;
-      }
-    }
-    #search_btn {
-      height: 50px;
-    }
-  }
-}
-
+  
 .logo {
   margin: 0;
   display: inline-block;
@@ -91,6 +88,26 @@
     white-space: nowrap;
   }
 }
+// .city{
+//   width: 300px !important;
+// }
+
+  @include md {
+    #search_btn_group{
+      width: 500px;
+    }
+    .q-input {
+      width: 500px;
+      .q-field__control {
+        height: 60px !important;
+      }
+    }
+    #search_btn {
+      height: 60px;
+    }
+  }
+}
+
 
 @keyframes scale {
   80%{

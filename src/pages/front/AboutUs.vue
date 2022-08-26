@@ -5,7 +5,7 @@
       <q-parallax src="https://cdn.quasar.dev/img/parallax2.jpg">
         <h1 class="text-white">Basic</h1>
       </q-parallax>
-
+      <q-checkbox v-model="val" />
     </div>
   </q-page>
   <q-page-sticky position="bottom-right" :offset="[18, 18]">
