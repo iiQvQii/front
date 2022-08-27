@@ -2,8 +2,8 @@
   <q-page>
     <!-- 上方banner區 ---------------------------------->
     <div id="banner" class="q-pa-none relative-position">
-      <q-carousel animated v-model="slide" infinite :autoplay="autoplay" transition-prev="fade" transition-next="fade"
-        @mouseenter="autoplay = false" @mouseleave="autoplay = true" transition-duration="3000" height="100%">
+      <q-carousel animated v-model="slide" infinite :autoplay="12000" transition-prev="fade" transition-next="fade"
+        transition-duration="3000" height="100%">
         <q-carousel-slide :name="1" img-src="../../assets/banner-1.jpg" />
         <q-carousel-slide :name="2" img-src="../../assets/banner-2.jpg" />
         <q-carousel-slide :name="3" img-src="../../assets/banner-3.jpg" />
@@ -123,7 +123,7 @@ import { apiAuth } from 'src/boot/axios'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const autoplay = ref(true)
+const autoplay = ref(12000)
 const slide = ref(1)
 // 登入
 const user = useUserStore()

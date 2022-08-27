@@ -119,9 +119,10 @@ const searchJob = async () => {
     for (const key in form) {
       url += key + '=' + (form[key] || '') + '&'
     }
-    url.slice(0, -1)
     console.log(url)
-    const { data } = await apiAuth.get(url)
+    const slicedUrl = url.slice(0, -1)
+    console.log(slicedUrl)
+    const { data } = await apiAuth.get(slicedUrl)
     // // router.replace({ path: '/' })
     // jobs = []
     jobs.push(...data.result)
