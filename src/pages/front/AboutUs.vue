@@ -1,5 +1,6 @@
 <template>
   <q-page>
+
     <div class="row justify-between">
 
       <q-parallax src="https://cdn.quasar.dev/img/parallax2.jpg">

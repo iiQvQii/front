@@ -7,13 +7,17 @@
   }
 }
 
+h2 {
+  font-size: calc(1.1rem + 1.1vw);
+}
+
 .swal2-styled.swal2-confirm {
   border-radius: 0.5em !important;
   background-color:#ff7e00 !important;
 }
-.q-card>.justify-end {
-  justify-content:center;
-}
+// .q-card>.justify-end {
+//   justify-content:center;
+// }
 
 .q-btn:before {
   box-shadow: none

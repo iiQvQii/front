@@ -10,7 +10,7 @@
         </q-toolbar-title>
         <q-tabs class="gt-md" shrink stretch align="left">
           <q-route-tab to="/about_us" name="about_us" :label="$t('about_us')" />
-          <q-route-tab to="/jobs/search?title=&city=" name="jobs" :label="$t('find_jobs')" />
+          <q-route-tab to="/jobs/search" name="jobs" :label="$t('find_jobs')" />
           <q-route-tab to="/faqs" name="faqs" :label="$t('faqs')" />
           <q-route-tab to="/contact_us" name="contact_us" :label="$t('contact_us')" />
         </q-tabs>
@@ -70,55 +70,55 @@
       </q-toolbar>
     </q-header>
     <!-- footer -->
-    <q-footer class="footer text-dark container q-mx-auto" bordered>
-      <!-- footer內容區 -->
-      <div class="row justify-center">
-        <div class="col-3 q-pr-lg">
-          <a href="#">
-            <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
-          </a>
-          <div class="q-py-md">
-            <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
-            <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
-            <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+    <q-footer class="footer text-dark q-mx-auto" bordered>
+      <div class="container q-mx-auto">
+        <div class="row justify-center">
+          <div class="col-12 col-md-4 col-lg-3 q-px-lg">
+            <a href="#">
+              <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
+            </a>
+            <div class="q-py-md">
+              <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
+              <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
+              <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+            </div>
           </div>
-        </div>
-        <!-- 換宿機會 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
-          <p>{{ $t('find_jobs') }}</p>
-          <p>{{ $t('hot_jobs') }}</p>
-          <p>{{ $t('latest_jobs') }}</p>
+          <!-- 換宿機會 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
+            <p>{{ $t('all_jobs') }}</p>
+            <p>{{ $t('hot_jobs') }}</p>
+            <p>{{ $t('latest_jobs') }}</p>
 
-        </div>
-        <!-- 關於我們 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
-          <p>{{ $t('about_us') }}</p>
-          <p>{{ $t('faqs') }}</p>
+          </div>
+          <!-- 關於我們 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
+            <p>{{ $t('about_us') }}</p>
+            <p>{{ $t('faqs') }}</p>
 
-        </div>
-        <!-- 會員中心 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('member') }}</h6>
-          <p>{{ $t('manage_profile') }}</p>
-          <p>{{ $t('check_application_status') }}</p>
-          <p>{{ $t('post_jobs') }}</p>
-        </div>
-        <!-- 幫助 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('support') }}</h6>
-          <p>{{ $t('terms_of_service') }}</p>
-          <p>{{ $t('privacy_policy') }}</p>
-          <p>{{ $t('contact_us') }}</p>
-        </div>
-        <!-- 版權宣告 -->
-        <div class="col-12 text-center text-grey q-pt-md">
-          {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+          </div>
+          <!-- 會員中心 -->
+          <div class="col-6 col-md-8 col-lg-2 q-px-lg member">
+            <h6 class="q-my-md">{{ $t('member') }}</h6>
+            <p>{{ $t('manage_profile') }}</p>
+            <p>{{ $t('check_application_status') }}</p>
+            <p>{{ $t('post_jobs') }}</p>
+          </div>
+          <!-- 幫助 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('support') }}</h6>
+            <p>{{ $t('terms_of_service') }}</p>
+            <p>{{ $t('privacy_policy') }}</p>
+            <p>{{ $t('contact_us') }}</p>
+          </div>
+          <!-- 版權宣告 -->
+          <div class="col-12 text-center text-grey q-pt-xl">
+            {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+          </div>
         </div>
       </div>
 
-      <div></div>
     </q-footer>
 
     <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->

@@ -1,5 +1,6 @@
 <template>
   <q-page>
+
     <!-- 上方banner區 ---------------------------------->
     <div id="banner" class="q-pa-none relative-position">
       <q-carousel animated v-model="slide" infinite :autoplay="12000" transition-prev="fade" transition-next="fade"
@@ -8,7 +9,9 @@
         <q-carousel-slide :name="2" img-src="../../assets/banner-2.jpg" />
         <q-carousel-slide :name="3" img-src="../../assets/banner-3.jpg" />
       </q-carousel>
-      <div class="bg"></div>
+      <div class="bg">
+        <!-- <img id="logo_face" src="../../assets/logo-face.svg"> -->
+      </div>
       <!-- banner區塊內容 -->
       <div id="banner_info" class="flex column flex-center q-mx-auto text-center">
         <h2 class="q-mb-none text-white">{{ $t('slogan') }}</h2>
@@ -18,89 +21,129 @@
         </h1>
         <!-- 搜尋導覽按鈕 -->
         <q-btn-group id="search_btn_group" unelevated spread>
-          <q-btn color="white" text-color="primary" :label="$t('search_directly')" />
-          <q-btn outline color="white" text-color="white" :label="$t('search_by_location')" @click="openLocationList" />
-          <q-btn outline color="white" text-color="white" :label="$t('search_by_time')" @click="openTimeList" />
+          <q-btn color="white" text-color="white" flat :label="$t('search_directly')" />
+          <q-btn color="white" text-color="white" flat :label="$t('search_by_location')" @click="openLocationList" />
+          <q-btn class="btn_right_none" color="white" text-color="white" flat :label="$t('search_by_time')"
+            @click="openTimeList" />
         </q-btn-group>
         <!-- search bar -->
         <div id="search">
           <q-input v-model="form.keyword" standout type="search" maxlength="30" color="dark" bg-color="white"
             :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
           </q-input>
-          <q-btn id="search_btn" color="secondary" :label="$t('search')" icon="search" />
+          <q-btn id="search_btn" color="secondary" icon="search" />
         </div>
 
       </div>
+
     </div>
     <!-- 地區搜尋 -->
     <q-dialog v-model="locationDialog">
-      <q-card style="width: 700px; max-width: 90vw;">
+      <q-card class="q-ma-sm" style="width: 700px; max-width: 90vw;">
         <q-card-section>
-          <h5 class="q-mb-none text-center">{{ $t('search_by_location') }}</h5>
+          <h4 class="q-mb-none text-center">{{ $t('search_by_location') }}</h4>
         </q-card-section>
-        <q-separator inset class="q-my-md" />
+        <q-separator inset class="q-my-sm" />
         <div class="row flex-center">
-          <q-card-section class="q-pt-none col-12 q-gutter-md ">
+          <q-card-section class="q-pt-none col-12 q-gutter-md">
             <q-btn v-for="(city, idx) in cities" :key="idx" :label="city" color="primary" flat
               @click="searchDistrict(city)" />
           </q-card-section>
         </div>
       </q-card>
     </q-dialog>
-    {{ form.district }}
 
     <!-- 時間搜尋 -->
-    <!-- <q-dialog v-model="timeDialog">
-      <q-card>
+    <q-dialog v-model="timeDialog">
+      <q-card class="q-ma-sm" style="width: 700px; max-width: 90vw;">
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <h4 class="q-mb-none text-center">{{ $t('search_by_time') }}</h4>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="q-pa-md">
-            <q-option-group :options="districtOptions" type="checkbox" v-model="form.district" />
-          </div>
+        <q-separator inset class="q-my-sm" />
+        <div class="row flex-center">
+          <q-card-section class="q-pt-none col flex flex-center">
+            <q-date v-model="form.date" range />
+          </q-card-section>
+        </div>
+        <q-card-section class="q-pt-none col flex flex-center">
+          <q-btn class="btn_borderd" :label="$t('search')" flat color="primary" @click="searchTime" />
         </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat :label="$t('submit')" color="primary" v-close-popup />
-        </q-card-actions>
       </q-card>
-    </q-dialog> -->
+    </q-dialog>
 
     <!-- 找換宿工作/刊登換宿 -->
-    <!-- 熱門換宿 -->
-    <div class="row">
-      <div class="col">
-        <q-carousel v-model="slide" swipeable animated :control-type="controlType" control-color="purple" navigation
-          padding arrows height="300px" class="text-purple rounded-borders">
-          <q-carousel-slide name="style" class="column no-wrap flex-center">
-            <q-icon name="style" size="56px" />
-            <div class="q-mt-md text-center text-black">
-              {{ lorem }}
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide name="tv" class="column no-wrap flex-center">
-            <q-icon name="live_tv" size="56px" />
-            <div class="q-mt-md text-center text-black">
-              {{ lorem }}
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide name="layers" class="column no-wrap flex-center">
-            <q-icon name="layers" size="56px" />
-            <div class="q-mt-md text-center text-black">
-              {{ lorem }}
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide name="map" class="column no-wrap flex-center">
-            <q-icon name="terrain" size="56px" />
-            <div class="q-mt-md text-center text-black">
-              {{ lorem }}
-            </div>
-          </q-carousel-slide>
-        </q-carousel>
+    <div id="guide" class="container q-mx-auto ">
+      <div class="row ">
+        <div class="col-12">
+          <h2 class="q-mb-xl">現在開始行動</h2>
+        </div>
+      </div>
+
+      <div class="row action_area">
+        <div class="col-6">
+          <div class="action guide_helper flex column flex-center">
+            <img src="../../assets/guide_helper.svg" />
+            <h5>{{ $t('guide_helper') }}</h5>
+          </div>
+
+        </div>
+        <div class="col-6">
+          <div class="action guide_host flex column flex-center">
+            <img src="../../assets/guide_host.svg" />
+            <h5>{{ $t('guide_host') }}</h5>
+
+          </div>
+
+        </div>
       </div>
     </div>
+
+    <!-- 熱門換宿 -->
+    <!-- 換宿優點 -->
+    <div class="container q-mx-auto">
+
+      <div class="row">
+        <div class="col">
+          <h2>{{ $t('slogan1') }}</h2>
+        </div>
+      </div>
+      <div class="row">
+        <!-- 體驗在地生活 -->
+        <div class="col-12 col-md-4">
+          <q-card class="my-card" flat>
+            <q-card-section>
+              <q-img img-class="feature" src="../../assets/7176.jpg" />
+            </q-card-section>
+            <q-card-section>
+              <h5>{{ '體驗在地生活' }}</h5>
+            </q-card-section>
+          </q-card>
+        </div>
+        <!-- 拓展交友圈 -->
+        <div class="col-12 col-md-4">
+          <q-card class="my-card" flat>
+            <q-card-section>
+              <q-img img-class="feature" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+            </q-card-section>
+            <q-card-section>
+              <h5>{{ '拓展交友圈' }}</h5>
+            </q-card-section>
+          </q-card>
+        </div>
+        <!-- 低成本旅遊 -->
+        <div class="col-12 col-md-4">
+          <q-card class="my-card" flat>
+            <q-card-section>
+              <q-img img-class="feature" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+            </q-card-section>
+            <q-card-section>
+              <h5>{{ '低成本旅遊' }}</h5>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </div>
+
     <!-- 最新換宿 -->
     <!--  -->
     <!-- banner -->
@@ -135,7 +178,7 @@ const timeDialog = ref(false)
 
 const form = reactive({
   keyword: '',
-  district: []
+  date: {}
 })
 
 const cities = reactive(dataZh.counties)
@@ -144,7 +187,13 @@ const searchDistrict = (city) => {
   console.log(city)
   // const city = dataZh.counties[idx]
   // /jobs/search?title=&city=' + city + 'district=&welfare
-  router.push('/jobs/search?title=&city=' + city)
+  router.push('/jobs/search?city=' + city)
+}
+const searchTime = () => {
+  if (!form.date.from) return
+  const dateFrom = form.date.from.replace(/\//g, '-')
+  const dateTo = form.date.to.replace(/\//g, '-')
+  router.push('/jobs/search?date_from=' + dateFrom + '&date_to=' + dateTo)
 }
 
 const openLocationList = () => {

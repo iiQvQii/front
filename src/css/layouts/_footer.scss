@@ -1,16 +1,39 @@
 .footer {
   z-index: 1;
-  padding: 3rem 0 1rem 0;
-  .col-3 {
-    p {
-      letter-spacing: .1rem;
-      margin-bottom: .5rem;
-    }
+  padding: 2rem 0 .5rem 0;
+
+  p {
+    // letter-spacing: .1rem;
+    margin-bottom: .5rem;
   }
   
   h6 {
-    letter-spacing: .1rem;
+    font-weight: 600;
+    position: relative;
+    padding-left: .9rem;
+    &::before {
+      content: '';
+      width: 3px;
+      height: 1rem;
+      background: #000;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translate(0,-50%);
+      // border-radius: .5rem;
+    }
   }
+  @include md {
+    .member {
+      padding-left: calc(33% + 24px)
+    }
+  }
+  @include lg {
+    .member {
+      padding-left: 24px;
+    }
+  }
+
 }
 .footer_logo {
   width: 150px;

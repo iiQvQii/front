@@ -1,8 +1,8 @@
 <template>
   <q-page>
     <div id="find_job" class="container q-mx-auto ">
-      <!-- 麵包屑 -->
       <div class="row q-pb-md">
+        <!-- 麵包屑 -->
         <q-breadcrumbs class="col-12">
           <q-breadcrumbs-el exact :label="$t('home')" to="/" />
           <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
@@ -16,10 +16,10 @@
             <div class="row">
               <!-- 直接搜尋(title) -->
               <div class="col">
-                <q-input v-model="form.keyword" outlined type="search" maxlength="20" bg-color="white"
+                <q-input v-model="form.keyword" standout type="search" maxlength="20" color="dark" bg-color="white"
                   :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
                 </q-input>
-                <q-btn id="search_btn" color="primary" :label="$t('search')" icon="search" />
+                <q-btn id="search_btn" color="secondary" :label="$t('search')" icon="search" />
               </div>
             </div>
             <div class="row">
@@ -27,86 +27,80 @@
               <div class="col-6">
                 <!-- 縣市 -->
                 <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
-                  lazy-rules bg-color="white" />
+                  lazy-rules />
               </div>
               <!-- 時間 -->
               <div class="col-6">
-                <q-input outlined v-model="date" :label="$t('job_time')" bg-color="white">
-                  <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                        <q-date v-model="searchDate.date" range>
-                          <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
+                <q-btn icon="event" round color="primary">
+                  <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="proxyDate">
+                      <div class="row items-center justify-end q-gutter-sm">
+                        <q-btn label="Cancel" color="primary" flat v-close-popup />
+                        <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-btn>
               </div>
             </div>
 
           </div>
         </div>
       </div>
-      <!-- {{ qDate.date }} -->
+      {{ qDate.date }}
 
       <!-- 工作卡片 -------------------------------------------------->
-      <div class="q-my-xl" style="background-color: #efefef; padding:3rem;">
-        <div class="row  q-gutter-xs">
-          <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-4">
-            <q-card class="job_card" flat bordered>
-              <a :href="'#/jobs/' + job._id">
-                <q-img :src="job.photos[0]" :ratio="4 / 3" />
-              </a>
-              <q-card-section>
-                <div class="row">
-                  <div class="col-2 flex align-center">
-                    <q-avatar class="q-mt-xs" size="2.5rem">
-                      <img :src="job.host.avatar">
-                    </q-avatar>
+      <div class="row q-col-gutter-md q-my-xl">
+        <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-4">
+          <q-card class="job_card" flat bordered>
+            <a :href="'#/jobs/' + job._id">
+              <q-img :src="job.photos[0]" :ratio="4 / 3" />
+            </a>
+            <q-card-section>
+              <div class="row">
+                <div class="col-2 flex align-center">
+                  <q-avatar class="q-mt-xs" size="2.5rem">
+                    <img :src="job.host.avatar">
+                  </q-avatar>
+                </div>
+                <div class="col-10">
+                  <!-- 地點 -->
+                  <div class="text-overline text-orange-9">
+                    <q-icon name="pin_drop" size="1.1rem" />
+                    {{ job.city + ' ' + job.district }}
                   </div>
-                  <div class="col-10">
-                    <!-- 地點 -->
-                    <div class="text-overline text-orange-9">
-                      <q-icon name="pin_drop" size="1.1rem" />
-                      {{ job.city + ' ' + job.district }}
-                    </div>
-                    <!-- 工作名稱 -->
-                    <div class="text-h5 q-mt-sm q-mb-xs title">
-                      {{ job.title }}
+                  <!-- 工作名稱 -->
+                  <div class="text-h5 q-mt-sm q-mb-xs title">
+                    {{ job.title }}
 
-                    </div>
                   </div>
                 </div>
-                <div class="row">
-                  <!-- 換宿福利 -->
-                  <div class="col-12 q-py-sm">
-                    <div class="text-overline text-orange-9">
-                      {{ $t('job_welfare') }}
-                    </div>
-                    <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
-                    </q-chip>
+              </div>
+              <div class="row">
+                <!-- 換宿福利 -->
+                <div class="col-12 q-py-sm">
+                  <div class="text-overline text-orange-9">
+                    {{ $t('job_welfare') }}
                   </div>
+                  <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
+                  </q-chip>
                 </div>
-                <div class="row">
-                  <!-- 工作內容 -->
-                  <div class="col-12 description text-caption text-grey">
-                    {{ job.description }}
-                  </div>
+              </div>
+              <div class="row">
+                <!-- 工作內容 -->
+                <div class="col-12 description text-caption text-grey">
+                  {{ job.description }}
                 </div>
-              </q-card-section>
+              </div>
+            </q-card-section>
 
-              <!-- more btn -->
-              <q-card-actions>
-                <q-btn class="full-width" flat color="primary" :label="$t('more')" :to="('/jobs/' + job._id)" />
-              </q-card-actions>
-            </q-card>
-          </div>
+            <!-- more btn -->
+            <q-card-actions>
+              <q-btn class="full-width" flat color="primary" :label="$t('more')" :to="('/jobs/' + job._id)" />
+            </q-card-actions>
+          </q-card>
         </div>
       </div>
-
       <div v-if="noData" class="row q-col-gutter-md">
         <h4>{{ $t('no_results_label') }}</h4>
 
@@ -134,7 +128,7 @@ const router = useRouter()
 const noData = ref(false)
 const jobs = reactive([])
 const date = ref('')
-const searchDate = reactive({
+const qDate = reactive({
   date: {}
 })
 
