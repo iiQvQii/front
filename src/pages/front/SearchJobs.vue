@@ -1,11 +1,11 @@
 <template>
-  <q-page>
+  <q-page :key="componentKey">
     <div id="find_job">
       <div class="main_banner">
-        <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" height="300px" />
+        <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" />
         <div class="bg"></div>
         <h2 class="text-dark text-center">
-          {{ $t('find_jobs') }}
+          {{  $t('find_jobs')  }}
         </h2>
       </div>
       <!-- 麵包屑 -->
@@ -26,7 +26,6 @@
               <div class="row flex-center q-col-gutter-md">
                 <!-- 地區 -->
                 <div class="col-3">
-                  <!-- 縣市 -->
                   <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
                     lazy-rules bg-color="white" />
                 </div>
@@ -46,14 +45,16 @@
                     </template>
                   </q-input>
                 </div>
+                {{  form  }}
+                {{  searchDate.date  }}
                 <!-- 直接搜尋(title) -->
                 <div class="col-5">
-                  <q-input v-model="form.keyword" outlined type="search" maxlength="20" bg-color="white"
+                  <q-input v-model="form.title" outlined type="search" maxlength="20" bg-color="white"
                     :label="$t('search')" :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
                   </q-input>
                 </div>
                 <div class="col-1">
-                  <q-btn id="search_btn" class="full-width" color="primary" icon="search" />
+                  <q-btn id="search_btn" class="full-width" color="primary" icon="search" @click="search" />
                 </div>
               </div>
 
@@ -81,11 +82,11 @@
                     <!-- 地點 -->
                     <div class="text-overline text-orange-9">
                       <q-icon name="pin_drop" size="1.1rem" />
-                      {{ job.city + ' ' + job.district }}
+                      {{  job.city + ' ' + job.district  }}
                     </div>
                     <!-- 工作名稱 -->
                     <div class="text-h5 q-mt-sm q-mb-xs title">
-                      {{ job.title }}
+                      {{  job.title  }}
 
                     </div>
                   </div>
@@ -94,16 +95,16 @@
                   <!-- 換宿福利 -->
                   <div class="col-12 q-py-sm">
                     <div class="text-overline text-orange-9">
-                      {{ $t('job_welfare') }}
+                      {{  $t('job_welfare')  }}
                     </div>
-                    <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
+                    <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{  $t(welfares)  }}
                     </q-chip>
                   </div>
                 </div>
                 <div class="row">
                   <!-- 工作內容 -->
                   <div class="col-12 description text-caption text-grey">
-                    {{ job.description }}
+                    {{  job.description  }}
                   </div>
                 </div>
               </q-card-section>
@@ -119,7 +120,7 @@
 
       <div v-if="noData" class="row flex-center">
         <div class="col-12">
-          <h4 class="text-center text-accent"><i>{{ $t('no_results_label') }}</i></h4>
+          <h4 class="text-center text-accent"><i>{{  $t('no_results_label')  }}</i></h4>
         </div>
       </div>
     </div>
@@ -166,6 +167,8 @@ const cityOptions = computed(() => {
 
 watch(() => searchDate.date, () => {
   date.value = searchDate.date.from + '~' + searchDate.date.to
+  form.date_from = searchDate.date.from.replace(/\//g, '-')
+  form.date_to = searchDate.date.to.replace(/\//g, '-')
 })
 
 // const getAllJob = async () => {
@@ -190,7 +193,18 @@ watch(() => searchDate.date, () => {
 //   }
 // }
 // getAllJob()
-// console.log(route.query.city)
+
+// const search = async () => {
+//   try {
+//     form.
+//   } catch (error) {
+
+//   }
+// }
+
+const search = async () => {
+
+}
 
 const searchJob = async () => {
   $q.loading.show({
@@ -199,18 +213,19 @@ const searchJob = async () => {
 
   try {
     // search?title=工作&city=&district=&welfare
+
     let url = '/jobs/search?'
     for (const key in form) {
       url += key + '=' + (form[key] || '') + '&'
     }
-    console.log(url)
+    // console.log(url)
     const slicedUrl = url.slice(0, -1)
     console.log(slicedUrl)
     const { data } = await apiAuth.get(slicedUrl)
     // // router.replace({ path: '/' })
     // jobs = []
     jobs.push(...data.result)
-    console.log(jobs)
+    // console.log(jobs)
     // 處理 Date-8 小 福利陣列 描述去tag
     jobs.map(v => {
       v.date_from = new Date(v.date_from).toLocaleDateString()

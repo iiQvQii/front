@@ -3,12 +3,12 @@
     <div class="q-pa-xl q-mx-auto" style="max-width: 1200px">
       <div class="row">
         <div class="col-12">
-          <h3 class="text-center q-mb-none">{{ $t('manage_jobs') }}</h3>
+          <h2 class="text-center q-mb-none">{{ $t('manage_jobs') }}</h2>
         </div>
       </div>
       <!-- 新增工作btn -->
       <div class="row justify-end">
-        <div class="col-2 q-pb-sm text-right">
+        <div class="col-12 q-pb-sm text-right">
           <q-btn id="plus" flat color="primary" icon="mdi-plus-circle-outline" :label="$t('post_jobs')"
             to="/admin/jobs_post" />
         </div>

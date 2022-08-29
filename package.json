@@ -1,8 +1,8 @@
 {
   "name": "quasar-project",
   "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "打工換宿",
+  "description": "臺灣人的打工換宿平台",
+  "productName": "Workweee我耶",
   "author": "iiQvQii <klps9131@gmail.com>",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "@quasar/extras": "^1.15.1",
     "@sweetalert2/themes": "^5.0.12",
     "@vueup/vue-quill": "^1.0.0-beta.9",
+    "aos": "^2.3.4",
     "axios": "^0.21.1",
     "dotenv": "^16.0.1",
     "googleapis": "^39.2.0",
@@ -28,6 +29,7 @@
     "validator": "^13.7.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.2.0-beta.40",
+    "vue-page-transition": "./vue-page-transition",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {

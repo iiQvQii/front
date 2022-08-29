@@ -1,70 +1,100 @@
 <template>
   <q-page>
     <div class="q-pa-xl q-mx-auto">
-      <h3 class="text-center">{{ $t('manage_profile') }}</h3>
+      <h2 class="text-center">{{ $t('manage_profile') }}</h2>
       <q-separator inset class="q-mb-lg" />
 
       <div class="q-mx-auto form_container">
         <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
-          <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
-            :rules="rules.name">
-          </q-input>
-          <!-- 性別 -->
-          <q-select v-if="isHelper" outlined v-model="form.gender" :options="genderOptions" :label="$t('gender') + '*'"
-            emit-value :display-value="$t(form.gender)" lazy-rules :rules="rules.required" />
-          <!-- 生日 -->
-          <q-input v-if="isHelper" outlined v-model="form.birth" :rules="['date']" :label="$t('birthday')">
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="form.birth">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Close" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-          <q-input outlined v-model="form.tel" :label="$t('tel')" :rules="rules.tel">
-          </q-input>
-          <q-input outlined v-model="form.mobile" :label="$t('mobile') + '*'" :rules="rules.mobile">
-          </q-input>
-          <q-input outlined v-model="form.email" :label="$t('email') + '*'" :rules="rules.email">
-          </q-input>
-          <q-select v-if="isHost" outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'"
-            emit-value lazy-rules :rules="rules.required">
-          </q-select>
-          <!-- 區 -->
-          <q-select v-if="isHost" outlined v-model="form.district" :options="districtOptions"
-            :label="$t('district') + '*'" emit-value :rules="rules.required">
-          </q-select>
+          <div class="row">
+            <div class="col-12">
+              <h5>{{ $t('info') }}</h5>
 
-          <!-- 詳細地址 -->
-          <q-input v-if="isHost" outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
-            :rules="rules.address" />
+            </div>
+            <div class="col-12 col-md-6">
 
-          <!-- 關於我的故事 -->
-          <h5>{{ $t('story_of_my_life') }}</h5>
-          <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
-            :placeholder="$t('tell_me_someting_about_you')" />
-
-          <h5 v-if="isHelper">{{ $t('photos') }}</h5>
-          <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
-
-          <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
-            :label="$t('upload_file')" :hint="$t('max_upload')">
-            <template v-slot:prepend>
-              <q-icon name="cloud_upload" />
-            </template>
-          </q-file>
-          <!-- 渲染上傳圖片 -->
-          <div class="q-pa-md flex row">
-            <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
-              <q-img :src="photo" :ratio="4 / 3" spinner-color="white" />
+              <q-input outlined v-model="form.name" :label="isHelper ? $t('name') + '*' : $t('host_name') + '*'"
+                :rules="rules.name">
+              </q-input>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input outlined v-model="form.email" :label="$t('email') + '*'" :rules="rules.email">
+              </q-input>
+            </div>
+            <div class="col-12 col-md-6">
+              <!-- 性別 -->
+              <q-select v-if="isHelper" outlined v-model="form.gender" :options="genderOptions"
+                :label="$t('gender') + '*'" emit-value :display-value="$t(form.gender)" lazy-rules
+                :rules="rules.required" />
+            </div>
+            <div class="col-12 col-md-6">
+              <!-- 生日 -->
+              <q-input v-if="isHelper" outlined v-model="form.birth" :rules="['date']" :label="$t('birthday')">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.birth">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input outlined v-model="form.tel" :label="$t('tel')" :rules="rules.tel">
+              </q-input>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input outlined v-model="form.mobile" :label="$t('mobile') + '*'" :rules="rules.mobile">
+              </q-input>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-select v-if="isHost" outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'"
+                emit-value lazy-rules :rules="rules.required">
+              </q-select>
+            </div>
+            <div class="col-12 col-md-6">
+              <!-- 區 -->
+              <q-select v-if="isHost" outlined v-model="form.district" :options="districtOptions"
+                :label="$t('district') + '*'" emit-value :rules="rules.required">
+              </q-select>
+            </div>
+            <div class="col-12">
+              <!-- 詳細地址 -->
+              <q-input v-if="isHost" outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
+                :rules="rules.address" />
+            </div>
+            <!-- 關於我的故事 -->
+            <div class="col-12">
+              <h5>{{ $t('story_of_my_life') }}</h5>
+              <div class="editor">
+                <QuillEditor v-model:content="form.description" contentType="html" theme="snow" toolbar="minimal"
+                  class="ql" :placeholder="$t('tell_me_someting_about_you')" />
+              </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+              <h5 v-if="isHelper">{{ $t('photos') }}</h5>
+              <h5 v-if="isHost">{{ $t('photos_host') }}</h5>
+              <q-file color="primary" accept=".jpg, image/*" :max-files="3" filled multiple v-model="form.photos"
+                :label="$t('upload_file')" :hint="$t('max_upload')">
+                <template v-slot:prepend>
+                  <q-icon name="cloud_upload" />
+                </template>
+              </q-file>
+              <!-- 渲染上傳圖片 -->
+              <div class="q-pa-md flex row">
+                <div class="col-6 q-pa-xs " v-for="(photo, i) in photos" :key="i">
+                  <q-img :src="photo" :ratio="4 / 3" spinner-color="white" />
+                </div>
+              </div>
 
+            </div>
+          </div>
           <q-btn class="full-width q-mt-lg" color="primary" :label="$t('submit')" type="submit" :loading="loading" />
         </q-form>
       </div>

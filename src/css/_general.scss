@@ -15,7 +15,6 @@ h2 {
   font-size: calc(1.1rem + 1.1vw);
   position: relative;
   text-align: center;
-  margin-bottom: 3rem;
   transition: .5s;
   &::after {
     content: '';
@@ -32,7 +31,20 @@ h2 {
     letter-spacing: .1rem;
   }
 }
-
+h6 {
+  font-size: calc(1rem + 0.08vw);
+}
+@include lg {
+  h2 {
+    margin-bottom: 3rem;
+    &::after {
+      width: 50px;
+      height: 2px;
+      bottom: -10px;
+      margin-top: 5px;
+    }
+  }
+}
 .swal2-styled.swal2-confirm {
   border-radius: 0.5em !important;
   background-color:#ff7e00 !important;
@@ -52,4 +64,44 @@ h2 {
 
 .q-breadcrumbs {
   font-weight: 500;
+}
+
+// 轉場
+.q-btn {
+  transition: color 0.3s, background-color 0.3s;
+}
+
+// main上方banner
+.main_banner {
+  position: relative;
+  .q-img {
+    height: 150px;
+  }
+  .bg {
+    height: 150px;
+    width: 100%;
+    background: $primary;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: .8;
+  }
+  h2 {
+    color: #fff !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &::after {
+      background-color: $secondary;
+    }
+  }
+  @include lg {
+    .q-img {
+      height: 300px;
+    }
+    .bg {
+      height: 300px;
+    }
+  }
 }

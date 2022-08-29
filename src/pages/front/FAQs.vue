@@ -2,7 +2,7 @@
   <q-page>
     <div id="faqs">
       <div class="main_banner">
-        <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" height="300px" />
+        <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" />
         <div class="bg"></div>
         <h2 class="text-dark text-center">
           {{ $t('faqs') }}

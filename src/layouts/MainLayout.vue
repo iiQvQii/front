@@ -122,7 +122,7 @@
 
     </q-footer>
     <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->
-    <q-drawer v-model="leftDrawer" overlay bordered no-swipe-open no-swipe-close no-swipe-backdrop
+    <q-drawer v-model="leftDrawerOpen" overlay bordered no-swipe-open no-swipe-close no-swipe-backdrop
       class="lt-lg bg-white">
       <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
         @click="toggleLeftDrawer" />
@@ -177,15 +177,16 @@
     </q-drawer>
     <q-page-container>
       <router-view />
+
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" />
+        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" @click="backToTop" />
       </q-page-sticky>
     </q-page-container>
 
   </q-layout>
 </template>
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, createApp } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
@@ -259,5 +260,9 @@ lang.value = locale.value
 watch(() => locale.value, () => {
   lang.value = locale.value
 })
-
+const backToTop = () => {
+  // window.scrollTo(0, 0)
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
+}
 </script>

@@ -1,11 +1,12 @@
 <template>
   <!-- lHh Lpr lFf -->
   <q-layout view="lHh Lpr lfr" id="home_layout">
-    <q-header class="text-white">
-      <q-toolbar>
+    <q-header class="text-white ">
+      <q-toolbar :class="{ change_color: scrollPosition > 700 }">
         <!-- 漢堡 --------------------------------------->
         <q-toolbar-title shrink>
-          <q-btn class="lt-lg" flat dense round icon="menu" aria-label="Menu" color="white" @click="toggleLeftDrawer" />
+          <q-btn class="lt-lg text-white" flat dense round icon="menu" aria-label="Menu"
+            :class="{ change_color: scrollPosition > 700 }" @click="toggleLeftDrawer" />
 
         </q-toolbar-title>
         <q-tabs class="gt-md" shrink stretch align="left">
@@ -25,7 +26,8 @@
             {{ $t('register') }}
           </q-btn>
           <!--------------------  語言選項 --------------------------------->
-          <q-btn class="gt-md" icon="translate" flat color="white" style="min-width: 30px">
+          <q-btn class="gt-md" :class="{ change_font: scrollPosition > 700 }" icon="translate" flat color="white"
+            style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -176,14 +178,14 @@
     <q-page-container class="home_page_container">
       <router-view />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" />
+        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" @click="backToTop" />
       </q-page-sticky>
     </q-page-container>
 
   </q-layout>
 </template>
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../stores/user'
@@ -192,13 +194,21 @@ import EssentialLink from 'components/EssentialLink.vue'
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
-// 登入
 const user = useUserStore()
 const { logout } = user
 const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
 let year = ref('')
 year = new Date().getFullYear()
+
+// 換navbar顏色
+const scrollPosition = ref(null)
+const updateScroll = () => {
+  scrollPosition.value = window.scrollY
+}
+onMounted(() => {
+  window.addEventListener('scroll', updateScroll)
+})
 
 // drawer
 const leftDrawerOpen = ref(false)
@@ -258,4 +268,28 @@ watch(() => locale.value, () => {
   lang.value = locale.value
 })
 
+const backToTop = () => {
+  // window.scrollTo(0, 0)
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
+}
+
 </script>
+<style scoped>
+.change_color {
+  background-color: #fff;
+  color: #ff7e00 !important;
+}
+
+.change_font {
+  color: #ff7e00 !important;
+}
+
+@media(min-width:992px) {
+  .change_color {
+    background-color: #fff;
+    color: #ff7e00 !important;
+  }
+
+}
+</style>

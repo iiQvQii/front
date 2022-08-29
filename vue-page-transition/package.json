@@ -1,0 +1,40 @@
+{
+  "name": "vue-page-transition",
+  "version": "0.0.0",
+  "main": "./dist/vue-page-transition.umd.js",
+  "module": "./dist/vue-page-transition.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-page-transition.es.js",
+      "require": "./dist/vue-page-transition.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue-demi": "^0.13.7"
+  },
+  "peerDependencies": {
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "vue": "^2.0.0 || >=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/composition-api": "^1.7.0",
+    "sass": "^1.54.4",
+    "vite": "^3.0.4",
+    "vue": "^3.0.0",
+    "vue2": "npm:vue@^2.7.4"
+  }
+}

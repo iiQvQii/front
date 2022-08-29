@@ -3,8 +3,18 @@
     margin-bottom: 1rem;
   }
 }
-.ql-editor{
-  height: 280px !important;
+
+.ql-container {
+  min-height: 10rem;
+  height: 100%;
+  
+  .ql-editor{
+    min-height:200px;
+    height: 300px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  
 }
 
 // AdminPage

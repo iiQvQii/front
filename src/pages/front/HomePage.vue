@@ -1,7 +1,7 @@
 <template>
   <q-page>
 
-    <!-- 上方banner區 ---------------------------------->
+    <!-- section_0 上方banner區 ---------------------------------->
     <div id="banner" class="q-pa-none relative-position">
       <q-carousel animated v-model="slide" infinite :autoplay="12000" transition-prev="fade" transition-next="fade"
         transition-duration="3000" height="100%">
@@ -13,8 +13,8 @@
         <!-- <img id="logo_face" src="../../assets/logo-face.svg"> -->
       </div>
       <!-- banner區塊內容 -->
-      <div id="banner_info" class="flex column flex-center q-mx-auto text-center">
-        <h2 class="q-mb-none text-white">{{ $t('slogan') }}</h2>
+      <div id="banner_info" class="flex column flex-center q-mx-auto text-center" data-aos="fade-down">
+        <h2 class="q-mb-none text-white">{{  $t('slogan')  }}</h2>
         <!-- logo ----------------------->
         <h1 class="logo text-center">
           <a href="#">Workweee我耶</a>
@@ -26,12 +26,12 @@
           <q-btn class="btn_right_none" color="white" text-color="white" flat :label="$t('search_by_time')"
             @click="openTimeList" />
         </q-btn-group>
-        <!-- search bar -->
+        <!-- 直接搜尋 -->
         <div id="search">
-          <q-input v-model="form.keyword" standout type="search" maxlength="30" color="dark" bg-color="white"
+          <q-input v-model="form.title" standout type="search" maxlength="30" color="dark" bg-color="white"
             :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
           </q-input>
-          <q-btn id="search_btn" color="secondary" icon="search" />
+          <q-btn id="search_btn" color="secondary" icon="search" @click="searchDirectly" />
         </div>
 
       </div>
@@ -41,7 +41,7 @@
     <q-dialog v-model="locationDialog">
       <q-card class="q-ma-sm" style="width: 700px; max-width: 90vw;">
         <q-card-section>
-          <h4 class="q-mb-none text-center">{{ $t('search_by_location') }}</h4>
+          <h4 class="q-mb-none text-center">{{  $t('search_by_location')  }}</h4>
         </q-card-section>
         <q-separator inset class="q-my-sm" />
         <div class="row flex-center">
@@ -57,7 +57,7 @@
     <q-dialog v-model="timeDialog">
       <q-card class="q-ma-sm" style="width: 700px; max-width: 90vw;">
         <q-card-section>
-          <h4 class="q-mb-none text-center">{{ $t('search_by_time') }}</h4>
+          <h4 class="q-mb-none text-center">{{  $t('search_by_time')  }}</h4>
         </q-card-section>
         <q-separator inset class="q-my-sm" />
         <div class="row flex-center">
@@ -74,26 +74,26 @@
     <!-- section_1 找換宿工作/刊登換宿 -->
     <div id="section_1" class="container q-mx-auto section">
       <div class="row ">
-        <div class="col-12">
+        <div class="col-12" data-aos="fade-up">
           <h2 class="q-mb-xl">現在開始行動</h2>
         </div>
       </div>
 
       <div class="row action_area">
-        <div class="col-6 ">
+        <div class="col-6" data-aos="flip-left">
           <a href="#/jobs/search" class="flex">
             <div class="action guide_helper flex flex-center">
               <img src="../../assets/guide_helper.svg" />
-              <h5>{{ $t('guide_helper') }}</h5>
+              <h5>{{  $t('guide_helper')  }}</h5>
             </div>
           </a>
 
         </div>
-        <div class="col-6">
+        <div class="col-6" data-aos="flip-left">
           <a href="#/admin/jobs" class="flex justify-end">
             <div class="action guide_host flex flex-center">
               <img src="../../assets/guide_host.svg" />
-              <h5>{{ $t('guide_host') }}</h5>
+              <h5>{{  $t('guide_host')  }}</h5>
             </div>
           </a>
         </div>
@@ -103,55 +103,57 @@
     <!-- section_2 換宿優點 -->
     <div id="section_2" class="container q-mx-auto section">
       <div class="row">
-        <div class="col">
-          <h2>{{ $t('section_2') }}</h2>
+        <div class="col" data-aos="fade-up">
+          <h2>{{  $t('section_2')  }}</h2>
         </div>
       </div>
       <div class="row">
         <!-- 體驗在地生活 -->
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" data-aos="fade-up">
           <q-card flat>
             <q-img src="../../assets/section_2_1.jpg" />
             <q-card-section>
-              <h5 class="q-ma-none text-center">{{ '體驗在地生活' }}</h5>
+              <h5 class="q-ma-none text-center">{{  '體驗在地生活'  }}</h5>
             </q-card-section>
           </q-card>
         </div>
         <!-- 拓展交友圈 -->
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" data-aos="fade-up">
           <q-card flat>
             <q-img src="../../assets/section_2_2.jpg" />
             <q-card-section>
-              <h5 class="q-ma-none text-center">{{ '拓展交友圈' }}</h5>
+              <h5 class="q-ma-none text-center">{{  '拓展交友圈'  }}</h5>
             </q-card-section>
           </q-card>
         </div>
         <!-- 低成本旅遊 -->
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4" data-aos="fade-up">
           <q-card flat>
             <q-img src="../../assets/section_2_3.jpg" />
             <q-card-section>
-              <h5 class="q-ma-none text-center">{{ '低成本旅遊' }}</h5>
+              <h5 class="q-ma-none text-center">{{  '低成本旅遊'  }}</h5>
             </q-card-section>
           </q-card>
         </div>
       </div>
     </div>
-    <!-- 最新換宿 -->
+    <!-- section_3 最新換宿 -->
     <div id="section_3">
       <div class="container q-mx-auto section">
         <div class="row">
-          <div class="col">
-            <h2>{{ $t('section_3') }}</h2>
+          <div class="col" data-aos="fade-up">
+            <h2>{{  $t('section_3')  }}</h2>
           </div>
         </div>
-        <div class="row">
+        <div class="row" data-aos="fade-right">
           <!-- 體驗在地生活 -->
           <div class="col-12">
             <swiper :slidesPerView="3" :spaceBetween="50" :slidesPerGroup="1" :loop="true"
               :loopFillGroupWithBlank="true" :pagination="{
                 clickable: true,
-              }" :navigation="true" :modules="modules" class="mySwiper">
+              }"
+              :breakpoints="{ 320: { slidesPerView: 1, spaceBetween: 20 }, 767: { slidesPerView: 2, spaceBetween: 30 }, 992: { slidesPerView: 3, spaceBetween: 50 } }"
+              :navigation="true" :modules="modules" class="mySwiper">
               <swiper-slide v-for="(job, i) in latestJobs" :key="i">
                 <q-card class="job_card" flat bordered>
                   <a :href="'#/jobs/' + job._id">
@@ -168,11 +170,11 @@
                         <!-- 地點 -->
                         <div class="text-overline text-orange-9">
                           <q-icon name="pin_drop" size="1.1rem" />
-                          {{ job.city + ' ' + job.district }}
+                          {{  job.city + ' ' + job.district  }}
                         </div>
                         <!-- 工作名稱 -->
                         <div class="text-h5 q-mt-sm q-mb-xs title">
-                          {{ job.title }}
+                          {{  job.title  }}
 
                         </div>
                       </div>
@@ -181,9 +183,9 @@
                       <!-- 換宿福利 -->
                       <div class="col-12 q-py-sm">
                         <div class="text-overline text-orange-9">
-                          {{ $t('job_welfare') }}
+                          {{  $t('job_welfare')  }}
                         </div>
-                        <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
+                        <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{  $t(welfares)  }}
                         </q-chip>
                       </div>
                     </div>
@@ -194,23 +196,24 @@
           </div>
         </div>
       </div>
-
     </div>
-    <!-- 熱門換宿 -->
+    <!-- section_4 熱門換宿 -->
     <div id="section_4">
       <div class="container q-mx-auto section">
         <div class="row">
-          <div class="col">
-            <h2>{{ $t('section_4') }}</h2>
+          <div class="col" data-aos="fade-up">
+            <h2>{{  $t('section_4')  }}</h2>
           </div>
         </div>
-        <div class="row">
+        <div class="row" data-aos="fade-left">
           <!-- 體驗在地生活 -->
           <div class="col-12">
             <swiper :slidesPerView="3" :spaceBetween="50" :slidesPerGroup="1" :loop="true"
               :loopFillGroupWithBlank="true" :pagination="{
                 clickable: true,
-              }" :navigation="true" :modules="modules" class="mySwiper">
+              }"
+              :breakpoints="{ 320: { slidesPerView: 1, spaceBetween: 20 }, 767: { slidesPerView: 2, spaceBetween: 30 }, 992: { slidesPerView: 3, spaceBetween: 50 } }"
+              :navigation="true" :modules="modules" class="mySwiper">
               <swiper-slide v-for="(job, i) in jobs" :key="i">
                 <q-card class="job_card" flat bordered>
                   <a :href="'#/jobs/' + job._id">
@@ -227,11 +230,11 @@
                         <!-- 地點 -->
                         <div class="text-overline text-orange-9">
                           <q-icon name="pin_drop" size="1.1rem" />
-                          {{ job.city + ' ' + job.district }}
+                          {{  job.city + ' ' + job.district  }}
                         </div>
                         <!-- 工作名稱 -->
                         <div class="text-h5 q-mt-sm q-mb-xs title">
-                          {{ job.title }}
+                          {{  job.title  }}
 
                         </div>
                       </div>
@@ -240,9 +243,9 @@
                       <!-- 換宿福利 -->
                       <div class="col-12 q-py-sm">
                         <div class="text-overline text-orange-9">
-                          {{ $t('job_welfare') }}
+                          {{  $t('job_welfare')  }}
                         </div>
-                        <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
+                        <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{  $t(welfares)  }}
                         </q-chip>
                       </div>
                     </div>
@@ -296,12 +299,34 @@ const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 const locationDialog = ref(false)
 const timeDialog = ref(false)
 const modules = reactive([Pagination, Navigation])
-
+// const swiper = new Swiper('.swiper', {
+//   // Default parameters
+//   slidesPerView: 1,
+//   spaceBetween: 10,
+//   // Responsive breakpoints
+//   breakpoints: {
+//     // when window width is >= 320px
+//     320: {
+//       slidesPerView: 2,
+//       spaceBetween: 20
+//     },
+//     // when window width is >= 480px
+//     480: {
+//       slidesPerView: 3,
+//       spaceBetween: 30
+//     },
+//     // when window width is >= 640px
+//     640: {
+//       slidesPerView: 4,
+//       spaceBetween: 40
+//     }
+//   }
+// })
 const jobs = reactive([])
 const latestJobs = reactive([])
 
 const form = reactive({
-  keyword: '',
+  title: '',
   date: {}
 })
 
@@ -318,6 +343,14 @@ const searchTime = () => {
   const dateFrom = form.date.from.replace(/\//g, '-')
   const dateTo = form.date.to.replace(/\//g, '-')
   router.push('/jobs/search?date_from=' + dateFrom + '&date_to=' + dateTo)
+}
+
+const searchDirectly = () => {
+  if (!form.title) {
+    router.push('/jobs/search')
+  } else {
+    router.push('/jobs/search?title=' + form.title)
+  }
 }
 
 const openLocationList = () => {

@@ -6,7 +6,7 @@
 
     <q-item-section>
       <q-item-label :class="link.font_size">{{ t(link.title) }}</q-item-label>
-      <q-item-label caption>{{ link.caption }}</q-item-label>
+      <!-- <q-item-label caption>{{ link.caption }}</q-item-label> -->
     </q-item-section>
   </q-item>
 </template>

@@ -2,7 +2,7 @@
   <q-page>
     <div class="q-pa-xl q-mx-auto" style="max-width: 1200px">
 
-      <h3 class="text-center">{{ $t('application_status') }}</h3>
+      <h2 class="text-center">{{ $t('application_status') }}</h2>
       <q-separator class="q-mb-lg" />
       <!-- 小幫手的table ------------------------------------------------------------------------------------------------------------------------------>
       <q-table id="helper_table" v-if="isHelper" :rows="jobs" :columns="helperColumns" row-key="name" :loading="loading"

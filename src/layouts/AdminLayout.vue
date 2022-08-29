@@ -32,55 +32,56 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-footer class="footer bg-white text-dark container q-mx-auto" bordered>
-      <!-- footer內容區 -->
-      <div class="row justify-center">
-        <div class="col-3 q-pr-lg">
-          <a href="#">
-            <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
-          </a>
-          <div class="q-py-md">
-            <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
-            <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
-            <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+    <!-- footer -->
+    <q-footer class="footer bg-white text-dark q-mx-auto" bordered>
+      <div class="container q-mx-auto">
+        <div class="row justify-center">
+          <div class="col-12 col-md-4 q-px-lg">
+            <a href="#">
+              <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
+            </a>
+            <div class="q-py-md">
+              <q-btn flat round color="dark" icon="fa-brands fa-facebook-f" size=".7rem" />
+              <q-btn flat round color="dark" icon="fa-brands fa-twitter" size=".7rem" />
+              <q-btn flat round color="dark" icon="fa-brands fa-instagram" size=".7rem" />
+            </div>
           </div>
-        </div>
-        <!-- 換宿機會 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
-          <p>{{ $t('find_jobs') }}</p>
-          <p>{{ $t('hot_jobs') }}</p>
-          <p>{{ $t('latest_jobs') }}</p>
+          <!-- 換宿機會 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('find_jobs') }}</h6>
+            <p>{{ $t('all_jobs') }}</p>
+            <p>{{ $t('hot_jobs') }}</p>
+            <p>{{ $t('latest_jobs') }}</p>
 
-        </div>
-        <!-- 關於我們 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
-          <p>{{ $t('about_us') }}</p>
-          <p>{{ $t('faqs') }}</p>
+          </div>
+          <!-- 關於我們 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('about_work_exchange') }}</h6>
+            <p>{{ $t('about_us') }}</p>
+            <p>{{ $t('faqs') }}</p>
 
-        </div>
-        <!-- 會員中心 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('member') }}</h6>
-          <p>{{ $t('manage_profile') }}</p>
-          <p>{{ $t('check_application_status') }}</p>
-          <p>{{ $t('post_jobs') }}</p>
-        </div>
-        <!-- 幫助 -->
-        <div class="col-2  q-pr-lg">
-          <h6 class="q-my-md">{{ $t('support') }}</h6>
-          <p>{{ $t('terms_of_service') }}</p>
-          <p>{{ $t('privacy_policy') }}</p>
-          <p>{{ $t('contact_us') }}</p>
-        </div>
-        <!-- 版權宣告 -->
-        <div class="col-12 text-center text-grey q-pt-md">
-          {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+          </div>
+          <!-- 會員中心 -->
+          <div class="col-6 col-md-8 col-lg-2 q-px-lg member">
+            <h6 class="q-my-md">{{ $t('member') }}</h6>
+            <p>{{ $t('manage_profile') }}</p>
+            <p>{{ $t('check_application_status') }}</p>
+            <p>{{ $t('post_jobs') }}</p>
+          </div>
+          <!-- 幫助 -->
+          <div class="col-6 col-md-4 col-lg-2 q-px-lg">
+            <h6 class="q-my-md">{{ $t('support') }}</h6>
+            <p>{{ $t('terms_of_service') }}</p>
+            <p>{{ $t('privacy_policy') }}</p>
+            <p>{{ $t('contact_us') }}</p>
+          </div>
+          <!-- 版權宣告 -->
+          <div class="col-12 text-center text-grey q-pt-xl">
+            {{ $t('copyright') + ' ©' + year + ' Workweee我耶. All rights reserved.' }}
+          </div>
         </div>
       </div>
 
-      <div></div>
     </q-footer>
     <!-- drawer 側選單 ------------------------------>
     <q-drawer v-model="leftDrawerOpen">
@@ -112,12 +113,12 @@
       </q-list>
       <q-separator inset />
       <q-list>
-        <q-expansion-item class="lt-lg" expand-separator icon="translate" :label="t('translate')">
+        <q-expansion-item class="lt-lg text-h6" expand-separator icon="translate" :label="t('translate')">
           <q-list style="min-width: 100px">
             <q-item clickable v-ripple v-for="(localeOption, i) in localeOptions" :key='localeOption.value'
               :value="localeOption.value" v-model="lang" @click="locale = localeOptions[i].value"
               :active="locale === localeOptions[i].value">
-              <q-item-section>
+              <q-item-section class="text-h6">
                 {{ localeOption.label }}
               </q-item-section>
             </q-item>
@@ -128,7 +129,7 @@
             <q-icon name="fa-solid fa-right-from-bracket" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ $t('logout') }}</q-item-label>
+            <q-item-label class="text-h6">{{ $t('logout') }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -136,6 +137,9 @@
 
     <q-page-container>
       <router-view />
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn round color="primary" icon="arrow_forward" class="rotate-270" @click="backToTop" />
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
@@ -194,18 +198,21 @@ const linksList = reactive([
     title: 'my_info',
     icon: 'mdi-face-man',
     to: '/admin',
+    font_size: 'text-h5',
     isHost: true
   },
   {
     title: 'application_status',
     icon: 'mdi-list-status',
     to: '/admin/application_status',
+    font_size: 'text-h5',
     isHost: true
   },
   {
     title: 'manage_jobs',
     icon: 'mdi-note-plus',
     to: '/admin/jobs',
+    font_size: 'text-h5',
     isHost: isHost.value // true
 
   }
@@ -253,6 +260,11 @@ const changeAvatar = async (val) => {
     })
   }
   $q.loading.hide()
+}
+const backToTop = () => {
+  // window.scrollTo(0, 0)
+  document.body.scrollTop = 0
+  document.documentElement.scrollTop = 0
 }
 
 </script>

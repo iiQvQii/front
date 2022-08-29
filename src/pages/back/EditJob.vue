@@ -1,7 +1,7 @@
 <template>
   <q-page id="post_jobs">
     <div class="q-pa-xl q-mx-auto">
-      <h3 class="text-center">{{ $t('edit_jobs') }}</h3>
+      <h2 class="text-center">{{ $t('edit_jobs') }}</h2>
       <q-separator inset class="q-mb-lg" />
 
       <div class="q-mx-auto form_container">

@@ -64,9 +64,9 @@ const routes = [
         }
       },
       {
-        path: 'jobs',
-        name: 'jobs',
-        component: () => import('pages/front/SearchJobs.vue'),
+        path: 'blank',
+        name: 'blank',
+        component: () => import('pages/front/BlankPage.vue'),
         meta: {
           title: 'Workweee我耶 | 換宿機會',
           login: false,
