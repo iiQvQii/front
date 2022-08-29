@@ -5,7 +5,7 @@
         <!-- 麵包屑 -->
         <q-breadcrumbs class="col-12">
           <q-breadcrumbs-el exact :label="$t('home')" to="/" />
-          <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
+          <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs/search" />
           <q-breadcrumbs-el exact :label="job.title" />
         </q-breadcrumbs>
       </div>

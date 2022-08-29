@@ -1,4 +1,8 @@
-
+#find_job {
+  .bg {
+    background-color: $secondary;
+  }
+}
 .description{
   text-overflow: ellipsis;
   overflow: hidden;
@@ -15,14 +19,16 @@
 }
 
 #job_search_area {
-  border: 5px double $white;
   width: 100%;
-  height: 200px;
+  height: 100%;
   border-radius: 16px;
-  padding: 2rem 3rem;
+  padding-bottom: 2rem;
   .search_class {
     width: 100px;
   }
+}
+.job_card_container {
+
 }
 
 .job_card {
@@ -30,7 +36,7 @@
     line-height: normal;
   }
   .q-card__section{
-    height: 200px;
+    height: 220px;
   }
 
   img {

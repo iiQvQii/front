@@ -1,0 +1,42 @@
+.main_banner {
+  position: relative;
+  .bg {
+    height: 300px;
+    width: 100%;
+    background: $primary;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: .8;
+  }
+  h2 {
+    color: #fff !important;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &::after {
+      background-color: $secondary;
+    }
+  }
+
+}
+#about_us {
+  h3 {
+    margin-top: 0;
+    letter-spacing: .05rem;
+  }
+  h6 {
+    line-height: 2rem;
+    letter-spacing: .01rem;
+  }
+  img {
+    border-radius: 8px;
+  }
+  .q-parallax {
+    border-radius: 8px;
+    img {
+      width: 800px;
+    }
+  }
+}

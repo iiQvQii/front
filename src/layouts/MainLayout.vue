@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff" id="main_layout">
-    <q-header reveal class="bg-white text-dark">
+    <q-header class="bg-white text-dark">
       <q-toolbar class="toolbar">
         <!-- 漢堡 --------------------------------------->
         <q-toolbar-title shrink class="flex">
@@ -26,7 +26,7 @@
             {{ $t('register') }}
           </q-btn>
           <!--------------------  語言選項 --------------------------------->
-          <q-btn class="gt-md" icon="translate" flat color="white" style="min-width: 30px">
+          <q-btn class="gt-md" icon="translate" flat color="dark" style="min-width: 30px">
             <q-menu anchor="bottom middle" self="top middle">
               <q-list style="min-width: 100px">
                 <q-item-label header>
@@ -74,7 +74,7 @@
     <q-footer class="footer bg-white text-dark q-mx-auto" bordered>
       <div class="container q-mx-auto">
         <div class="row justify-center">
-          <div class="col-12 col-md-4 col-lg-3 q-px-lg">
+          <div class="col-12 col-md-4 q-px-lg">
             <a href="#">
               <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
             </a>
@@ -122,8 +122,8 @@
 
     </q-footer>
     <!-- rwd drawer --------------------------------------------------------------------------------------------------------------->
-    <q-drawer v-model="leftDrawerOpen" overlay bordered no-swipe-open no-swipe-close class="lt-lg bg-white"
-      :breakpiont="767">
+    <q-drawer v-model="leftDrawer" overlay bordered no-swipe-open no-swipe-close no-swipe-backdrop
+      class="lt-lg bg-white">
       <q-btn class="lt-lg q-py-md" flat icon="fa-solid fa-xmark" aria-label="Menu" color="dark"
         @click="toggleLeftDrawer" />
       <!----------------------------------------------------------- 大頭貼 --------------------------------------------->
@@ -201,7 +201,7 @@ const { isLogin, isAdmin, isHost, isHelper, avatar, lang } = storeToRefs(user)
 
 let year = ref('')
 year = new Date().getFullYear()
-
+const leftDrawer = ref(false)
 const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value

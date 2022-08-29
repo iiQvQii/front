@@ -16,7 +16,13 @@ const routes = [
           login: false,
           admin: false
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: MainLayout,
+    children: [
       {
         path: 'about_us',
         name: 'about_us',
@@ -26,14 +32,7 @@ const routes = [
           login: false,
           admin: false
         }
-      }
-    ]
-  },
-  {
-    path: '/',
-    component: MainLayout,
-    children: [
-
+      },
       {
         path: 'register',
         name: 'register',

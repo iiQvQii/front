@@ -1,60 +1,70 @@
 <template>
   <q-page>
-    <div id="find_job" class="container q-mx-auto ">
+    <div id="find_job">
+      <div class="main_banner">
+        <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" height="300px" />
+        <div class="bg"></div>
+        <h2 class="text-dark text-center">
+          {{ $t('find_jobs') }}
+        </h2>
+      </div>
       <!-- 麵包屑 -->
-      <div class="row q-pb-md">
-        <q-breadcrumbs class="col-12">
-          <q-breadcrumbs-el exact :label="$t('home')" to="/" />
-          <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs" />
-        </q-breadcrumbs>
+      <div class="container q-mx-auto">
+        <div class="row q-py-lg">
+          <q-breadcrumbs class="col-12">
+            <q-breadcrumbs-el exact :label="$t('home')" to="/" />
+            <q-breadcrumbs-el exact :label="$t('find_jobs')" to="/jobs/search" />
+          </q-breadcrumbs>
+        </div>
       </div>
 
       <!-- search bar ----------------------------------------------->
-      <div class="row">
-        <div class="col">
-          <div id="job_search_area" class="q-my-md">
-            <div class="row">
-              <!-- 直接搜尋(title) -->
-              <div class="col">
-                <q-input v-model="form.keyword" outlined type="search" maxlength="20" bg-color="white"
-                  :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
-                </q-input>
-                <q-btn id="search_btn" color="primary" :label="$t('search')" icon="search" />
+      <div class="container q-mx-auto">
+        <div class="row">
+          <div class="col">
+            <div id="job_search_area">
+              <div class="row flex-center q-col-gutter-md">
+                <!-- 地區 -->
+                <div class="col-3">
+                  <!-- 縣市 -->
+                  <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
+                    lazy-rules bg-color="white" />
+                </div>
+                <!-- 時間 -->
+                <div class="col-3">
+                  <q-input outlined v-model="date" :label="$t('job_time')" bg-color="white">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                          <q-date v-model="searchDate.date" range>
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+                <!-- 直接搜尋(title) -->
+                <div class="col-5">
+                  <q-input v-model="form.keyword" outlined type="search" maxlength="20" bg-color="white"
+                    :label="$t('search')" :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
+                  </q-input>
+                </div>
+                <div class="col-1">
+                  <q-btn id="search_btn" class="full-width" color="primary" icon="search" />
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <!-- 地區 -->
-              <div class="col-6">
-                <!-- 縣市 -->
-                <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
-                  lazy-rules bg-color="white" />
-              </div>
-              <!-- 時間 -->
-              <div class="col-6">
-                <q-input outlined v-model="date" :label="$t('job_time')" bg-color="white">
-                  <template v-slot:append>
-                    <q-icon name="event" class="cursor-pointer">
-                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                        <q-date v-model="searchDate.date" range>
-                          <div class="row items-center justify-end">
-                            <q-btn v-close-popup label="Close" color="primary" flat />
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
 
+            </div>
           </div>
         </div>
       </div>
-      <!-- {{ qDate.date }} -->
 
       <!-- 工作卡片 -------------------------------------------------->
-      <div class="q-my-xl" style="background-color: #efefef; padding:3rem;">
-        <div class="row  q-gutter-xs">
+      <div class="container job_card_container q-mx-auto">
+        <div class="row q-col-gutter-md">
           <div v-for="job in jobs" :key="job._id" class="col-12 col-md-6 col-lg-4">
             <q-card class="job_card" flat bordered>
               <a :href="'#/jobs/' + job._id">
@@ -107,9 +117,10 @@
         </div>
       </div>
 
-      <div v-if="noData" class="row q-col-gutter-md">
-        <h4>{{ $t('no_results_label') }}</h4>
-
+      <div v-if="noData" class="row flex-center">
+        <div class="col-12">
+          <h4 class="text-center text-accent"><i>{{ $t('no_results_label') }}</i></h4>
+        </div>
       </div>
     </div>
 
@@ -153,9 +164,9 @@ const cityOptions = computed(() => {
   }
 })
 
-// watch(() => qDate, () => {
-//   date.value = qDate.value.from + '~' + qDate.value.to
-// })
+watch(() => searchDate.date, () => {
+  date.value = searchDate.date.from + '~' + searchDate.date.to
+})
 
 // const getAllJob = async () => {
 //   try {

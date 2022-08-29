@@ -1,14 +1,36 @@
 .container {
   width: 100%;
   padding: 1rem;
-
+  --swiper-theme-color: #ff7e00;
   @include lg {
   width: 1100px;
   }
 }
+.section {
+  padding: 3rem 0;
+}
 
+// 標題字
 h2 {
   font-size: calc(1.1rem + 1.1vw);
+  position: relative;
+  text-align: center;
+  margin-bottom: 3rem;
+  transition: .5s;
+  &::after {
+    content: '';
+    width: 50px;
+    height: 2px;
+    background-color: $primary;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translate(-50%,0);
+    margin-top: 5px;
+  }
+  &:hover {
+    letter-spacing: .1rem;
+  }
 }
 
 .swal2-styled.swal2-confirm {
@@ -26,4 +48,8 @@ h2 {
 .q-data-table td, .q-data-table th {
   /* don't shorten cell contents */
   white-space: normal !important;
+}
+
+.q-breadcrumbs {
+  font-weight: 500;
 }

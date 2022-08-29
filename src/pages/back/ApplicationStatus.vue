@@ -290,7 +290,7 @@
       </q-table>
       <!-- 小幫手的資訊 ------------->
       <q-dialog v-model="alert">
-        <q-card class="my-card">
+        <q-card>
           <q-card-section>
             <q-carousel height="250px" padding navigation animated v-model="slide" arrows infinite :autoplay="autoplay"
               transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false"

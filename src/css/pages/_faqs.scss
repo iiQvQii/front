@@ -1,9 +1,28 @@
-.faqs {
+.questions {
   .q-item__label {
     font-size: 1.1rem;
     font-weight: 600;
   }
   .q-card__section {
-    // font-weight: 500;
+    line-height: 2rem;
+    padding: 0 10rem 0 4.5rem;
+    h6 {
+      margin: 0;
+    }
   }
 }
+// #faqs {
+//   h2 {
+//     position: relative;
+//     z-index: 1;
+//     backdrop-filter: blur(5px);
+//     line-height: 4.5rem;
+//     background-color: rgba($color: #fff, $alpha: .1);
+//     margin-bottom: 0;
+//     top: 50%;
+//     transform: translate(0, -50%);
+//     box-shadow: 0px 0px 10px rgba($color: rgb(18, 141, 169), $alpha: .2);
+//     // border: double #fff;
+//     // border-width: 5px 0;
+//   }
+// }

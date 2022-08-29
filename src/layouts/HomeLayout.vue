@@ -1,7 +1,7 @@
 <template>
   <!-- lHh Lpr lFf -->
   <q-layout view="lHh Lpr lfr" id="home_layout">
-    <q-header reveal class="text-white">
+    <q-header class="text-white">
       <q-toolbar>
         <!-- 漢堡 --------------------------------------->
         <q-toolbar-title shrink>
@@ -73,7 +73,7 @@
     <q-footer class="footer text-dark q-mx-auto" bordered>
       <div class="container q-mx-auto">
         <div class="row justify-center">
-          <div class="col-12 col-md-4 col-lg-3 q-px-lg">
+          <div class="col-12 col-md-4 q-px-lg">
             <a href="#">
               <q-img class="footer_logo" src="../assets/logo.svg" spinner-color="white" />
             </a>

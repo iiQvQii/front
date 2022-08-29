@@ -99,7 +99,7 @@
       white-space: nowrap;
     }
   }
-  h2::before{
+  h2::after{
     display: none;
   }
 
@@ -128,28 +128,34 @@
 .btn_borderd {
   border: 1px solid $primary !important;
 }
-.feature {
-  width: 150px;
-  height: 100px;
-  border-radius: 20px;
-}
-#guide {
-  
+
+#section_1 {
+
+  h2 {
+    margin-bottom: 5rem;
+  }
+  a {
+    text-decoration: none;
+  }
   .action_area {
-    // border: 2px solid $white;
     border-radius: 400px;
     img {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
+      margin-right: 1rem;
+    }
+    .col-6 {
+      padding: 1rem;
     }
   }
   .action {
-    width: 100%;
+    width: 400px;
     height: 150px;
-    padding: 1rem;
+    padding: 2rem 0;
+    color: #fff;
     h5 {
     transition: .5s;
-    display: block;
+    font-weight: 600;
     &:hover {
       letter-spacing: .2rem;
       }
@@ -157,50 +163,63 @@
 
     @include lg {
       height: 100%;
-      padding: 3rem 5rem;
+      padding: 3rem 0;
 
     }
   }
   .guide_helper {
-    border-color: $secondary;
-    border-width: 1px 0 1px 1px;
-    border-style: solid;
-    border-radius: 400px 0 0 400px;
-    // color: $secondary;
+    transition: .5s;
+    background-color: $secondary;
+    border-radius: 400px 400px 400px 400px;
     &:hover {
-      // background-color: rgba(32, 83, 117, 0.1);
-      background-color: rgba(255, 126, 0, 0.1);
+      background-color: rgba(32, 83, 117, 0.1);
+      opacity: .8;
+      backdrop-filter: invert(50%);
     }
-
   }
   .guide_host {
-    border-color: $primary;
-    border-width: 1px 1px 1px 0;
-    border-style: solid;
-    border-radius: 0 400px 400px 0;
+    transition: .5s;
+    background-color: $primary;
+    border-radius: 400px 400px 400px 400px;
     &:hover {
-      // background-color: rgba(255, 126, 0, 0.1);
-      background-color: rgba(32, 83, 117, 0.1);
-
+      background-color: rgba(255, 126, 0, 0.1);
+      backdrop-filter: invert(50%);
+      opacity: .8;
     }
 
   }
 }
-h2 {
-  position: relative;
-  text-align: center;
-  margin-bottom: 3rem;
-  &::before {
-    content: '';
-    width: 50px;
-    height: 2px;
-    background-color: $primary;
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translate(-50%,0);
-    margin-top: 5px;
+
+// section_2 換宿優點
+#section_2 {
+  .q-card {
+    width: 100%;
+    padding: 10px;
   }
+  .q-img {
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+  }
+}
+#section_3,
+#section_4 {
+  background-color: $secondary;
+  h2 {
+    color: #fff;
+  }
+  .mySwiper {
+    width: 100%;
+    padding: 3rem;
+  }
+  .swiper-button-next, .swiper-button-prev {
+    color: #fff;
+    font-weight: 900;
+  }
+  .q-card__section{
+    height: 150px;
+  }
+
 }
 
 @keyframes scale {
@@ -211,6 +230,8 @@ h2 {
     opacity: 0;
   }
 }
+
+
 
 
 
