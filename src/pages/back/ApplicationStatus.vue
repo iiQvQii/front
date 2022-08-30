@@ -308,7 +308,7 @@
                 <td>{{ t(detail.helper.gender) }}</td>
               </tr>
               <tr>
-                <td class="text-left">{{ $t('birth') }}</td>
+                <td class="text-left">{{ $t('birthday') }}</td>
                 <td>{{ detail.helper.birth }}</td>
               </tr>
               <tr>
@@ -324,7 +324,7 @@
                 <td>{{ detail.helper.email }}</td>
               </tr>
               <tr>
-                <td class="text-left">{{ $t('description') }}</td>
+                <td class="text-left">{{ $t('my_resume') }}</td>
                 <td style="white-space: normal;">
                   <span v-html="detail.helper.description">
                   </span>
@@ -528,7 +528,7 @@ const reviewSubmit = async (_id) => {
     title: t('review_application'),
     style: 'color: #545454; text-align: center;',
     ok: {
-      label: t('comfirm'),
+      label: '確認',
       push: false,
       color: 'primary',
       padding: 'sm md'
