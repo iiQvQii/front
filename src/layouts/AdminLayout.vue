@@ -198,21 +198,18 @@ const linksList = reactive([
     title: 'my_info',
     icon: 'mdi-face-man',
     to: '/admin',
-    font_size: 'text-h5',
     isHost: true
   },
   {
     title: 'application_status',
     icon: 'mdi-list-status',
     to: '/admin/application_status',
-    font_size: 'text-h5',
     isHost: true
   },
   {
     title: 'manage_jobs',
     icon: 'mdi-note-plus',
     to: '/admin/jobs',
-    font_size: 'text-h5',
     isHost: isHost.value // true
 
   }
