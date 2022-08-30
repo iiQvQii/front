@@ -40,7 +40,6 @@
             <q-select outlined v-model="form.district" :options="districtOptions" :label="$t('district') + '*'"
               emit-value :rules="rules.required">
             </q-select>
-            {{ idxZip.city }}
             <!-- 詳細地址 -->
             <q-input outlined type="text" v-model="form.address" :label="$t('address') + '*'" lazy-rules
               :rules="rules.address" />
@@ -153,10 +152,10 @@ const form = reactive({
   address: '',
   zipcode: '',
   role: role.value,
-  description: '?',
+  description: '',
   photos: [],
-  question: '1. 請問你為什麼想要來',
-  week_hours: 10,
+  question: '',
+  week_hours: 20,
   is_shown: true
 })
 

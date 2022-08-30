@@ -6,7 +6,7 @@
 
       <div class="q-mx-auto form_container">
         <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" @submit.prevent="submit">
-          <div class="row">
+          <div class="row q-col-gutter-md">
             <div class="col-12">
               <h5>{{ $t('info') }}</h5>
 

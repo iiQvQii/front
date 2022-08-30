@@ -30,7 +30,7 @@
               <h5>{{ $t('job_week_hours') }}</h5>
               {{ job.week_hours }}
             </q-card-section>
-            <q-card-section>
+            <q-card-section class="job_description">
               <h5>{{ $t('job_description') }}</h5>
               <div v-html="job.description"></div>
             </q-card-section>
