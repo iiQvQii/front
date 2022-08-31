@@ -373,6 +373,7 @@ const getHotJob = async () => {
       v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
       return v
     })
+    console.log(jobs.length)
   } catch (error) {
     console.log(error)
   }
@@ -391,6 +392,7 @@ const getLatestJobs = async () => {
       v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
       return v
     })
+    console.log(latestJobs.length)
   } catch (error) {
     console.log(error)
   }

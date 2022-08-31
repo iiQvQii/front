@@ -495,7 +495,6 @@ const getMyOrders = async () => {
   loading.value = true
   try {
     const { data } = await apiAuth.get('/orders/my_orders')
-    console.log(data)
     jobs.push(...data.result)
     // 處理 Date-8 小
     jobs.map(v => {
@@ -552,13 +551,14 @@ const reviewSubmit = async (_id) => {
     try {
       form._id = _id
       form.review = result
+      // console.log(form)
       apiAuth.patch('/orders/host', form)
       Swal.fire({
         icon: 'success',
         title: '審核成功',
         text: '審核成功'
       })
-      router.go(0)
+      // router.go(0)
     } catch (error) {
       console.log(error)
       Swal.fire({

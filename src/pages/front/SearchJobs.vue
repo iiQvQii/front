@@ -17,7 +17,48 @@
           </q-breadcrumbs>
         </div>
       </div>
+      <!-- search bar ----------------------------------------------->
+      <div class="container q-mx-auto">
+        <div class="row">
+          <div class="col">
+            <div id="job_search_area">
+              <div class="row flex-center q-col-gutter-md">
+                <!-- 地區 -->
+                <div class="col-3">
+                  <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
+                    lazy-rules bg-color="white" />
+                </div>
+                <!-- 時間 -->
+                <div class="col-3">
+                  <q-input outlined v-model="date" :label="$t('job_time')" bg-color="white">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                          <q-date v-model="searchDate.date" range>
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                  </q-input>
+                </div>
+                <!-- 直接搜尋(title) -->
+                <div class="col-5">
+                  <q-input v-model="form.title" outlined type="search" maxlength="20" bg-color="white"
+                    :label="$t('search')" :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
+                  </q-input>
+                </div>
+                <div class="col-1">
+                  <q-btn id="search_btn" class="full-width" color="primary" icon="search" @click="searchJob" />
+                </div>
+              </div>
 
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- 工作卡片 -------------------------------------------------->
       <div class="container job_card_container q-mx-auto">
         <div class="row q-col-gutter-md">
@@ -157,6 +198,11 @@ watch(() => searchDate.date, () => {
 //   }
 // }
 
+watch(() => route.query, () => {
+  console.log('ok')
+  searchJob()
+})
+
 const search = async () => {
 
 }
@@ -165,10 +211,8 @@ const searchJob = async () => {
   $q.loading.show({
     delay: 400 // ms
   })
-
   try {
     // search?title=工作&city=&district=&welfare
-
     let url = '/jobs/search?'
     for (const key in form) {
       url += key + '=' + (form[key] || '') + '&'
@@ -177,8 +221,7 @@ const searchJob = async () => {
     const slicedUrl = url.slice(0, -1)
     console.log(slicedUrl)
     const { data } = await apiAuth.get(slicedUrl)
-    // // router.replace({ path: '/' })
-    // jobs = []
+    jobs.slice(1, 1)
     jobs.push(...data.result)
     // console.log(jobs)
     // 處理 Date-8 小 福利陣列 描述去tag
@@ -192,7 +235,7 @@ const searchJob = async () => {
     if (jobs.length === 0) {
       noData.value = true
     }
-
+    router.push(slicedUrl)
     $q.loading.hide()
   } catch (error) {
     console.log(error)

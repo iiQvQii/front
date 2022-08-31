@@ -1,0 +1,11 @@
+.job_description {
+  h2 {
+    text-align: left;
+    &::after {
+      display: none;
+    }
+    &:hover {
+      letter-spacing: 0rem;
+    }
+  }
+}

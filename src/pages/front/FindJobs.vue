@@ -47,7 +47,6 @@
           </div>
         </div>
       </div>
-      {{ qDate.date }}
 
       <!-- 工作卡片 -------------------------------------------------->
       <div class="row q-col-gutter-md q-my-xl">
@@ -175,6 +174,7 @@ const cityOptions = computed(() => {
 // getAllJob()
 // console.log(route.query.city)
 
+
 const searchJob = async () => {
   $q.loading.show({
     delay: 400 // ms
@@ -201,6 +201,7 @@ const searchJob = async () => {
       v.description = v.description.replace(/<(?:.|\s)*?>/g, '')
       return v
     })
+    jobs.reverse()
     // 如果找不到資料show no data
     if (jobs.length === 0) {
       noData.value = true
