@@ -5,7 +5,7 @@
         <q-img class="main_banner" src="../../assets/banner-2.jpg" width="100%" />
         <div class="bg"></div>
         <h2 class="text-dark text-center">
-          {{  $t('find_jobs')  }}
+          {{ $t('find_jobs') }}
         </h2>
       </div>
       <!-- 麵包屑 -->
@@ -25,7 +25,7 @@
               <div class="row flex-center q-col-gutter-md">
                 <!-- 地區 -->
                 <div class="col-3">
-                  <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city') + '*'" emit-value
+                  <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city')" emit-value
                     lazy-rules bg-color="white" />
                 </div>
                 <!-- 時間 -->
@@ -78,11 +78,11 @@
                     <!-- 地點 -->
                     <div class="text-overline text-orange-9">
                       <q-icon name="pin_drop" size="1.1rem" />
-                      {{  job.city + ' ' + job.district  }}
+                      {{ job.city + ' ' + job.district }}
                     </div>
                     <!-- 工作名稱 -->
                     <div class="text-h5 q-mt-sm q-mb-xs title">
-                      {{  job.title  }}
+                      {{ job.title }}
 
                     </div>
                   </div>
@@ -91,16 +91,16 @@
                   <!-- 換宿福利 -->
                   <div class="col-12 q-py-sm">
                     <div class="text-overline text-orange-9">
-                      {{  $t('job_welfare')  }}
+                      {{ $t('job_welfare') }}
                     </div>
-                    <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{  $t(welfares)  }}
+                    <q-chip v-for="(welfares, i) in job.welfare" :key="i" size=".6rem">{{ $t(welfares) }}
                     </q-chip>
                   </div>
                 </div>
                 <div class="row">
                   <!-- 工作內容 -->
                   <div class="col-12 description text-caption text-grey">
-                    {{  job.description  }}
+                    {{ job.description }}
                   </div>
                 </div>
               </q-card-section>
@@ -116,7 +116,7 @@
 
       <div v-if="noData" class="row flex-center">
         <div class="col-12">
-          <h4 class="text-center text-accent"><i>{{  $t('no_results_label')  }}</i></h4>
+          <h4 class="text-center text-accent"><i>{{ $t('no_results_label') }}</i></h4>
         </div>
       </div>
     </div>
@@ -198,10 +198,10 @@ watch(() => searchDate.date, () => {
 //   }
 // }
 
-watch(() => route.query, () => {
-  console.log('ok')
-  searchJob()
-})
+// watch(() => route.query, () => {
+//   console.log('ok')
+//   searchJob()
+// })
 
 const search = async () => {
 
