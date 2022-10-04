@@ -24,12 +24,12 @@
             <div id="job_search_area">
               <div class="row flex-center q-col-gutter-md">
                 <!-- 地區 -->
-                <div class="col-3">
+                <div class="col-12 col-lg-3">
                   <q-select outlined v-model="form.city" :options="cityOptions" :label="$t('city')" emit-value
                     lazy-rules bg-color="white" />
                 </div>
                 <!-- 時間 -->
-                <div class="col-3">
+                <div class="col-12 col-lg-3 ">
                   <q-input outlined v-model="date" :label="$t('job_time')" bg-color="white">
                     <template v-slot:append>
                       <q-icon name="event" class="cursor-pointer">
@@ -45,13 +45,15 @@
                   </q-input>
                 </div>
                 <!-- 直接搜尋(title) -->
-                <div class="col-5">
+                <div class="col-12 col-lg-5">
                   <q-input v-model="form.title" outlined type="search" maxlength="20" bg-color="white"
                     :label="$t('search')" :input-style="{ color: '#112B3C', fontSize: '1.1rem' }">
                   </q-input>
                 </div>
-                <div class="col-1">
-                  <q-btn id="search_btn" class="full-width" color="primary" icon="search" @click="searchJob" />
+                <!-- search btn -->
+                <div class="col-12 col-lg-1">
+                  <q-btn color="primary" icon="search" @click="searchJob"
+                    style="height: 50px ;width: 50px; border-radius: 50%; margin-left: 15px;" />
                 </div>
               </div>
 
@@ -221,9 +223,9 @@ const searchJob = async () => {
     const slicedUrl = url.slice(0, -1)
     console.log(slicedUrl)
     const { data } = await apiAuth.get(slicedUrl)
-    jobs.slice(1, 1)
+    jobs.splice(0)
+    console.log(jobs)
     jobs.push(...data.result)
-    // console.log(jobs)
     // 處理 Date-8 小 福利陣列 描述去tag
     jobs.map(v => {
       v.date_from = new Date(v.date_from).toLocaleDateString()
@@ -234,6 +236,8 @@ const searchJob = async () => {
     // 如果找不到資料show no data
     if (jobs.length === 0) {
       noData.value = true
+    } else {
+      noData.value = false
     }
     router.push(slicedUrl)
     $q.loading.hide()
